@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4C80B37E-A171-4C92-A7AC-0AD064970754}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SingalProcessingView</RootNamespace>
-    <AssemblyName>SingalProcessingView</AssemblyName>
+    <RootNamespace>SignalProcessingView</RootNamespace>
+    <AssemblyName>SignalProcessingView</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
