@@ -5,8 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SignalProcessingView"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="1000">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <Border Padding="10" Grid.Column="0">
+            <StackPanel>
+                <TextBlock Text="Rodzaj Sygnału:"/>
+                <ComboBox ItemsSource="{Binding SignalTypes}" SelectedItem="{Binding SelectedSignalType}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Margin="1 2 0 2" Text="Amplituda(A):"/>
+                        <TextBlock Margin="1 0 0 2" Text="Czas początkowy(t1):"/>
+                        <TextBlock Margin="1 0 0 2" Text="Czas trwania sygnału(d):"/>
+                        <TextBlock Margin="1 0 0 2" Text="Okres podstawowy(T):"/>
+                        <TextBlock Margin="1 0 0 2" Text="Współczynnik wypełnienia(kw):" TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBox Margin="0 2 0 2"  Text="{Binding A}"/>
+                        <TextBox Margin="0 0 0 2"  Text="{Binding T1}"/>
+                        <TextBox Margin="0 0 0 2"  Text="{Binding D}"/>
+                        <TextBox Margin="0 0 0 2"  Text="{Binding T}"/>
+                        <TextBox Margin="0 0 0 2"  Text="{Binding Kw}"/>
+                    </StackPanel>
+                </Grid>
+                <TextBlock Margin="0 15 0 2" Text="Wybierz stronę:"/>
+                <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}"/>
+                <Button Margin="0 4 0 2" Content="Rysuj wykres" IsEnabled="{Binding CanDraw}" Command="{Binding PlotCommand}"/>
+                <Button Margin="0 4 0 2" Content="Załaduj wykres" Command="{Binding LoadCommand}"/>
+                <Button Margin="0 4 0 2" Content="Zapisz wykres" IsEnabled="{Binding CanSave}" Command="{Binding SaveCommand}"/>
+                
+                <TextBlock Margin="0 15 0 2" Text="Operacje na sygnałach:"/>
+                <TextBlock Margin="0 5 0 2" Text="Sygnał 1 (Wybór strony):"/>
+                <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedSignal1Tab}"/>
+                <TextBlock Margin="0 5 0 2" Text="Sygnał 2 (Wybór strony):"/>
+                <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedSignal2Tab}"/>
+                <TextBlock Margin="0 5 0 2" Text="Działanie:"/>
+                <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedOperation}"/>
+                <TextBlock Margin="0 5 0 2" Text="Wynik (Wybór strony):"/>
+                <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedResultTab}"/>
+
+                <Button Margin="0 15 0 2" Content="Oblicz" IsEnabled="{Binding CanCompute}" Command="{Binding ComputeCommand}"/>
+            </StackPanel>
+        </Border>
+
+        <Border Padding="10" Grid.Column="1">
+            <StackPanel>
+                <Button Content="Dodaj stronę" Command="{Binding AddPageCommand}" HorizontalAlignment="Left"/>
+                <TabControl ItemsSource="{Binding Tabs}">
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Text="{Binding Header}" />
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <local:ChartsTab DataContext="{Binding TabContent}"/>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </TabControl>
+            </StackPanel>
+        </Border>
+
+
     </Grid>
 </Window>
