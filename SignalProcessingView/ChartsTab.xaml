@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SignalProcessingView"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -12,13 +13,21 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <Image Grid.Column="0" Grid.Row="0" Source="{Binding ChartSource}"/>
-        <Image Grid.Column="1" Grid.Row="0" Source="{Binding HistogramSource}"/>
-
+        <lvc:CartesianChart UpdaterState="Paused" Series="{Binding ChartSeries}" Grid.Column="0" LegendLocation="Right">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="{Binding ChartXTitle}"/>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="{Binding ChartYTitle}" LabelFormatter="{Binding ChartFormatter}"/>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart Series="{Binding HistogramSeries}" Grid.Column="1" LegendLocation="Right">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="{Binding HistogramXTitle}"/>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="{Binding HistogramYTitle}" LabelFormatter="{Binding HistogramFormatter}"/>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
     </Grid>
 </UserControl>
