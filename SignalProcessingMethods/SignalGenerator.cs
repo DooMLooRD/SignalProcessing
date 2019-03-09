@@ -78,14 +78,18 @@ namespace SignalProcessingCore
 
         public double GenerateGaussianNoise()
         {
+            double mean = 2 * Amplitude;
+            double stdDev = -Amplitude/3;
+
             //nuget version - simpler
-            //Normal normalDist = new Normal(0, 1);
+            //Normal normalDist = new Normal(mean, stdDev);
             //return normalDist.Sample();
 
             double u1 = 1.0 - random.NextDouble(); //to avoid log(0)=Inf
             double u2 = 1.0 - random.NextDouble();
-            return Math.Sqrt(-2.0 * Math.Log(u1)) *
+            double normal = Math.Sqrt(-2.0 * Math.Log(u1)) *
                                    Math.Sin(2.0 * Math.PI * u2);
+            return normal * stdDev + mean;
         }
 
     }
