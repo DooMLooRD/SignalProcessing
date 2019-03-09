@@ -11,96 +11,30 @@ namespace SignalProcessingView.ViewModel
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        private ObservableCollection<TabViewModel> _tabs;
-        private double _a;
-        private double _t1;
-        private double _d;
-        private double _t;
-        private double _kw;
-        private string _selectedSignalType;
-        private string _selectedTab;
 
         #region Properties
+        public List<string> Operations { get; set; }
+        public string SelectedOperation { get; set; }
 
         public List<string> SignalTypes { get; set; }
+        public string SelectedSignalType { get; set; }
 
-        public string SelectedSignalType
-        {
-            get => _selectedSignalType;
-            set
-            {
-                _selectedSignalType = value;
-                OnPropertyChanged(nameof(SelectedSignalType));
-            }
-        }
+        public ObservableCollection<TabViewModel> Tabs { get; set; }
+        public TabViewModel SelectedTab { get; set; }
+        public TabViewModel SelectedSignal1Tab { get; set; }
+        public TabViewModel SelectedSignal2Tab { get; set; }
+        public TabViewModel SelectedResultTab { get; set; }
 
-        public ObservableCollection<TabViewModel> Tabs
-        {
-            get => _tabs;
-            set
-            {
-                _tabs = value;
-                OnPropertyChanged(nameof(Tabs));
-            }
-        }
-        public string SelectedTab
-        {
-            get => _selectedTab;
-            set
-            {
-                _selectedTab = value;
-                OnPropertyChanged(nameof(SelectedTab));
-            }
-        }
-        public double A
-        {
-            get => _a;
-            set
-            {
-                _a = value;
-                OnPropertyChanged(nameof(A));
-            }
-        }
+        #region Factors
+        public double A { get; set; }
+        public double T1 { get; set; }
+        public double D { get; set; }
+        public double T { get; set; }
+        public double Kw { get; set; }
+        #endregion
 
-        public double T1
-        {
-            get => _t1;
-            set
-            {
-                _t1 = value;
-                OnPropertyChanged(nameof(T1));
-            }
-        }
 
-        public double D
-        {
-            get => _d;
-            set
-            {
-                _d = value;
-                OnPropertyChanged(nameof(D));
-            }
-        }
 
-        public double T
-        {
-            get => _t;
-            set
-            {
-                _t = value;
-                OnPropertyChanged(nameof(T));
-            }
-        }
-
-        public double Kw
-        {
-            get => _kw;
-            set
-            {
-                _kw = value;
-                OnPropertyChanged(nameof(Kw));
-            }
-        }
 
         public ICommand AddPageCommand { get; set; }
         #endregion
@@ -108,23 +42,35 @@ namespace SignalProcessingView.ViewModel
         public MainWindowViewModel()
         {
             Tabs = new ObservableCollection<TabViewModel>(){new TabViewModel("Tab0")};
-            SelectedTab = "Tab0";
+            SelectedTab = Tabs[0];
+            SelectedSignal1Tab = Tabs[0];
+            SelectedSignal2Tab = Tabs[0];
+            SelectedResultTab = Tabs[0];
+
             SignalTypes=new List<string>()
             {
-                "Szum o rozkładzie jednostajnym",
-                "Szum Gaussowski",
-                "Sygnał sinusoidalny",
-                "Sygnał sinusoidalny wyprostowany jednopołówkowo",
-                "Sygnał sinusoidalny wyprostowany dwupołówkowo",
-                "Sygnał prostokątny",
-                "Sygnał prostokątny symetryczny",
-                "Sygnał trójkątny",
-                "Skok jednostkowy",
-                "Impuls jednostkowy",
-                "Szum impulsowy"
+                "(S01) Szum o rozkładzie jednostajnym",
+                "(S02) Szum Gaussowski",
+                "(S03) Sygnał sinusoidalny",
+                "(S04) Sygnał sinusoidalny wyprostowany jednopołówkowo",
+                "(S05) Sygnał sinusoidalny wyprostowany dwupołówkowo",
+                "(S06) Sygnał prostokątny",
+                "(S07) Sygnał prostokątny symetryczny",
+                "(S08) Sygnał trójkątny",
+                "(S09) Skok jednostkowy",
+                "(S10) Impuls jednostkowy",
+                "(S11) Szum impulsowy"
+            };          
+            SelectedSignalType = SignalTypes[0];
+
+            Operations=new List<string>()
+            {
+                "(D1) Dodawanie",
+                "(D2) Odejmowanie",
+                "(D3) Mnożenie",
+                "(D4) Dzielenie",
             };
-            
-            SelectedSignalType = "Szum o rozkładzie jednostajnym";
+            SelectedOperation = Operations[0];
             AddPageCommand = new RelayCommand(AddPage);
         }
 

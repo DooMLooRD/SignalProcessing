@@ -12,28 +12,10 @@ namespace SignalProcessingView.ViewModel
 {
     public class TabContentViewModel : BaseViewModel
     {
-        private ImageSource _chartSource;
-        private ImageSource _histogramSource;
+        public ImageSource ChartSource { get; set; }
+        public ImageSource HistogramSource { get; set; }
 
-        public ImageSource ChartSource
-        {
-            get => _chartSource;
-            set
-            {
-                _chartSource = value;
-                OnPropertyChanged(nameof(ChartSource));
-            }
-        }
-
-        public ImageSource HistogramSource
-        {
-            get => _histogramSource;
-            set
-            {
-                _histogramSource = value;
-                OnPropertyChanged(nameof(HistogramSource));
-            }
-        }
+        public bool HasData { get; set; }
 
     }
 }

@@ -37,21 +37,30 @@
                 </Grid>
                 <TextBlock Margin="0 15 0 2" Text="Wybierz stronę:"/>
                 <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}"/>
-                <Button Margin="0 4 0 2" Content="Rysuj wykres" IsEnabled="{Binding CanDraw}" Command="{Binding PlotCommand}"/>
+                <Button Margin="0 4 0 2" Content="Rysuj wykres" Command="{Binding PlotCommand}"/>
                 <Button Margin="0 4 0 2" Content="Załaduj wykres" Command="{Binding LoadCommand}"/>
-                <Button Margin="0 4 0 2" Content="Zapisz wykres" IsEnabled="{Binding CanSave}" Command="{Binding SaveCommand}"/>
-                
+                <Button Margin="0 4 0 2" Content="Zapisz wykres" IsEnabled="{Binding SelectedTab, Converter={StaticResource IsEnabledConverter}}" Command="{Binding SaveCommand}"/>
+
                 <TextBlock Margin="0 15 0 2" Text="Operacje na sygnałach:"/>
                 <TextBlock Margin="0 5 0 2" Text="Sygnał 1 (Wybór strony):"/>
                 <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedSignal1Tab}"/>
                 <TextBlock Margin="0 5 0 2" Text="Sygnał 2 (Wybór strony):"/>
                 <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedSignal2Tab}"/>
                 <TextBlock Margin="0 5 0 2" Text="Działanie:"/>
-                <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedOperation}"/>
+                <ComboBox ItemsSource="{Binding Operations}" SelectedItem="{Binding SelectedOperation}"/>
                 <TextBlock Margin="0 5 0 2" Text="Wynik (Wybór strony):"/>
                 <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedResultTab}"/>
 
-                <Button Margin="0 15 0 2" Content="Oblicz" IsEnabled="{Binding CanCompute}" Command="{Binding ComputeCommand}"/>
+                <Button Margin="0 15 0 2" Content="Oblicz"  Command="{Binding ComputeCommand}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource IsEnabledMultiConverter}">
+                            <MultiBinding.Bindings>
+                                <Binding Path="SelectedSignal1Tab"/>
+                                <Binding Path="SelectedSignal2Tab"/>
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
             </StackPanel>
         </Border>
 

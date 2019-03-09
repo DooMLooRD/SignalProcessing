@@ -1,9 +1,11 @@
 ﻿<Application x:Class="SignalProcessingView.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SingalProcessingView"
+             xmlns:local="clr-namespace:SignalProcessingView"
+             xmlns:Converters="clr-namespace:SignalProcessingView.View.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Converters:IsEnabledMultiConverter x:Key="IsEnabledMultiConverter"/>
+        <Converters:IsEnabledConverter x:Key="IsEnabledConverter"/>
     </Application.Resources>
 </Application>

@@ -9,27 +9,8 @@ namespace SignalProcessingView.ViewModel
 {
     public class TabViewModel : BaseViewModel
     {
-        private string _header;
-        private TabContentViewModel _tabContent;
-
-        public string Header
-        {
-            get => _header;
-            set
-            {
-                _header = value; 
-                OnPropertyChanged(nameof(Header));
-            }
-        }
-        public TabContentViewModel TabContent
-        {
-            get => _tabContent;
-            set
-            {
-                _tabContent = value; 
-                OnPropertyChanged(nameof(TabContent));
-            }
-        }
+        public string Header { get; set; }
+        public TabContentViewModel TabContent { get; set; }
 
         public TabViewModel(string header)
         {
