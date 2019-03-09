@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics;
+using MathNet.Numerics.Distributions;
 
 namespace SignalProcessingCore
 {
     public class SignalGenerator
     {
+        private static Random random = new Random();
         public double Amplitude { get; set; }
         public double StartTime { get; set; }
         public double Duration { get; set; }
@@ -16,8 +20,7 @@ namespace SignalProcessingCore
 
         public double GenerateUniformDistributionNoise()
         {
-            Random r = new Random();
-            return r.NextDouble() * 2 * Amplitude - Amplitude;
+            return random.NextDouble() * 2 * Amplitude - Amplitude;
         }
 
         public double GenerateSinusoidalSignal(double time)
@@ -71,6 +74,18 @@ namespace SignalProcessingCore
             if (time.Equals(stime))
                 return 0.5 * Amplitude;
             return -Amplitude;
+        }
+
+        public double GenerateGaussianNoise()
+        {
+            //nuget version - simpler
+            //Normal normalDist = new Normal(0, 1);
+            //return normalDist.Sample();
+
+            double u1 = 1.0 - random.NextDouble(); //to avoid log(0)=Inf
+            double u2 = 1.0 - random.NextDouble();
+            return Math.Sqrt(-2.0 * Math.Log(u1)) *
+                                   Math.Sin(2.0 * Math.PI * u2);
         }
 
     }
