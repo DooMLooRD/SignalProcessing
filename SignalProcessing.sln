@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingView", "SignalProcessingView\SignalProcessingView.csproj", "{4C80B37E-A171-4C92-A7AC-0AD064970754}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingCore", "SignalProcessingMethods\SignalProcessingCore.csproj", "{5900D5B8-E720-4A17-B957-799D73FBE22C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4C80B37E-A171-4C92-A7AC-0AD064970754}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C80B37E-A171-4C92-A7AC-0AD064970754}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C80B37E-A171-4C92-A7AC-0AD064970754}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5900D5B8-E720-4A17-B957-799D73FBE22C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5900D5B8-E720-4A17-B957-799D73FBE22C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5900D5B8-E720-4A17-B957-799D73FBE22C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5900D5B8-E720-4A17-B957-799D73FBE22C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
