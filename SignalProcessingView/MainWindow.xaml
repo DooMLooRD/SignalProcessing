@@ -65,13 +65,18 @@
         </Border>
 
         <Border Padding="10" Grid.Column="1">
-            <StackPanel>
-                <Button Content="Dodaj stronę" Command="{Binding AddPageCommand}" HorizontalAlignment="Left"/>
-                <TabControl ItemsSource="{Binding Tabs}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Content="Dodaj stronę" Command="{Binding AddPageCommand}" HorizontalAlignment="Left"/>
+
+                <TabControl Grid.Row="1" ItemsSource="{Binding Tabs}">
                     <TabControl.ItemTemplate>
                         <DataTemplate>
                             <TextBlock
-                                Text="{Binding Header}" />
+                                    Text="{Binding Header}" />
                         </DataTemplate>
                     </TabControl.ItemTemplate>
                     <TabControl.ContentTemplate>
@@ -80,7 +85,9 @@
                         </DataTemplate>
                     </TabControl.ContentTemplate>
                 </TabControl>
-            </StackPanel>
+
+
+            </Grid>
         </Border>
 
 

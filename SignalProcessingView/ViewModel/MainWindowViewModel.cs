@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SignalProcessingCore;
 using SignalProcessingView.ViewModel.Base;
 
 namespace SignalProcessingView.ViewModel
@@ -37,6 +38,7 @@ namespace SignalProcessingView.ViewModel
 
 
         public ICommand AddPageCommand { get; set; }
+        public ICommand PlotCommand { get; set; }
         #endregion
 
         public MainWindowViewModel()
@@ -72,11 +74,61 @@ namespace SignalProcessingView.ViewModel
             };
             SelectedOperation = Operations[0];
             AddPageCommand = new RelayCommand(AddPage);
+            PlotCommand=new RelayCommand(Plot);
         }
 
         public void AddPage()
         {
             Tabs.Add(new TabViewModel("Tab" + Tabs.Count));
+        }
+
+        public void Plot()
+        {
+            SignalGenerator generator=new SignalGenerator()
+            {
+                Amplitude = A,
+                Duration = D,
+                FillFactor = Kw,
+                Period = T,
+                StartTime = T1
+            };
+            List<double> pointsX=new List<double>();
+            List<double> pointsY=new List<double>();
+
+            switch (SelectedSignalType.Substring(1,3))
+            {
+                case "S01":
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(generator.GenerateUniformDistributionNoise());
+
+                    }
+                    break;
+                case "S02":
+                    break;
+                case "S03":
+                    break;
+                case "S04":
+                    break;
+                case "S05":
+                    break;
+                case "S06":
+                    break;
+                case "S07":
+                    break;
+                case "S08":
+                    break;
+                case "S09":
+                    break;
+                case "S10":
+                    break;
+                case "S11":
+                    break;
+
+            }
+            SelectedTab.TabContent.LoadData(pointsX,pointsY);
+            SelectedTab.TabContent.DrawCharts();
         }
     }
 }
