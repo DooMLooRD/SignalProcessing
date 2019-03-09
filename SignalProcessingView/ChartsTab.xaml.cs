@@ -12,18 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SignalProcessingView.ViewModel;
 
 namespace SignalProcessingView
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ChartsTab.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ChartsTab : UserControl
     {
-        public MainWindow()
+        public ChartsTab()
         {
-            DataContext = new MainWindowViewModel();
             InitializeComponent();
         }
     }
