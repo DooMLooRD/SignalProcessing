@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SignalProcessingCore
 {
-    public class Generator
+    public class SignalGenerator
     {
         public double Amplitude { get; set; }
         public double StartTime { get; set; }
@@ -38,12 +38,12 @@ namespace SignalProcessingCore
 
         public double GenerateRectangularSignal(double time)
         {
-            int k = (int) (time / Period);
+            int k = (int)(time / Period);
             if (time >= k * Period + StartTime && time < FillFactor * Period + k * Period + StartTime)
                 return Amplitude;
             //else if(time >= FillFactor * Period - k * Period + StartTime && time < Period + k * Period + StartTime)
-            else
-                return 0;
+
+            return 0;
         }
 
         public double GenerateRectangularSymmetricalSignal(double time)
@@ -51,27 +51,26 @@ namespace SignalProcessingCore
             int k = (int)(time / Period);
             if (time >= k * Period + StartTime && time < FillFactor * Period + k * Period + StartTime)
                 return Amplitude;
-            else
-                return -Amplitude;
+
+            return -Amplitude;
         }
 
         public double GenerateTriangularSignal(double time)
         {
             int k = (int)(time / Period);
             if (time >= k * Period + StartTime && time < FillFactor * Period + k * Period + StartTime)
-                return (Amplitude/(FillFactor * Period)) * (time - k * Period - StartTime);
-            else
-                return -Amplitude/(Period*(1-FillFactor)) * (time - k * Period - StartTime);
+                return (Amplitude / (FillFactor * Period)) * (time - k * Period - StartTime);
+
+            return -Amplitude / (Period * (1 - FillFactor)) * (time - k * Period - StartTime);
         }
 
         public double GenerateUnitJump(double time, double stime)
         {
             if (time > stime)
                 return Amplitude;
-            else if (time == stime)
+            if (time.Equals(stime))
                 return 0.5 * Amplitude;
-            else
-                return -Amplitude;
+            return -Amplitude;
         }
 
     }
