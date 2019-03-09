@@ -39,7 +39,7 @@
                 <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}"/>
                 <Button Margin="0 4 0 2" Content="Rysuj wykres" Command="{Binding PlotCommand}"/>
                 <Button Margin="0 4 0 2" Content="Załaduj wykres" Command="{Binding LoadCommand}"/>
-                <Button Margin="0 4 0 2" Content="Zapisz wykres" IsEnabled="{Binding SelectedTab, Converter={StaticResource IsEnabledConverter}}" Command="{Binding SaveCommand}"/>
+                <Button Margin="0 4 0 2" Content="Zapisz wykres" IsEnabled="{Binding SelectedTab, Converter={StaticResource IsEnabledConverter},NotifyOnSourceUpdated=True}" Command="{Binding SaveCommand}"/>
 
                 <TextBlock Margin="0 15 0 2" Text="Operacje na sygnałach:"/>
                 <TextBlock Margin="0 5 0 2" Text="Sygnał 1 (Wybór strony):"/>

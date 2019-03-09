@@ -102,24 +102,63 @@ namespace SignalProcessingView.ViewModel
                     {
                         pointsX.Add(i);
                         pointsY.Add(generator.GenerateUniformDistributionNoise());
-
                     }
                     break;
                 case "S02":
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(generator.GenerateGaussianNoise());
+                    }
                     break;
                 case "S03":
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(generator.GenerateSinusoidalSignal(i));
+                    }
                     break;
                 case "S04":
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(generator.GenerateSinusoidal1PSignal(i));
+                    }
                     break;
                 case "S05":
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(generator.GenerateSinusoidal2PSignal(i));
+                    }
                     break;
                 case "S06":
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(generator.GenerateRectangularSignal(i));
+                    }
                     break;
                 case "S07":
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(generator.GenerateRectangularSymmetricalSignal(i));
+                    }
                     break;
                 case "S08":
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(generator.GenerateTriangularSignal(i));
+                    }
                     break;
                 case "S09":
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(generator.GenerateUnitJump(i,0));
+                    }
                     break;
                 case "S10":
                     break;

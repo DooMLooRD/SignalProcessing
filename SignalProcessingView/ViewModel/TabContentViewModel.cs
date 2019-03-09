@@ -46,6 +46,9 @@ namespace SignalProcessingView.ViewModel
             {
                 new LineSeries()
                 {
+                    StrokeThickness = 0.5,
+                    Fill = Brushes.Transparent,
+                    PointGeometry = null,
                     Values = values
                 }
             };

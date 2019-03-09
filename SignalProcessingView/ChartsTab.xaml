@@ -13,15 +13,15 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <lvc:CartesianChart UpdaterState="Paused" Series="{Binding ChartSeries}" Grid.Column="0" LegendLocation="Right">
+        <lvc:CartesianChart Margin="0 0 10 0" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding ChartSeries}" Grid.Column="0" LegendLocation="None">
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="{Binding ChartXTitle}"/>
+                <lvc:Axis Title="{Binding ChartXTitle}" Unit="{Binding Unit }"/>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="{Binding ChartYTitle}" LabelFormatter="{Binding ChartFormatter}"/>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
-        <lvc:CartesianChart Series="{Binding HistogramSeries}" Grid.Column="1" LegendLocation="Right">
+        <lvc:CartesianChart Series="{Binding HistogramSeries}" Grid.Column="1" LegendLocation="None">
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="{Binding HistogramXTitle}"/>
             </lvc:CartesianChart.AxisX>

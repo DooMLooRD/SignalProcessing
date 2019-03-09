@@ -41,7 +41,7 @@ namespace SignalProcessingCore
 
         public double GenerateRectangularSignal(double time)
         {
-            int k = (int)(time / Period);
+            int k = (int) (time/Period);
             if (time >= k * Period + StartTime && time < FillFactor * Period + k * Period + StartTime)
                 return Amplitude;
             //else if(time >= FillFactor * Period - k * Period + StartTime && time < Period + k * Period + StartTime)
@@ -64,7 +64,7 @@ namespace SignalProcessingCore
             if (time >= k * Period + StartTime && time < FillFactor * Period + k * Period + StartTime)
                 return (Amplitude / (FillFactor * Period)) * (time - k * Period - StartTime);
 
-            return -Amplitude / (Period * (1 - FillFactor)) * (time - k * Period - StartTime);
+            return -Amplitude / (Period * (1 - FillFactor)) * (time - k * Period - StartTime)+(Amplitude/(1-FillFactor));
         }
 
         public double GenerateUnitJump(double time, double stime)
