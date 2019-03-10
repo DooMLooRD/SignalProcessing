@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using Microsoft.Win32;
 using SignalProcessingCore;
 using SignalProcessingMethods;
 using SignalProcessingView.ViewModel.Base;
@@ -42,13 +44,11 @@ namespace SignalProcessingView.ViewModel
         public double Fp { get; set; }
         #endregion
 
-
-
-
         public ICommand AddPageCommand { get; set; }
         public ICommand PlotCommand { get; set; }
         public ICommand ComputeCommand { get; set; }
         public ICommand SaveCommand { get; set; }
+        public ICommand LoadCommand { get; set; }
         #endregion
 
         public MainWindowViewModel()
@@ -96,7 +96,44 @@ namespace SignalProcessingView.ViewModel
 
         public void Save()
         {
-            SelectedTab.TabContent.SaveDataToFile();
+            SelectedTab.TabContent.SaveDataToFile(LoadPath(false));
+        }
+
+        public void Load()
+        {
+            SelectedTab.TabContent.LoadDataFromFile(LoadPath(true));
+        }
+        public string LoadPath(bool loadMode)
+        {
+            if (loadMode)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Bin File(*.bin)| *.bin",
+                    RestoreDirectory = true
+                };
+                openFileDialog.ShowDialog();
+                if (openFileDialog.FileName.Length == 0)
+                {
+                    MessageBox.Show("No files selected");
+                    return null;
+                }
+
+                return openFileDialog.FileName;
+            }
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                Filter = "Bin File(*.bin)| *.bin",
+                RestoreDirectory = true
+            };
+            saveFileDialog.ShowDialog();
+            if (saveFileDialog.FileName.Length == 0)
+            {
+                MessageBox.Show("No files selected");
+                return null;
+            }
+
+            return saveFileDialog.FileName;
         }
 
         public void Compute()
@@ -104,25 +141,25 @@ namespace SignalProcessingView.ViewModel
             SignalOperations singalOps = new SignalOperations();
             if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData())
             {
-                List<double> pointsX = SelectedSignal1Tab.TabContent.Data.PointsX;
+                List<double> pointsX = SelectedSignal1Tab.TabContent.Data.CalculateSamplesX();
                 List<double> pointsY = new List<double>();
                 switch (SelectedOperation.Substring(1, 2))
                 {
                     case "D1":
-                        pointsY = singalOps.AddSignals(SelectedSignal1Tab.TabContent.Data.PointsY,
-                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        pointsY = singalOps.AddSignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                            SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                     case "D2":
-                        pointsY = singalOps.SubtractSignals(SelectedSignal1Tab.TabContent.Data.PointsY,
-                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        pointsY = singalOps.SubtractSignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                            SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                     case "D3":
-                        pointsY = singalOps.MultiplySignals(SelectedSignal1Tab.TabContent.Data.PointsY,
-                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        pointsY = singalOps.MultiplySignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                            SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                     case "D4":
-                        pointsY = singalOps.DivideSignals(SelectedSignal1Tab.TabContent.Data.PointsY,
-                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        pointsY = singalOps.DivideSignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                            SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                 }
 
