@@ -44,6 +44,16 @@ namespace SignalProcessingMethods
             return result;
         }
 
+        public List<double> CalculateSamplesX()
+        {
+            List<double> points=new List<double>();
+            for (int i = 0  ; i < Samples.Count; i++)
+            {
+                points.Add(StartTime+i/Frequency);
+            }
+
+            return points;
+        }
         public void LoadFromFile(string filePath)
         {
             
@@ -65,13 +75,13 @@ namespace SignalProcessingMethods
 
             using (StreamWriter writer = new StreamWriter(newPath))
             {
-                writer.Write("Start Time: "+StartTime);
-                writer.Write("Frequency: "+Frequency);
-                writer.Write("Type: "+Type);
-                writer.Write("Number of samples: "+Samples.Count);
+                writer.WriteLine("Start Time: "+StartTime);
+                writer.WriteLine("Frequency: "+Frequency);
+                writer.WriteLine("Type: "+Type);
+                writer.WriteLine("Number of samples: "+Samples.Count);
                 for (int i = 0; i < Samples.Count; i++)
                 {
-                    writer.Write(i+1 +". "+Samples[i]);
+                    writer.WriteLine(i+1 +". "+Samples[i]);
                 }
             }
         }

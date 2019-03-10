@@ -141,25 +141,25 @@ namespace SignalProcessingView.ViewModel
             SignalOperations singalOps = new SignalOperations();
             if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData())
             {
-                List<double> pointsX = SelectedSignal1Tab.TabContent.Data.PointsX;
+                List<double> pointsX = SelectedSignal1Tab.TabContent.Data.CalculateSamplesX();
                 List<double> pointsY = new List<double>();
                 switch (SelectedOperation.Substring(1, 2))
                 {
                     case "D1":
-                        pointsY = singalOps.AddSignals(SelectedSignal1Tab.TabContent.Data.PointsY,
-                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        pointsY = singalOps.AddSignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                            SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                     case "D2":
-                        pointsY = singalOps.SubtractSignals(SelectedSignal1Tab.TabContent.Data.PointsY,
-                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        pointsY = singalOps.SubtractSignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                            SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                     case "D3":
-                        pointsY = singalOps.MultiplySignals(SelectedSignal1Tab.TabContent.Data.PointsY,
-                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        pointsY = singalOps.MultiplySignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                            SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                     case "D4":
-                        pointsY = singalOps.DivideSignals(SelectedSignal1Tab.TabContent.Data.PointsY,
-                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        pointsY = singalOps.DivideSignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                            SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                 }
 
