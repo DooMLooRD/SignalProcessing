@@ -44,5 +44,15 @@ namespace SignalProcessingMethods
         {
 
         }
+
+        public bool HasData()
+        {
+            if (PointsX == null || PointsX.Count == 0)
+                return false;
+            if (PointsY == null || PointsY.Count == 0)
+                return false;
+            return true;
+
+        }
     }
 }

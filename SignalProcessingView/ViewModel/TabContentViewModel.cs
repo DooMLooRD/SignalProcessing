@@ -17,7 +17,7 @@ namespace SignalProcessingView.ViewModel
     public class TabContentViewModel : BaseViewModel
     {
         public SeriesCollection ChartSeries { get; set; }
-        public Func<double,string> ChartFormatter { get; set; }
+        public Func<double, string> ChartFormatter { get; set; }
         public string ChartXTitle { get; set; }
         public string ChartYTitle { get; set; }
 
@@ -27,45 +27,68 @@ namespace SignalProcessingView.ViewModel
         public string HistogramYTitle { get; set; }
         public string[] Labels { get; set; }
 
-        public DataHandler Data { get; set; }  
+        public ICommand Histogram { get; set; }
+
+        public DataHandler Data { get; set; }
         public bool HasData { get; set; }
 
         public TabContentViewModel()
         {
-            Data=new DataHandler();
+            Data = new DataHandler();
+            Histogram = new RelayCommand<int>(LoadHistogram);
 
         }
 
         public void DrawCharts()
         {
-            ChartValues<ObservablePoint> values=new ChartValues<ObservablePoint>();
-            for (int i = 0; i < Data.PointsX.Count; i++)
+            if (Data.HasData())
             {
-                values.Add(new ObservablePoint(Data.PointsX[i],Data.PointsY[i]));
-            }
-            ChartSeries=new SeriesCollection()
-            {
-                new LineSeries()
+                ChartValues<ObservablePoint> values = new ChartValues<ObservablePoint>();
+                for (int i = 0; i < Data.PointsX.Count; i++)
                 {
+                    values.Add(new ObservablePoint(Data.PointsX[i], Data.PointsY[i]));
+                }
+                ChartSeries = new SeriesCollection()
+                {
+                    new LineSeries()
+                    {
 
-                    StrokeThickness = 0.5,
-                    Fill = Brushes.Transparent,
-                    PointGeometry = null,
-                    Values = values
-                }
-            };
-            
-            var histogramResults = Data.GetDataForHistogram(20);
-            HistogramSeries = new SeriesCollection
-            {
-                new ColumnSeries
+                        StrokeThickness = 0.5,
+                        Fill = Brushes.Transparent,
+                        PointGeometry = null,
+                        Values = values
+                    }
+                };
+
+                var histogramResults = Data.GetDataForHistogram(5);
+                HistogramSeries = new SeriesCollection
                 {
-                    Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3))
-                }
-            };
-            Labels= histogramResults.Select(n=> n.Item1+" to "+n.Item2).ToArray();
+                    new ColumnSeries
+                    {
+                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3))
+                    }
+                };
+                Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
+            }
+           
         }
 
+        public void LoadHistogram(int c)
+        {
+            if (Data.HasData())
+            {
+                var histogramResults = Data.GetDataForHistogram(c);
+                HistogramSeries = new SeriesCollection
+                {
+                    new ColumnSeries
+                    {
+                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3))
+                    }
+                };
+                Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
+            }
+           
+        }
         public void LoadData(List<double> x, List<double> y)
         {
             Data.PointsX = x;

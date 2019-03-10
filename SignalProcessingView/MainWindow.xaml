@@ -21,18 +21,28 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <TextBlock Margin="1 2 0 2" Text="Amplituda(A):"/>
-                        <TextBlock Margin="1 0 0 2" Text="Czas początkowy(t1):"/>
-                        <TextBlock Margin="1 0 0 2" Text="Czas trwania sygnału(d):"/>
-                        <TextBlock Margin="1 0 0 2" Text="Okres podstawowy(T):"/>
-                        <TextBlock Margin="1 0 0 2" Text="Współczynnik wypełnienia(kw):" TextWrapping="Wrap"/>
+                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=A}" Margin="1 2 0 2" Text="Amplituda(A):"/>
+                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T1}" Margin="1 2 0 2" Text="Czas początkowy(t1):"/>
+                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ts}" Margin="1 2 0 2" Text="Czas skoku(ts):"/>
+                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=D}" Margin="1 2 0 2" Text="Czas trwania sygnału(d):"/>
+                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T}" Margin="1 2 0 2" Text="Okres podstawowy(T):"/>
+                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Kw}" Margin="1 2 0 2" Text="Współczynnik wypełnienia(kw):" TextWrapping="Wrap"/>
+                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=F}" Margin="1 2 0 2" Text="Częstotliwość próbkowania(f):" TextWrapping="Wrap"/>
+                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=N1}" Margin="1 2 0 2" Text="Numer pierwszej próbki(n1):" TextWrapping="Wrap"/>
+                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ns}" Margin="1 2 0 2" Text="Numer próbki - skok A(ns):" TextWrapping="Wrap"/>
+                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=P}" Margin="1 2 0 2" Text="Prawdopodobieństwo(P):" TextWrapping="Wrap"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox Margin="0 2 0 2"  Text="{Binding A}"/>
-                        <TextBox Margin="0 0 0 2"  Text="{Binding T1}"/>
-                        <TextBox Margin="0 0 0 2"  Text="{Binding D}"/>
-                        <TextBox Margin="0 0 0 2"  Text="{Binding T}"/>
-                        <TextBox Margin="0 0 0 2"  Text="{Binding Kw}"/>
+                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=A}" Margin="0 2 0 2"  Text="{Binding A}"/>
+                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T1}" Margin="0 0 0 2"  Text="{Binding T1}"/>
+                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ts}" Margin="0 0 0 2"  Text="{Binding Ts}"/>
+                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=D}" Margin="0 0 0 2"  Text="{Binding D}"/>
+                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T}" Margin="0 0 0 2"  Text="{Binding T}"/>
+                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Kw}" Margin="0 0 0 2"  Text="{Binding Kw}"/>
+                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=F}" Margin="0 0 0 2"  Text="{Binding F}"/>
+                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=N1}" Margin="0 0 0 2"  Text="{Binding N1}"/>
+                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ns}" Margin="0 0 0 2"  Text="{Binding Ns}"/>
+                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=P}" Margin="0 0 0 2"  Text="{Binding P}"/>
                     </StackPanel>
                 </Grid>
                 <TextBlock Margin="0 15 0 2" Text="Wybierz stronę:"/>
@@ -51,16 +61,7 @@
                 <TextBlock Margin="0 5 0 2" Text="Wynik (Wybór strony):"/>
                 <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedResultTab}"/>
 
-                <Button Margin="0 15 0 2" Content="Oblicz"  Command="{Binding ComputeCommand}">
-                    <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource IsEnabledMultiConverter}">
-                            <MultiBinding.Bindings>
-                                <Binding Path="SelectedSignal1Tab"/>
-                                <Binding Path="SelectedSignal2Tab"/>
-                            </MultiBinding.Bindings>
-                        </MultiBinding>
-                    </Button.IsEnabled>
-                </Button>
+                <Button Margin="0 15 0 2" Content="Oblicz" Command="{Binding ComputeCommand}"/>
             </StackPanel>
         </Border>
 
@@ -85,11 +86,7 @@
                         </DataTemplate>
                     </TabControl.ContentTemplate>
                 </TabControl>
-
-
             </Grid>
         </Border>
-
-
     </Grid>
 </Window>

@@ -40,11 +40,11 @@
                 </lvc:CartesianChart.AxisY>
             </lvc:CartesianChart>
             <StackPanel Grid.Column="2">
-                <Button Content="5"/>
-                <Button Content="10"/>
-                <Button Content="15"/>
-                <Button Content="20"/>
-                <Button Content="Auto"/>
+                <Button Command="{Binding Histogram}" CommandParameter="5" Content="5"/>
+                <Button Command="{Binding Histogram}" CommandParameter="10" Content="10"/>
+                <Button Command="{Binding Histogram}" CommandParameter="15" Content="15"/>
+                <Button Command="{Binding Histogram}" CommandParameter="20" Content="20"/>
+                <Button Command="{Binding Histogram}" CommandParameter="5" Content="Auto"/>
             </StackPanel>
         </Grid>
 
