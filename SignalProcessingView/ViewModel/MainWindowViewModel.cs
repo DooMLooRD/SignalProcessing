@@ -35,9 +35,11 @@ namespace SignalProcessingView.ViewModel
         public double T { get; set; }
         public double Kw { get; set; }
         public double F { get; set; }
+        public double N { get; set; }
         public double N1 { get; set; }
         public double Ns { get; set; }
         public double P { get; set; }
+        public double Fp { get; set; }
         #endregion
 
 
@@ -93,7 +95,7 @@ namespace SignalProcessingView.ViewModel
         public void Compute()
         {
             SignalOperations singalOps = new SignalOperations();
-            if (SelectedSignal1Tab.TabContent.HasData && SelectedSignal2Tab.TabContent.HasData)
+            if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData())
             {
                 List<double> pointsX = SelectedSignal1Tab.TabContent.Data.PointsX;
                 List<double> pointsY = new List<double>();
@@ -116,6 +118,8 @@ namespace SignalProcessingView.ViewModel
                             SelectedSignal2Tab.TabContent.Data.PointsY);
                         break;
                 }
+
+                SelectedResultTab.TabContent.IsScattered = true;
                 SelectedResultTab.TabContent.LoadData(pointsX, pointsY);
                 SelectedResultTab.TabContent.DrawCharts();
             }
@@ -127,88 +131,88 @@ namespace SignalProcessingView.ViewModel
             SignalGenerator generator = new SignalGenerator()
             {
                 Amplitude = A,
-                Duration = D,
                 FillFactor = Kw,
                 Period = T,
-                StartTime = T1
+                StartTime = T1,
+                JumpTime = Ts,
+                JumpN = Ns
             };
             List<double> pointsX = new List<double>();
             List<double> pointsY = new List<double>();
 
-
+            Func<double, double> func = null;
             switch (SelectedSignalType.Substring(1, 3))
             {
                 case "S01":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateUniformDistributionNoise());
-                    }
+                    func = generator.GenerateUniformDistributionNoise;
                     break;
                 case "S02":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateGaussianNoise());
-                    }
+                    func = generator.GenerateGaussianNoise;
                     break;
                 case "S03":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateSinusoidalSignal(i));
-                    }
+                    func = generator.GenerateSinusoidalSignal;
                     break;
                 case "S04":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateSinusoidal1PSignal(i));
-                    }
+                    func = generator.GenerateSinusoidal1PSignal;
                     break;
                 case "S05":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateSinusoidal2PSignal(i));
-                    }
+                    func = generator.GenerateSinusoidal2PSignal;
                     break;
                 case "S06":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateRectangularSignal(i));
-                    }
+                    func = generator.GenerateRectangularSignal;
                     break;
                 case "S07":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateRectangularSymmetricalSignal(i));
-                    }
+                    func = generator.GenerateRectangularSymmetricalSignal;
                     break;
                 case "S08":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateTriangularSignal(i));
-                    }
+                    func = generator.GenerateTriangularSignal;
                     break;
                 case "S09":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateUnitJump(i, Ts));
-                    }
+                    func = generator.GenerateUnitJump;
                     break;
                 case "S10":
+                    func = generator.GenerateUnitPulse;
                     break;
                 case "S11":
+                    func = generator.GenerateImpulseNoise;
                     break;
 
             }
-            SelectedTab.TabContent.LoadData(pointsX, pointsY);
-            SelectedTab.TabContent.DrawCharts();
+            if (func != null)
+            {
+                bool isScattered = false;
+                if (func.Method.Name.Contains("GenerateUnitPulse"))
+                {
+                    isScattered = true;
+                    for (double i = N1; i < D + N1; i += 1 / F)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(func(i));
+                    }
+                }
+                else if (func.Method.Name.Contains("GenerateImpulseNoise"))
+                {
+                    isScattered = true;
+                    for (double i = N1; i < D + N1; i += 1 / F)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(func(P));
+                    }
+                }
+                else
+                {
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(func(i));
+                    }
+                }
+
+                SelectedTab.TabContent.IsScattered = isScattered;
+                SelectedTab.TabContent.LoadData(pointsX, pointsY);
+                SelectedTab.TabContent.DrawCharts();
+            }
+
         }
     }
 }

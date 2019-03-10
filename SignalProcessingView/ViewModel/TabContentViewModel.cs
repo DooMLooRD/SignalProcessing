@@ -20,7 +20,7 @@ namespace SignalProcessingView.ViewModel
         public Func<double, string> ChartFormatter { get; set; }
         public string ChartXTitle { get; set; }
         public string ChartYTitle { get; set; }
-
+        public bool IsScattered { get; set; }
         public SeriesCollection HistogramSeries { get; set; }
         public Func<double, string> HistogramFormatter { get; set; }
         public string HistogramXTitle { get; set; }
@@ -48,17 +48,33 @@ namespace SignalProcessingView.ViewModel
                 {
                     values.Add(new ObservablePoint(Data.PointsX[i], Data.PointsY[i]));
                 }
-                ChartSeries = new SeriesCollection()
-                {
-                    new LineSeries()
-                    {
 
-                        StrokeThickness = 0.5,
-                        Fill = Brushes.Transparent,
-                        PointGeometry = null,
-                        Values = values
-                    }
-                };
+                if (IsScattered)
+                {
+                    ChartSeries = new SeriesCollection()
+                    {
+                        new ScatterSeries()
+                        {
+                            PointGeometry = new EllipseGeometry(),
+                            StrokeThickness = 5,
+                            Values = values
+                        }
+                    };
+                }
+                else
+                {
+                    ChartSeries = new SeriesCollection()
+                    {
+                        new LineSeries()
+                        {
+                            StrokeThickness = 0.5,
+                            Fill = Brushes.Transparent,
+                            PointGeometry = null,
+                            Values = values
+                        }
+                    };
+                }
+                
 
                 var histogramResults = Data.GetDataForHistogram(5);
                 HistogramSeries = new SeriesCollection
@@ -93,13 +109,15 @@ namespace SignalProcessingView.ViewModel
         {
             Data.PointsX = x;
             Data.PointsY = y;
-            HasData = true;
         }
 
+        public void SaveDataToFile(string path)
+        {
+            Data.SaveToFile(path);
+        }
         public void LoadDataFromFile(string path)
         {
             Data.LoadFromFile(path);
-            HasData = true;
         }
     }
 }

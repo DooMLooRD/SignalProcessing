@@ -14,11 +14,12 @@ namespace SignalProcessingCore
         private static Random random = new Random();
         public double Amplitude { get; set; }
         public double StartTime { get; set; }
-        public double Duration { get; set; }
         public double Period { get; set; }
+        public double JumpTime { get; set; }
+        public double JumpN { get; set; }
         public double FillFactor { get; set; }
 
-        public double GenerateUniformDistributionNoise()
+        public double GenerateUniformDistributionNoise(double a)
         {
             return random.NextDouble() * 2 * Amplitude - Amplitude;
         }
@@ -41,8 +42,8 @@ namespace SignalProcessingCore
 
         public double GenerateRectangularSignal(double time)
         {
-            int k = (int) (time/Period);
-            if (time >= k * Period + StartTime && time < FillFactor * Period + k * Period + StartTime)
+            int k = (int)((time / Period)-(StartTime/Period));
+            if (time >= (k * Period + StartTime) && time < (FillFactor * Period + k * Period + StartTime))
                 return Amplitude;
             //else if(time >= FillFactor * Period - k * Period + StartTime && time < Period + k * Period + StartTime)
 
@@ -51,7 +52,7 @@ namespace SignalProcessingCore
 
         public double GenerateRectangularSymmetricalSignal(double time)
         {
-            int k = (int)(time / Period);
+            int k = (int)((time / Period) - (StartTime / Period));
             if (time >= k * Period + StartTime && time < FillFactor * Period + k * Period + StartTime)
                 return Amplitude;
 
@@ -60,26 +61,26 @@ namespace SignalProcessingCore
 
         public double GenerateTriangularSignal(double time)
         {
-            int k = (int)(time / Period);
+            int k = (int)((time / Period) - (StartTime / Period));
             if (time >= k * Period + StartTime && time < FillFactor * Period + k * Period + StartTime)
                 return (Amplitude / (FillFactor * Period)) * (time - k * Period - StartTime);
 
-            return -Amplitude / (Period * (1 - FillFactor)) * (time - k * Period - StartTime)+(Amplitude/(1-FillFactor));
+            return -Amplitude / (Period * (1 - FillFactor)) * (time - k * Period - StartTime) + (Amplitude / (1 - FillFactor));
         }
 
-        public double GenerateUnitJump(double time, double stime)
+        public double GenerateUnitJump(double time)
         {
-            if (time > stime)
+            if (time > JumpTime)
                 return Amplitude;
-            if (time.Equals(stime))
+            if (time.Equals(JumpTime))
                 return 0.5 * Amplitude;
             return -Amplitude;
         }
 
-        public double GenerateGaussianNoise()
+        public double GenerateGaussianNoise(double time)
         {
             //double mean = 2 * Amplitude;
-            double stdDev = Amplitude/3;
+            double stdDev = Amplitude / 3;
 
             //nuget version - simpler
             //Normal normalDist = new Normal(mean, stdDev);
@@ -92,16 +93,16 @@ namespace SignalProcessingCore
             return normal * stdDev;
         }
 
-        public double GenerateUnitPulse(double time, double stime)
+        public double GenerateUnitPulse(double time)
         {
-            if (time.Equals(stime)) return Amplitude;
+            if (time.Equals(JumpN)) return Amplitude;
             return 0;
         }
 
         public double GenerateImpulseNoise(double prob)
         {
             double temp = random.NextDouble();
-            if (prob < temp)
+            if (prob > temp)
             {
                 return Amplitude;
             }

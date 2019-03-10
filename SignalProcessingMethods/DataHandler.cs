@@ -27,11 +27,13 @@ namespace SignalProcessingMethods
 
             double range = max - min;
             double interval = range / count;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count-1; i++)
             {
                 int points = PointsY.Count(n => n >= min + interval * i && n < min + interval * (i + 1));
                 result.Add((Math.Round(min + interval * i, 2), Math.Round(min + interval * (i + 1), 2), points));
             }
+            int lastPoints = PointsY.Count(n => n >= min + interval * (count-1) && n <= min + interval * count);
+            result.Add((Math.Round(min + interval * (count - 1), 2), Math.Round(min + interval * count, 2), lastPoints));
 
             return result;
         }
