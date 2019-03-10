@@ -59,7 +59,7 @@ namespace SignalProcessingView.View.Converters
                         return Visibility.Visible;
                     break;
                 case "S11":
-                    if (param == "A" || param == "T1" || param == "D" || param == "F" || param == "P")
+                    if (param == "A" || param == "N1" || param == "D" || param == "F" || param == "P")
                         return Visibility.Visible;
                     break;
             }

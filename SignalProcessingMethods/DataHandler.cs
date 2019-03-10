@@ -12,8 +12,7 @@ namespace SignalProcessingMethods
         public double StartTime { get; set; }
         public double Frequency { get; set; }
         public byte Type { get; set; }
-        public int Samples { get; set; }
-
+        public List<double> Samples { get; set; }
 
         public List<double> PointsX { get; set; }
         public List<double> PointsY { get; set; }
@@ -56,13 +55,13 @@ namespace SignalProcessingMethods
                 writer.Write(StartTime);
                 writer.Write(Frequency);
                 writer.Write(Type);
-                writer.Write(Samples); 
-
-                /*foreach (double amplitude in SamplesList)
+                writer.Write(Samples.Count);
+                foreach (double sample in Samples)
                 {
-                    writer.Write(amplitude);
-                }*/
+                    writer.Write(sample);
+                }
             }
+            using(StreamWriter writer=File.)
         }
 
         public bool HasData()

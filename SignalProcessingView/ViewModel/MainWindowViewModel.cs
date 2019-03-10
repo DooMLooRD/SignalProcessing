@@ -48,6 +48,7 @@ namespace SignalProcessingView.ViewModel
         public ICommand AddPageCommand { get; set; }
         public ICommand PlotCommand { get; set; }
         public ICommand ComputeCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
         #endregion
 
         public MainWindowViewModel()
@@ -85,11 +86,17 @@ namespace SignalProcessingView.ViewModel
             AddPageCommand = new RelayCommand(AddPage);
             PlotCommand = new RelayCommand(Plot);
             ComputeCommand = new RelayCommand(Compute);
+            SaveCommand = new RelayCommand(Save);
         }
 
         public void AddPage()
         {
             Tabs.Add(new TabViewModel("Tab" + Tabs.Count));
+        }
+
+        public void Save()
+        {
+            SelectedTab.TabContent.SaveDataToFile();
         }
 
         public void Compute()
@@ -139,6 +146,7 @@ namespace SignalProcessingView.ViewModel
             };
             List<double> pointsX = new List<double>();
             List<double> pointsY = new List<double>();
+            List<double> samples = new List<double>();
 
             Func<double, double> func = null;
             switch (SelectedSignalType.Substring(1, 3))
@@ -178,6 +186,8 @@ namespace SignalProcessingView.ViewModel
                     break;
 
             }
+
+
             if (func != null)
             {
                 bool isScattered = false;
@@ -189,6 +199,9 @@ namespace SignalProcessingView.ViewModel
                         pointsX.Add(i);
                         pointsY.Add(func(i));
                     }
+                    SelectedTab.TabContent.Data.Samples = pointsY;
+                    SelectedTab.TabContent.Data.Frequency = F;
+                    SelectedTab.TabContent.Data.StartTime = N1;
                 }
                 else if (func.Method.Name.Contains("GenerateImpulseNoise"))
                 {
@@ -198,14 +211,25 @@ namespace SignalProcessingView.ViewModel
                         pointsX.Add(i);
                         pointsY.Add(func(P));
                     }
+                    SelectedTab.TabContent.Data.Samples = pointsY;
+                    SelectedTab.TabContent.Data.Frequency = F;
+                    SelectedTab.TabContent.Data.StartTime = N1;
                 }
                 else
                 {
+                    for (double i = T1; i < T1 + D; i += 1 / Fp)
+                    {
+                        samples.Add(func(i));
+                    }
                     for (double i = T1; i < T1 + D; i += D / 1000)
                     {
                         pointsX.Add(i);
                         pointsY.Add(func(i));
                     }
+
+                    SelectedTab.TabContent.Data.Samples = samples;
+                    SelectedTab.TabContent.Data.Frequency = Fp;
+                    SelectedTab.TabContent.Data.StartTime = T1;
                 }
 
                 SelectedTab.TabContent.IsScattered = isScattered;
