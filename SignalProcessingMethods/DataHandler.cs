@@ -62,10 +62,11 @@ namespace SignalProcessingMethods
                 Frequency = reader.ReadDouble();
                 Type = reader.ReadByte();
 
-                int length = (int)reader.BaseStream.Length;
-                while (reader.BaseStream.Position != length)
+                int length = reader.ReadInt32();
+                for (int i = 0; i < length; i++)
                 {
-                    PointsY.Add(reader.ReadDouble());
+
+                    Samples.Add(reader.ReadDouble());
                 }
             }
         }
