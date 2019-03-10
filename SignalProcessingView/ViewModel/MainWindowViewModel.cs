@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using SignalProcessingCore;
+using SignalProcessingMethods;
 using SignalProcessingView.ViewModel.Base;
 
 namespace SignalProcessingView.ViewModel
@@ -29,9 +30,16 @@ namespace SignalProcessingView.ViewModel
         #region Factors
         public double A { get; set; }
         public double T1 { get; set; }
+        public double Ts { get; set; }
         public double D { get; set; }
         public double T { get; set; }
         public double Kw { get; set; }
+        public double F { get; set; }
+        public double N { get; set; }
+        public double N1 { get; set; }
+        public double Ns { get; set; }
+        public double P { get; set; }
+        public double Fp { get; set; }
         #endregion
 
 
@@ -39,17 +47,18 @@ namespace SignalProcessingView.ViewModel
 
         public ICommand AddPageCommand { get; set; }
         public ICommand PlotCommand { get; set; }
+        public ICommand ComputeCommand { get; set; }
         #endregion
 
         public MainWindowViewModel()
         {
-            Tabs = new ObservableCollection<TabViewModel>(){new TabViewModel("Tab0")};
+            Tabs = new ObservableCollection<TabViewModel>() { new TabViewModel("Tab0") };
             SelectedTab = Tabs[0];
             SelectedSignal1Tab = Tabs[0];
             SelectedSignal2Tab = Tabs[0];
             SelectedResultTab = Tabs[0];
 
-            SignalTypes=new List<string>()
+            SignalTypes = new List<string>()
             {
                 "(S01) Szum o rozkładzie jednostajnym",
                 "(S02) Szum Gaussowski",
@@ -62,10 +71,10 @@ namespace SignalProcessingView.ViewModel
                 "(S09) Skok jednostkowy",
                 "(S10) Impuls jednostkowy",
                 "(S11) Szum impulsowy"
-            };          
+            };
             SelectedSignalType = SignalTypes[0];
 
-            Operations=new List<string>()
+            Operations = new List<string>()
             {
                 "(D1) Dodawanie",
                 "(D2) Odejmowanie",
@@ -74,7 +83,8 @@ namespace SignalProcessingView.ViewModel
             };
             SelectedOperation = Operations[0];
             AddPageCommand = new RelayCommand(AddPage);
-            PlotCommand=new RelayCommand(Plot);
+            PlotCommand = new RelayCommand(Plot);
+            ComputeCommand = new RelayCommand(Compute);
         }
 
         public void AddPage()
@@ -82,92 +92,127 @@ namespace SignalProcessingView.ViewModel
             Tabs.Add(new TabViewModel("Tab" + Tabs.Count));
         }
 
+        public void Compute()
+        {
+            SignalOperations singalOps = new SignalOperations();
+            if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData())
+            {
+                List<double> pointsX = SelectedSignal1Tab.TabContent.Data.PointsX;
+                List<double> pointsY = new List<double>();
+                switch (SelectedOperation.Substring(1, 2))
+                {
+                    case "D1":
+                        pointsY = singalOps.AddSignals(SelectedSignal1Tab.TabContent.Data.PointsY,
+                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        break;
+                    case "D2":
+                        pointsY = singalOps.SubtractSignals(SelectedSignal1Tab.TabContent.Data.PointsY,
+                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        break;
+                    case "D3":
+                        pointsY = singalOps.MultiplySignals(SelectedSignal1Tab.TabContent.Data.PointsY,
+                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        break;
+                    case "D4":
+                        pointsY = singalOps.DivideSignals(SelectedSignal1Tab.TabContent.Data.PointsY,
+                            SelectedSignal2Tab.TabContent.Data.PointsY);
+                        break;
+                }
+
+                SelectedResultTab.TabContent.IsScattered = true;
+                SelectedResultTab.TabContent.LoadData(pointsX, pointsY);
+                SelectedResultTab.TabContent.DrawCharts();
+            }
+
+        }
+
         public void Plot()
         {
-            SignalGenerator generator=new SignalGenerator()
+            SignalGenerator generator = new SignalGenerator()
             {
                 Amplitude = A,
-                Duration = D,
                 FillFactor = Kw,
                 Period = T,
-                StartTime = T1
+                StartTime = T1,
+                JumpTime = Ts,
+                JumpN = Ns
             };
-            List<double> pointsX=new List<double>();
-            List<double> pointsY=new List<double>();
+            List<double> pointsX = new List<double>();
+            List<double> pointsY = new List<double>();
 
-            switch (SelectedSignalType.Substring(1,3))
+            Func<double, double> func = null;
+            switch (SelectedSignalType.Substring(1, 3))
             {
                 case "S01":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateUniformDistributionNoise());
-                    }
+                    func = generator.GenerateUniformDistributionNoise;
                     break;
                 case "S02":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateGaussianNoise());
-                    }
+                    func = generator.GenerateGaussianNoise;
                     break;
                 case "S03":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateSinusoidalSignal(i));
-                    }
+                    func = generator.GenerateSinusoidalSignal;
                     break;
                 case "S04":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateSinusoidal1PSignal(i));
-                    }
+                    func = generator.GenerateSinusoidal1PSignal;
                     break;
                 case "S05":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateSinusoidal2PSignal(i));
-                    }
+                    func = generator.GenerateSinusoidal2PSignal;
                     break;
                 case "S06":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateRectangularSignal(i));
-                    }
+                    func = generator.GenerateRectangularSignal;
                     break;
                 case "S07":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateRectangularSymmetricalSignal(i));
-                    }
+                    func = generator.GenerateRectangularSymmetricalSignal;
                     break;
                 case "S08":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateTriangularSignal(i));
-                    }
+                    func = generator.GenerateTriangularSignal;
                     break;
                 case "S09":
-                    for (double i = T1; i < T1 + D; i += D / 1000)
-                    {
-                        pointsX.Add(i);
-                        pointsY.Add(generator.GenerateUnitJump(i,0));
-                    }
+                    func = generator.GenerateUnitJump;
                     break;
                 case "S10":
+                    func = generator.GenerateUnitPulse;
                     break;
                 case "S11":
+                    func = generator.GenerateImpulseNoise;
                     break;
 
             }
-            SelectedTab.TabContent.LoadData(pointsX,pointsY);
-            SelectedTab.TabContent.DrawCharts();
+            if (func != null)
+            {
+                bool isScattered = false;
+                if (func.Method.Name.Contains("GenerateUnitPulse"))
+                {
+                    isScattered = true;
+                    for (double i = N1; i < D + N1; i += 1 / F)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(func(i));
+                    }
+                }
+                else if (func.Method.Name.Contains("GenerateImpulseNoise"))
+                {
+                    isScattered = true;
+                    for (double i = N1; i < D + N1; i += 1 / F)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(func(P));
+                    }
+                }
+                else
+                {
+                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(func(i));
+                    }
+                }
+
+                SelectedTab.TabContent.IsScattered = isScattered;
+                SelectedTab.TabContent.LoadData(pointsX, pointsY);
+                SelectedTab.TabContent.DrawCharts();
+            }
+
         }
     }
 }

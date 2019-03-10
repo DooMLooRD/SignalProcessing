@@ -14,7 +14,7 @@ namespace SignalProcessingMethods
             List<double> result = new List<double>();
             for (int i=0; i<signal1.Count; i++)
             {
-                result[i] = signal1[i] + signal2[i];
+                result.Add( signal1[i] + signal2[i]);
             }
 
             return result;
@@ -26,7 +26,7 @@ namespace SignalProcessingMethods
             List<double> result = new List<double>();
             for (int i = 0; i < signal1.Count; i++)
             {
-                result[i] = signal1[i] - signal2[i];
+                result.Add(signal1[i] - signal2[i]);
             }
 
             return result;
@@ -38,7 +38,7 @@ namespace SignalProcessingMethods
             List<double> result = new List<double>();
             for (int i = 0; i < signal1.Count; i++)
             {
-                result[i] = signal1[i] * signal2[i];
+                result.Add(signal1[i] * signal2[i]);
             }
 
             return result;
@@ -50,7 +50,7 @@ namespace SignalProcessingMethods
             List<double> result = new List<double>();
             for (int i = 0; i < signal1.Count; i++)
             {
-                result[i] = signal1[i] / signal2[i];
+                result.Add(signal1[i] / signal2[i]);
             }
 
             return result;
