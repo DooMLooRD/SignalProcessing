@@ -61,7 +61,8 @@ namespace SignalProcessingMethods
                     writer.Write(sample);
                 }
             }
-            using(StreamWriter writer=File.)
+            File.
+            using(StreamWriter writer=)
         }
 
         public bool HasData()

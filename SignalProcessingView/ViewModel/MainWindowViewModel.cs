@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using Microsoft.Win32;
 using SignalProcessingCore;
 using SignalProcessingMethods;
 using SignalProcessingView.ViewModel.Base;
@@ -42,13 +44,11 @@ namespace SignalProcessingView.ViewModel
         public double Fp { get; set; }
         #endregion
 
-
-
-
         public ICommand AddPageCommand { get; set; }
         public ICommand PlotCommand { get; set; }
         public ICommand ComputeCommand { get; set; }
         public ICommand SaveCommand { get; set; }
+        public ICommand LoadCommand { get; set; }
         #endregion
 
         public MainWindowViewModel()
@@ -96,7 +96,44 @@ namespace SignalProcessingView.ViewModel
 
         public void Save()
         {
-            SelectedTab.TabContent.SaveDataToFile();
+            SelectedTab.TabContent.SaveDataToFile(LoadPath(false));
+        }
+
+        public void Load()
+        {
+            SelectedTab.TabContent.LoadDataFromFile(LoadPath(true));
+        }
+        public string LoadPath(bool loadMode)
+        {
+            if (loadMode)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Bin File(*.bin)| *.bin",
+                    RestoreDirectory = true
+                };
+                openFileDialog.ShowDialog();
+                if (openFileDialog.FileName.Length == 0)
+                {
+                    MessageBox.Show("No files selected");
+                    return null;
+                }
+
+                return openFileDialog.FileName;
+            }
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                Filter = "Bin File(*.bin)| *.bin",
+                RestoreDirectory = true
+            };
+            saveFileDialog.ShowDialog();
+            if (saveFileDialog.FileName.Length == 0)
+            {
+                MessageBox.Show("No files selected");
+                return null;
+            }
+
+            return saveFileDialog.FileName;
         }
 
         public void Compute()
