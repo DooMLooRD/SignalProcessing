@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,12 @@ namespace SignalProcessingMethods
 {
     public class DataHandler
     {
+        public double StartTime { get; set; }
+        public double Frequency { get; set; }
+        public byte Type { get; set; }
+        public int Samples { get; set; }
+
+
         public List<double> PointsX { get; set; }
         public List<double> PointsY { get; set; }
 
@@ -38,11 +45,22 @@ namespace SignalProcessingMethods
 
         public void LoadFromFile(string filePath)
         {
-
+            
         }
         public void SaveToFile(string filePath)
         {
+            using (BinaryWriter writer=new BinaryWriter(File.Create(filePath)))
+            {
+                writer.Write(StartTime);
+                writer.Write(Frequency);
+                writer.Write(Type);
+                writer.Write(Samples); 
 
+                /*foreach (double amplitude in SamplesList)
+                {
+                    writer.Write(amplitude);
+                }*/
+            }
         }
     }
 }
