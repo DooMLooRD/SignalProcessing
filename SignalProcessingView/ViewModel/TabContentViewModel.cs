@@ -25,7 +25,7 @@ namespace SignalProcessingView.ViewModel
         public Func<double, string> HistogramFormatter { get; set; }
         public string HistogramXTitle { get; set; }
         public string HistogramYTitle { get; set; }
-
+        public string[] Labels { get; set; }
 
         public DataHandler Data { get; set; }  
         public bool HasData { get; set; }
@@ -33,6 +33,7 @@ namespace SignalProcessingView.ViewModel
         public TabContentViewModel()
         {
             Data=new DataHandler();
+
         }
 
         public void DrawCharts()
@@ -46,12 +47,23 @@ namespace SignalProcessingView.ViewModel
             {
                 new LineSeries()
                 {
+
                     StrokeThickness = 0.5,
                     Fill = Brushes.Transparent,
                     PointGeometry = null,
                     Values = values
                 }
             };
+            
+            var histogramResults = Data.GetDataForHistogram(20);
+            HistogramSeries = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3))
+                }
+            };
+            Labels= histogramResults.Select(n=> n.Item1+" to "+n.Item2).ToArray();
         }
 
         public void LoadData(List<double> x, List<double> y)
