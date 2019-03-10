@@ -61,8 +61,19 @@ namespace SignalProcessingMethods
                     writer.Write(sample);
                 }
             }
-            File.
-            using(StreamWriter writer=)
+            string newPath = Path.ChangeExtension(filePath, ".txt");
+
+            using (StreamWriter writer = new StreamWriter(newPath))
+            {
+                writer.Write("Start Time: "+StartTime);
+                writer.Write("Frequency: "+Frequency);
+                writer.Write("Type: "+Type);
+                writer.Write("Number of samples: "+Samples.Count);
+                for (int i = 0; i < Samples.Count; i++)
+                {
+                    writer.Write(i+1 +". "+Samples[i]);
+                }
+            }
         }
 
         public bool HasData()
