@@ -92,5 +92,22 @@ namespace SignalProcessingCore
             return normal * stdDev;
         }
 
+        public double GenerateUnitPulse(double time, double stime)
+        {
+            if (time.Equals(stime)) return Amplitude;
+            return 0;
+        }
+
+        public double GenerateImpulseNoise(double prob)
+        {
+            double temp = random.NextDouble();
+            if (prob < temp)
+            {
+                return Amplitude;
+            }
+
+            return 0;
+        }
+
     }
 }
