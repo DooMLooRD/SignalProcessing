@@ -46,7 +46,18 @@ namespace SignalProcessingMethods
 
         public void LoadFromFile(string filePath)
         {
-            
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(filePath)))
+            {
+                StartTime = reader.ReadDouble();
+                Frequency = reader.ReadDouble();
+                Type = reader.ReadByte();
+
+                int length = (int)reader.BaseStream.Length;
+                while (reader.BaseStream.Position != length)
+                {
+                    PointsY.Add(reader.ReadDouble());
+                }
+            }
         }
         public void SaveToFile(string filePath)
         {
