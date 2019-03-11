@@ -231,10 +231,10 @@ namespace SignalProcessingView.ViewModel
                 if (func.Method.Name.Contains("GenerateUnitPulse"))
                 {
                     isScattered = true;
-                    for (double i = N1; i < D + N1; i += 1 / F)
+                    for (double i = N1*F; i < (D + N1)*F; i ++)
                     {
-                        pointsX.Add(i);
-                        pointsY.Add(func(i));
+                        pointsX.Add(i/F);
+                        pointsY.Add(func(i/F));
                     }
                     SelectedTab.TabContent.Data.Samples = pointsY;
                     SelectedTab.TabContent.Data.Frequency = F;
@@ -258,7 +258,7 @@ namespace SignalProcessingView.ViewModel
                     {
                         samples.Add(func(i));
                     }
-                    for (double i = T1; i < T1 + D; i += D / 1000)
+                    for (double i = T1; i < T1 + D; i += D / 5000)
                     {
                         pointsX.Add(i);
                         pointsY.Add(func(i));

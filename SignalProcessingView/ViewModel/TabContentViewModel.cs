@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using LiveCharts;
+using LiveCharts.Configurations;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using SignalProcessingMethods;
@@ -30,7 +31,6 @@ namespace SignalProcessingView.ViewModel
         public ICommand Histogram { get; set; }
 
         public DataHandler Data { get; set; }
-        public bool HasData { get; set; }
 
         public TabContentViewModel()
         {
@@ -43,15 +43,18 @@ namespace SignalProcessingView.ViewModel
         {
             if (Data.HasData())
             {
-                ChartValues<ObservablePoint> values = new ChartValues<ObservablePoint>();
+                var mapper = Mappers.Xy<PointXY>() 
+                    .X(value => value.X) 
+                    .Y(value => value.Y);
+                ChartValues<PointXY> values = new ChartValues<PointXY>();
                 for (int i = 0; i < Data.PointsX.Count; i++)
                 {
-                    values.Add(new ObservablePoint(Data.PointsX[i], Data.PointsY[i]));
+                    values.Add(new PointXY(Data.PointsX[i], Data.PointsY[i]));
                 }
 
                 if (IsScattered)
                 {
-                    ChartSeries = new SeriesCollection()
+                    ChartSeries = new SeriesCollection(mapper)
                     {
                         new ScatterSeries()
                         {
@@ -63,7 +66,7 @@ namespace SignalProcessingView.ViewModel
                 }
                 else
                 {
-                    ChartSeries = new SeriesCollection()
+                    ChartSeries = new SeriesCollection(mapper)
                     {
                         new LineSeries()
                         {

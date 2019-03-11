@@ -5,8 +5,6 @@
              xmlns:Converters="clr-namespace:SignalProcessingView.View.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Converters:IsEnabledMultiConverter x:Key="IsEnabledMultiConverter"/>
-        <Converters:IsEnabledConverter x:Key="IsEnabledConverter"/>
         <Converters:VisibilityConverter x:Key="VisibilityConverter"/>
     </Application.Resources>
 </Application>
