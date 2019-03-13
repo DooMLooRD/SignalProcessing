@@ -62,17 +62,17 @@
 
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <TextBlock Text="{Binding A}"/>
-                <TextBlock Text="{Binding B}"/>
-                <TextBlock Text="{Binding C}"/>
+                <TextBlock Text="{Binding AvgSignal}"/>
+                <TextBlock Text="{Binding AbsAvgSignal}"/>
+                <TextBlock Text="{Binding AvgSignalPower}"/>
             </StackPanel>
             <StackPanel Grid.Column="2">
                 <TextBlock Text="Wariancja sygnału:"/>
                 <TextBlock Text="Wartość skuteczna:"/>
             </StackPanel>
             <StackPanel Grid.Column="3">
-                <TextBlock Text="{Binding D}"/>
-                <TextBlock Text="{Binding E}"/>
+                <TextBlock Text="{Binding SignalVariance}"/>
+                <TextBlock Text="{Binding RMSSignal}"/>
             </StackPanel>
         </Grid>
     </Grid>

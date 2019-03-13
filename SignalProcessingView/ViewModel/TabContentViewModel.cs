@@ -28,6 +28,12 @@ namespace SignalProcessingView.ViewModel
         public string HistogramYTitle { get; set; }
         public string[] Labels { get; set; }
 
+        public double AvgSignal { get; set; }
+        public double AbsAvgSignal { get; set; }
+        public double AvgSignalPower { get; set; }
+        public double SignalVariance { get; set; }
+        public double RMSSignal { get; set; }
+
         public ICommand Histogram { get; set; }
 
         public DataHandler Data { get; set; }
@@ -102,6 +108,16 @@ namespace SignalProcessingView.ViewModel
                 Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
             }
            
+        }
+
+        public void CalculateSignalInfo(double t1,double t2,Func<double,double> func)
+        {
+            AvgSignal = SignalOperations.AvgSignal(t1, t2, func);
+            AbsAvgSignal = SignalOperations.AbsAvgSignal(t1, t2, func);
+            AvgSignalPower = SignalOperations.AvgSignalPower(t1, t2, func);
+            SignalVariance = SignalOperations.SignalVariance(t1, t2, func);
+            RMSSignal = SignalOperations.RMSSignal(t1, t2, func);
+
         }
 
         public void LoadHistogram(int c)

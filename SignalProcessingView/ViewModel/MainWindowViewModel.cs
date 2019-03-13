@@ -140,7 +140,6 @@ namespace SignalProcessingView.ViewModel
 
         public void Compute()
         {
-            SignalOperations singalOps = new SignalOperations();
             if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.IsValid(SelectedSignal1Tab.TabContent.Data))
             {
                 DataHandler data=new DataHandler();
@@ -149,19 +148,19 @@ namespace SignalProcessingView.ViewModel
                 switch (SelectedOperation.Substring(1, 2))
                 {
                     case "D1":
-                        pointsY = singalOps.AddSignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                        pointsY = SignalOperations.AddSignals(SelectedSignal1Tab.TabContent.Data.Samples,
                             SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                     case "D2":
-                        pointsY = singalOps.SubtractSignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                        pointsY = SignalOperations.SubtractSignals(SelectedSignal1Tab.TabContent.Data.Samples,
                             SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                     case "D3":
-                        pointsY = singalOps.MultiplySignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                        pointsY = SignalOperations.MultiplySignals(SelectedSignal1Tab.TabContent.Data.Samples,
                             SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                     case "D4":
-                        pointsY = singalOps.DivideSignals(SelectedSignal1Tab.TabContent.Data.Samples,
+                        pointsY = SignalOperations.DivideSignals(SelectedSignal1Tab.TabContent.Data.Samples,
                             SelectedSignal2Tab.TabContent.Data.Samples);
                         break;
                 }
@@ -275,7 +274,7 @@ namespace SignalProcessingView.ViewModel
                     SelectedTab.TabContent.Data.Frequency = Fp;
                     SelectedTab.TabContent.Data.StartTime = T1;
                 }
-
+                SelectedTab.TabContent.CalculateSignalInfo(T1,T1+D,func);
                 SelectedTab.TabContent.IsScattered = isScattered;
                 SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
                 SelectedTab.TabContent.DrawCharts();

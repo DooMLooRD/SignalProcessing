@@ -74,7 +74,7 @@ namespace SignalProcessingCore
                 return Amplitude;
             if (time.Equals(JumpTime))
                 return 0.5 * Amplitude;
-            return -Amplitude;
+            return 0;
         }
 
         public double GenerateGaussianNoise(double time)
