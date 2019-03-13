@@ -47,12 +47,24 @@ namespace SignalProcessingView.ViewModel
                     .X(value => value.X) 
                     .Y(value => value.Y);
                 ChartValues<PointXY> values = new ChartValues<PointXY>();
-                for (int i = 0; i < Data.PointsX.Count; i++)
+                List<double> pointsX;
+                List<double> pointsY;
+                if (Data.FromSamples)
                 {
-                    values.Add(new PointXY(Data.PointsX[i], Data.PointsY[i]));
+                    pointsX = Data.SamplesX;
+                    pointsY = Data.Samples;
+                }
+                else
+                {
+                    pointsX = Data.PointsX;
+                    pointsY = Data.PointsY;
+                }
+                for (int i = 0; i < pointsX.Count; i++)
+                {
+                    values.Add(new PointXY(pointsX[i], pointsY[i]));
                 }
 
-                if (IsScattered)
+                if (IsScattered || Data.FromSamples)
                 {
                     ChartSeries = new SeriesCollection(mapper)
                     {
@@ -108,10 +120,27 @@ namespace SignalProcessingView.ViewModel
             }
            
         }
-        public void LoadData(List<double> x, List<double> y)
+
+        public void LoadData(DataHandler data)
         {
-            Data.PointsX = x;
-            Data.PointsY = y;
+            Data = data;
+        }
+
+        public void LoadData(List<double> x, List<double> y, bool fromSamples)
+        {
+            if (fromSamples)
+            {
+                Data.FromSamples = true;
+                Data.Samples = y;
+            }
+            else
+            {
+                Data.FromSamples = false;
+                Data.PointsX = x;
+                Data.PointsY = y;
+            }
+            
+            
         }
 
         public void SaveDataToFile(string path)
@@ -120,6 +149,7 @@ namespace SignalProcessingView.ViewModel
         }
         public void LoadDataFromFile(string path)
         {
+            Data.FromSamples = true;
             Data.LoadFromFile(path);
         }
     }

@@ -87,6 +87,7 @@ namespace SignalProcessingView.ViewModel
             PlotCommand = new RelayCommand(Plot);
             ComputeCommand = new RelayCommand(Compute);
             SaveCommand = new RelayCommand(Save);
+            LoadCommand=new RelayCommand(Load);
         }
 
         public void AddPage()
@@ -102,6 +103,7 @@ namespace SignalProcessingView.ViewModel
         public void Load()
         {
             SelectedTab.TabContent.LoadDataFromFile(LoadPath(true));
+            SelectedTab.TabContent.DrawCharts();
         }
         public string LoadPath(bool loadMode)
         {
@@ -139,10 +141,11 @@ namespace SignalProcessingView.ViewModel
         public void Compute()
         {
             SignalOperations singalOps = new SignalOperations();
-            if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData())
+            if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.IsValid(SelectedSignal1Tab.TabContent.Data))
             {
-                List<double> pointsX = SelectedSignal1Tab.TabContent.Data.CalculateSamplesX();
+                DataHandler data=new DataHandler();
                 List<double> pointsY = new List<double>();
+                
                 switch (SelectedOperation.Substring(1, 2))
                 {
                     case "D1":
@@ -163,8 +166,12 @@ namespace SignalProcessingView.ViewModel
                         break;
                 }
 
+                data.StartTime = SelectedSignal1Tab.TabContent.Data.StartTime;
+                data.Frequency= SelectedSignal1Tab.TabContent.Data.Frequency;
+                data.Samples = pointsY;
+                data.FromSamples = true;
                 SelectedResultTab.TabContent.IsScattered = true;
-                SelectedResultTab.TabContent.LoadData(pointsX, pointsY);
+                SelectedResultTab.TabContent.LoadData(data);
                 SelectedResultTab.TabContent.DrawCharts();
             }
 
@@ -231,10 +238,10 @@ namespace SignalProcessingView.ViewModel
                 if (func.Method.Name.Contains("GenerateUnitPulse"))
                 {
                     isScattered = true;
-                    for (double i = N1*F; i < (D + N1)*F; i ++)
+                    for (double i = N1 * F; i < (D + N1) * F; i++)
                     {
-                        pointsX.Add(i/F);
-                        pointsY.Add(func(i/F));
+                        pointsX.Add(i / F);
+                        pointsY.Add(func(i / F));
                     }
                     SelectedTab.TabContent.Data.Samples = pointsY;
                     SelectedTab.TabContent.Data.Frequency = F;
@@ -270,7 +277,7 @@ namespace SignalProcessingView.ViewModel
                 }
 
                 SelectedTab.TabContent.IsScattered = isScattered;
-                SelectedTab.TabContent.LoadData(pointsX, pointsY);
+                SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
                 SelectedTab.TabContent.DrawCharts();
             }
 

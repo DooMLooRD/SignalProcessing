@@ -18,7 +18,7 @@ namespace SignalProcessingMethods
             }
 
             return result;
-            ;
+            
         }
 
         public List<double> SubtractSignals(List<double> signal1, List<double> signal2)
