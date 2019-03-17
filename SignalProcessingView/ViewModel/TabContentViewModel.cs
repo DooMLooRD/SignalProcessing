@@ -33,7 +33,7 @@ namespace SignalProcessingView.ViewModel
 
         public ICommand Histogram { get; set; }
 
-        public int SliderValue  
+        public int SliderValue
         {
             get => _sliderValue;
             set
@@ -113,7 +113,7 @@ namespace SignalProcessingView.ViewModel
                     {
                         Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
                         ColumnPadding = 0
-                        
+
                     }
                 };
                 Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
@@ -123,11 +123,11 @@ namespace SignalProcessingView.ViewModel
 
         public void CalculateSignalInfo(double t1, double t2, bool isDiscrete = false)
         {
-            AvgSignal = SignalOperations.AvgSignal(t1, t2, Data.PointsY, isDiscrete);
-            AbsAvgSignal = SignalOperations.AbsAvgSignal(t1, t2, Data.PointsY, isDiscrete);
-            AvgSignalPower = SignalOperations.AvgSignalPower(t1, t2, Data.PointsY, isDiscrete);
-            SignalVariance = SignalOperations.SignalVariance(t1, t2, Data.PointsY, isDiscrete);
-            RMSSignal = SignalOperations.RMSSignal(t1, t2, Data.PointsY, isDiscrete);
+            AvgSignal = SignalOperations.AvgSignal(Data.PointsY, t1, t2, isDiscrete);
+            AbsAvgSignal = SignalOperations.AbsAvgSignal(Data.PointsY, t1, t2, isDiscrete);
+            AvgSignalPower = SignalOperations.AvgSignalPower(Data.PointsY, t1, t2, isDiscrete);
+            SignalVariance = SignalOperations.SignalVariance(Data.PointsY, t1, t2, isDiscrete);
+            RMSSignal = SignalOperations.RMSSignal(Data.PointsY, t1, t2, isDiscrete);
 
         }
 
@@ -143,7 +143,7 @@ namespace SignalProcessingView.ViewModel
                     {
                         Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
                         ColumnPadding = 0,
-                        
+
                     }
                 };
                 Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
