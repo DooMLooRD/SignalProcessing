@@ -134,6 +134,8 @@ namespace SignalProcessingMethods
                 return false;
             if (!data.StartTime.Equals(StartTime))
                 return false;
+            if (data.Samples.Count != Samples.Count)
+                return false;
             return true;
         }
     }

@@ -18,8 +18,10 @@ namespace SignalProcessingCore
         public double JumpTime { get; set; }
         public double JumpN { get; set; }
         public double FillFactor { get; set; }
+        public double Probability { get; set; }
+        public Func<double,double> Func { get; set; }
 
-        public double GenerateUniformDistributionNoise(double a)
+        public double GenerateUniformDistributionNoise(double time=0)
         {
             return random.NextDouble() * 2 * Amplitude - Amplitude;
         }
@@ -77,7 +79,7 @@ namespace SignalProcessingCore
             return 0;
         }
 
-        public double GenerateGaussianNoise(double time)
+        public double GenerateGaussianNoise(double time=0)
         {
             //double mean = 2 * Amplitude;
             double stdDev = Amplitude / 3;
@@ -99,10 +101,10 @@ namespace SignalProcessingCore
             return 0;
         }
 
-        public double GenerateImpulseNoise(double prob)
+        public double GenerateImpulseNoise(double time=0)
         {
             double temp = random.NextDouble();
-            if (prob > temp)
+            if (Probability > temp)
             {
                 return Amplitude;
             }

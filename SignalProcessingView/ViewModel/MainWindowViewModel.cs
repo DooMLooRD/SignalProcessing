@@ -87,7 +87,7 @@ namespace SignalProcessingView.ViewModel
             PlotCommand = new RelayCommand(Plot);
             ComputeCommand = new RelayCommand(Compute);
             SaveCommand = new RelayCommand(Save);
-            LoadCommand=new RelayCommand(Load);
+            LoadCommand = new RelayCommand(Load);
         }
 
         public void AddPage()
@@ -140,11 +140,18 @@ namespace SignalProcessingView.ViewModel
 
         public void Compute()
         {
-            if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.IsValid(SelectedSignal1Tab.TabContent.Data))
+            SelectedSignal1Tab.TabContent.Data.FromSamples = true;
+            SelectedSignal2Tab.TabContent.Data.FromSamples = true;
+            if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData())
             {
-                DataHandler data=new DataHandler();
+                if(!SelectedSignal2Tab.TabContent.Data.IsValid(SelectedSignal1Tab.TabContent.Data))
+                {
+                    MessageBox.Show("Given signals are not valid", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                DataHandler data = new DataHandler();
                 List<double> pointsY = new List<double>();
-                
+
                 switch (SelectedOperation.Substring(1, 2))
                 {
                     case "D1":
@@ -166,7 +173,7 @@ namespace SignalProcessingView.ViewModel
                 }
 
                 data.StartTime = SelectedSignal1Tab.TabContent.Data.StartTime;
-                data.Frequency= SelectedSignal1Tab.TabContent.Data.Frequency;
+                data.Frequency = SelectedSignal1Tab.TabContent.Data.Frequency;
                 data.Samples = pointsY;
                 data.FromSamples = true;
                 SelectedResultTab.TabContent.IsScattered = true;
@@ -185,7 +192,8 @@ namespace SignalProcessingView.ViewModel
                 Period = T,
                 StartTime = T1,
                 JumpTime = Ts,
-                JumpN = Ns
+                JumpN = Ns,
+                Probability = P
             };
             List<double> pointsX = new List<double>();
             List<double> pointsY = new List<double>();
@@ -233,6 +241,7 @@ namespace SignalProcessingView.ViewModel
 
             if (func != null)
             {
+                generator.Func = func;
                 bool isScattered = false;
                 if (func.Method.Name.Contains("GenerateUnitPulse"))
                 {
@@ -245,6 +254,8 @@ namespace SignalProcessingView.ViewModel
                     SelectedTab.TabContent.Data.Samples = pointsY;
                     SelectedTab.TabContent.Data.Frequency = F;
                     SelectedTab.TabContent.Data.StartTime = N1;
+                    SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
+                    SelectedTab.TabContent.CalculateSignalInfo(N1, N1 + D, true);
                 }
                 else if (func.Method.Name.Contains("GenerateImpulseNoise"))
                 {
@@ -252,11 +263,13 @@ namespace SignalProcessingView.ViewModel
                     for (double i = N1; i < D + N1; i += 1 / F)
                     {
                         pointsX.Add(i);
-                        pointsY.Add(func(P));
+                        pointsY.Add(func(0));
                     }
                     SelectedTab.TabContent.Data.Samples = pointsY;
                     SelectedTab.TabContent.Data.Frequency = F;
                     SelectedTab.TabContent.Data.StartTime = N1;
+                    SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
+                    SelectedTab.TabContent.CalculateSignalInfo(N1, N1 + D, true);
                 }
                 else
                 {
@@ -273,10 +286,11 @@ namespace SignalProcessingView.ViewModel
                     SelectedTab.TabContent.Data.Samples = samples;
                     SelectedTab.TabContent.Data.Frequency = Fp;
                     SelectedTab.TabContent.Data.StartTime = T1;
+                    SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
+                    SelectedTab.TabContent.CalculateSignalInfo(T1, T1 + D);
                 }
-                SelectedTab.TabContent.CalculateSignalInfo(T1,T1+D,func);
+
                 SelectedTab.TabContent.IsScattered = isScattered;
-                SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
                 SelectedTab.TabContent.DrawCharts();
             }
 

@@ -29,9 +29,9 @@
             </lvc:CartesianChart>
             <lvc:CartesianChart DisableAnimations="True" IsManipulationEnabled="False" Hoverable="False" DataTooltip="{x:Null}" Series="{Binding HistogramSeries}" Grid.Column="1" LegendLocation="None">
                 <lvc:CartesianChart.AxisX>
-                    <lvc:Axis  Title="Interval" Labels="{Binding Labels}" LabelsRotation="60">
+                    <lvc:Axis Title="Interval" Labels="{Binding Labels}" LabelsRotation="70">
                         <lvc:Axis.Separator>
-                            <lvc:Separator IsEnabled="True" Step="1"></lvc:Separator>
+                            <lvc:Separator IsEnabled="True" Step="{Binding HistogramStep}"/>
                         </lvc:Axis.Separator>
                     </lvc:Axis>
                 </lvc:CartesianChart.AxisX>
@@ -44,7 +44,8 @@
                 <Button Command="{Binding Histogram}" CommandParameter="10" Content="10"/>
                 <Button Command="{Binding Histogram}" CommandParameter="15" Content="15"/>
                 <Button Command="{Binding Histogram}" CommandParameter="20" Content="20"/>
-                <Button Command="{Binding Histogram}" CommandParameter="5" Content="Auto"/>
+                <Slider Value="{Binding SliderValue}" MinHeight="100" Orientation="Vertical" Maximum="99" Minimum="1" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="TopLeft" Name="Slider"/>
+                <TextBox Text="{Binding ElementName=Slider, Path=Value, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             </StackPanel>
         </Grid>
 

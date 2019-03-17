@@ -10,6 +10,7 @@ using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
+using SignalProcessingCore;
 using SignalProcessingMethods;
 using SignalProcessingView.ViewModel.Base;
 
@@ -17,15 +18,11 @@ namespace SignalProcessingView.ViewModel
 {
     public class TabContentViewModel : BaseViewModel
     {
+        private int _sliderValue;
         public SeriesCollection ChartSeries { get; set; }
-        public Func<double, string> ChartFormatter { get; set; }
-        public string ChartXTitle { get; set; }
-        public string ChartYTitle { get; set; }
         public bool IsScattered { get; set; }
         public SeriesCollection HistogramSeries { get; set; }
-        public Func<double, string> HistogramFormatter { get; set; }
-        public string HistogramXTitle { get; set; }
-        public string HistogramYTitle { get; set; }
+        public int HistogramStep { get; set; }
         public string[] Labels { get; set; }
 
         public double AvgSignal { get; set; }
@@ -35,6 +32,16 @@ namespace SignalProcessingView.ViewModel
         public double RMSSignal { get; set; }
 
         public ICommand Histogram { get; set; }
+
+        public int SliderValue  
+        {
+            get => _sliderValue;
+            set
+            {
+                _sliderValue = value;
+                LoadHistogram(_sliderValue);
+            }
+        }
 
         public DataHandler Data { get; set; }
 
@@ -49,8 +56,8 @@ namespace SignalProcessingView.ViewModel
         {
             if (Data.HasData())
             {
-                var mapper = Mappers.Xy<PointXY>() 
-                    .X(value => value.X) 
+                var mapper = Mappers.Xy<PointXY>()
+                    .X(value => value.X)
                     .Y(value => value.Y);
                 ChartValues<PointXY> values = new ChartValues<PointXY>();
                 List<double> pointsX;
@@ -88,6 +95,7 @@ namespace SignalProcessingView.ViewModel
                     {
                         new LineSeries()
                         {
+                            LineSmoothness = 0,
                             StrokeThickness = 0.5,
                             Fill = Brushes.Transparent,
                             PointGeometry = null,
@@ -95,28 +103,31 @@ namespace SignalProcessingView.ViewModel
                         }
                     };
                 }
-                
+
 
                 var histogramResults = Data.GetDataForHistogram(5);
+                HistogramStep = 1;
                 HistogramSeries = new SeriesCollection
                 {
                     new ColumnSeries
                     {
-                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3))
+                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
+                        ColumnPadding = 0
+                        
                     }
                 };
                 Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
             }
-           
+
         }
 
-        public void CalculateSignalInfo(double t1,double t2,Func<double,double> func)
+        public void CalculateSignalInfo(double t1, double t2, bool isDiscrete = false)
         {
-            AvgSignal = SignalOperations.AvgSignal(t1, t2, func);
-            AbsAvgSignal = SignalOperations.AbsAvgSignal(t1, t2, func);
-            AvgSignalPower = SignalOperations.AvgSignalPower(t1, t2, func);
-            SignalVariance = SignalOperations.SignalVariance(t1, t2, func);
-            RMSSignal = SignalOperations.RMSSignal(t1, t2, func);
+            AvgSignal = SignalOperations.AvgSignal(t1, t2, Data.PointsY, isDiscrete);
+            AbsAvgSignal = SignalOperations.AbsAvgSignal(t1, t2, Data.PointsY, isDiscrete);
+            AvgSignalPower = SignalOperations.AvgSignalPower(t1, t2, Data.PointsY, isDiscrete);
+            SignalVariance = SignalOperations.SignalVariance(t1, t2, Data.PointsY, isDiscrete);
+            RMSSignal = SignalOperations.RMSSignal(t1, t2, Data.PointsY, isDiscrete);
 
         }
 
@@ -125,16 +136,19 @@ namespace SignalProcessingView.ViewModel
             if (Data.HasData())
             {
                 var histogramResults = Data.GetDataForHistogram(c);
+                HistogramStep = (int)Math.Ceiling(c / 20.0);
                 HistogramSeries = new SeriesCollection
                 {
                     new ColumnSeries
                     {
-                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3))
+                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
+                        ColumnPadding = 0,
+                        
                     }
                 };
                 Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
             }
-           
+
         }
 
         public void LoadData(DataHandler data)
@@ -155,8 +169,8 @@ namespace SignalProcessingView.ViewModel
                 Data.PointsX = x;
                 Data.PointsY = y;
             }
-            
-            
+
+
         }
 
         public void SaveDataToFile(string path)
