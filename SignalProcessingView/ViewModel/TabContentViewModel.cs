@@ -107,7 +107,7 @@ namespace SignalProcessingView.ViewModel
                         new ScatterSeries()
                         {
                             PointGeometry = new EllipseGeometry(),
-                            StrokeThickness = 10,
+                            StrokeThickness = 8,
                             Values = values,
                         }
                     };
@@ -119,7 +119,7 @@ namespace SignalProcessingView.ViewModel
                         new LineSeries()
                         {
                             LineSmoothness = 0,
-                            StrokeThickness = 3,
+                            StrokeThickness = 1,
                             Fill = Brushes.Transparent,
                             PointGeometry = null,
                             Values = values,
@@ -141,11 +141,11 @@ namespace SignalProcessingView.ViewModel
                 }
             };
             //Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
-            chart.AxisX = new AxesCollection() { new Axis() { FontSize = 30, } };
-            chart.AxisY = new AxesCollection() { new Axis() { FontSize = 30, } };
+            chart.AxisX = new AxesCollection() { new Axis() { FontSize = 20, Title = "t[s]" } };
+            chart.AxisY = new AxesCollection() { new Axis() { FontSize = 20, Title = "A" } };
 
-            histogram.AxisY = new AxesCollection() { new Axis() { FontSize = 30, } };
-            histogram.AxisX = new AxesCollection() { new Axis() { FontSize = 30, Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray(), LabelsRotation = 60, Separator = new LiveCharts.Wpf.Separator() { Step = (int)Math.Ceiling(SliderValue / 20.0) } } };
+            histogram.AxisY = new AxesCollection() { new Axis() { FontSize = 20, } };
+            histogram.AxisX = new AxesCollection() { new Axis() { FontSize = 20, Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray(), LabelsRotation = 60, Separator = new LiveCharts.Wpf.Separator() { Step = (int)Math.Ceiling(SliderValue / 20.0) } } };
 
             var viewbox = new Viewbox();
             viewbox.Child = chart;
@@ -161,8 +161,8 @@ namespace SignalProcessingView.ViewModel
             histogram.Update(true, true); //force chart redraw
             histViewbox.UpdateLayout();
 
-            SaveToPng(chart, "chart.png");
-            SaveToPng(histogram, "histogram.png");
+            SaveToPng(chart, "../../../Data/chart.png");
+            SaveToPng(histogram, "../../../Data/histogram.png");
             MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
             //png file was created at the root directory.
         }
