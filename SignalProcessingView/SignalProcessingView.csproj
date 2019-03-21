@@ -74,6 +74,7 @@
     <Compile Include="ViewModel\TabContentViewModel.cs" />
     <Compile Include="ViewModel\TabViewModel.cs" />
     <Compile Include="View\Converters\VisibilityConverter.cs" />
+    <Compile Include="View\Utils\TabControlNR.cs" />
     <Page Include="ChartsTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
