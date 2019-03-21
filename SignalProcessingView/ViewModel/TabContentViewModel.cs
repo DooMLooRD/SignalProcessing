@@ -145,7 +145,7 @@ namespace SignalProcessingView.ViewModel
             chart.AxisY = new AxesCollection() { new Axis() { FontSize = 20, Title = "A" } };
 
             histogram.AxisY = new AxesCollection() { new Axis() { FontSize = 20, } };
-            histogram.AxisX = new AxesCollection() { new Axis() { FontSize = 20, Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray(), LabelsRotation = 60, Separator = new LiveCharts.Wpf.Separator() { Step = (int)Math.Ceiling(SliderValue / 20.0) } } };
+            histogram.AxisX = new AxesCollection() { new Axis() { Title = "Interval", FontSize = 20, Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray(), LabelsRotation = 60, Separator = new LiveCharts.Wpf.Separator() { Step = (int)Math.Ceiling(SliderValue / 20.0) } } };
 
             var viewbox = new Viewbox();
             viewbox.Child = chart;
