@@ -54,6 +54,7 @@ namespace SignalProcessingView.ViewModel
             Data = new DataHandler();
             Histogram = new RelayCommand<int>(LoadHistogram);
             SaveCharts = new RelayCommand(SaveChartsToFile);
+            SliderValue = 20;
         }
 
         #region Save Charts
@@ -239,7 +240,7 @@ namespace SignalProcessingView.ViewModel
                 }
 
 
-                var histogramResults = Data.GetDataForHistogram(5);
+                var histogramResults = Data.GetDataForHistogram(SliderValue);
                 HistogramStep = 1;
                 HistogramSeries = new SeriesCollection
                 {
