@@ -257,14 +257,19 @@ namespace SignalProcessingView.ViewModel
 
         }
 
-        public void CalculateSignalInfo(double t1, double t2, bool isDiscrete = false)
+        public void CalculateSignalInfo(double t1=0, double t2=0, bool isDiscrete = false, bool fromSamples=false)
         {
-            AvgSignal = SignalOperations.AvgSignal(Data.PointsY, t1, t2, isDiscrete);
-            AbsAvgSignal = SignalOperations.AbsAvgSignal(Data.PointsY, t1, t2, isDiscrete);
-            AvgSignalPower = SignalOperations.AvgSignalPower(Data.PointsY, t1, t2, isDiscrete);
-            SignalVariance = SignalOperations.SignalVariance(Data.PointsY, t1, t2, isDiscrete);
-            RMSSignal = SignalOperations.RMSSignal(Data.PointsY, t1, t2, isDiscrete);
+            List<double> points;
+            if (fromSamples)
+                points = Data.Samples;
+            else
+                points = Data.PointsY;
 
+            AvgSignal = SignalOperations.AvgSignal(points, t1, t2, isDiscrete);
+            AbsAvgSignal = SignalOperations.AbsAvgSignal(points, t1, t2, isDiscrete);
+            AvgSignalPower = SignalOperations.AvgSignalPower(points, t1, t2, isDiscrete);
+            SignalVariance = SignalOperations.SignalVariance(points, t1, t2, isDiscrete);
+            RMSSignal = SignalOperations.RMSSignal(points, t1, t2, isDiscrete);
         }
 
         public void LoadHistogram(int c)

@@ -104,6 +104,7 @@ namespace SignalProcessingView.ViewModel
         {
             SelectedTab.TabContent.LoadDataFromFile(LoadPath(true));
             SelectedTab.TabContent.DrawCharts();
+            SelectedTab.TabContent.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
         }
         public string LoadPath(bool loadMode)
         {
@@ -144,7 +145,7 @@ namespace SignalProcessingView.ViewModel
             SelectedSignal2Tab.TabContent.Data.FromSamples = true;
             if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData())
             {
-                if(!SelectedSignal2Tab.TabContent.Data.IsValid(SelectedSignal1Tab.TabContent.Data))
+                if (!SelectedSignal2Tab.TabContent.Data.IsValid(SelectedSignal1Tab.TabContent.Data))
                 {
                     MessageBox.Show("Given signals are not valid", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -179,6 +180,7 @@ namespace SignalProcessingView.ViewModel
                 SelectedResultTab.TabContent.IsScattered = true;
                 SelectedResultTab.TabContent.LoadData(data);
                 SelectedResultTab.TabContent.DrawCharts();
+                SelectedResultTab.TabContent.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
             }
 
         }
