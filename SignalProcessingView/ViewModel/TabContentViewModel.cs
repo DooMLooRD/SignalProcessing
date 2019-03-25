@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -53,14 +54,22 @@ namespace SignalProcessingView.ViewModel
         {
             Data = new DataHandler();
             Histogram = new RelayCommand<int>(LoadHistogram);
-            SaveCharts = new RelayCommand(SaveChartsToFile);
+            SaveCharts = new RelayCommand(SaveChartsAsync);
             SliderValue = 20;
         }
 
         #region Save Charts
 
+        public void SaveChartsAsync()
+        {
+            Thread t = new Thread((SaveChartsToFile));
+            t.SetApartmentState(ApartmentState.STA);
+
+            t.Start();
+        }
         public void SaveChartsToFile()
         {
+
             var chart = new LiveCharts.Wpf.CartesianChart()
             {
                 Background = new SolidColorBrush(Colors.White),
