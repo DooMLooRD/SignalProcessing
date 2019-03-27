@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Dragablz;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using SignalProcessingCore;
 using SignalProcessingMethods;
@@ -49,7 +51,9 @@ namespace SignalProcessingView.ViewModel
         public ICommand ComputeCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand LoadCommand { get; set; }
+        public ICommand ToggleBaseCommand { get; }
         #endregion
+
 
         public MainWindowViewModel()
         {
@@ -88,8 +92,12 @@ namespace SignalProcessingView.ViewModel
             ComputeCommand = new RelayCommand(Compute);
             SaveCommand = new RelayCommand(Save);
             LoadCommand = new RelayCommand(Load);
+            ToggleBaseCommand = new RelayCommand<bool>(ApplyBase);
         }
-
+        private static void ApplyBase(bool isDark)
+        {
+            new PaletteHelper().SetLightDark(isDark);
+        }
         public void AddPage()
         {
             Tabs.Add(new TabViewModel("Tab" + Tabs.Count));
