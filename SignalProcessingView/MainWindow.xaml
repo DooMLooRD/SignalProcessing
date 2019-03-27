@@ -23,9 +23,9 @@
             <Border Padding="5" Grid.Column="0" >
                 <materialDesign:ColorZone             
                 Padding="6 16"
-                CornerRadius="6"
+                CornerRadius="2"
                 VerticalAlignment="Stretch"
-                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                materialDesign:ShadowAssist.ShadowDepth="Depth2"
                 Margin="5">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -173,9 +173,9 @@
             <Border Grid.Column="1" Padding="5">
                 <materialDesign:ColorZone              
                 Padding="16"
-                CornerRadius="6"
+                CornerRadius="2"
                 VerticalAlignment="Stretch"
-                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                materialDesign:ShadowAssist.ShadowDepth="Depth2"
                 Margin="5">
                     <Grid>
                         <Grid.RowDefinitions>
