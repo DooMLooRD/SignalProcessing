@@ -15,9 +15,9 @@ namespace SignalProcessingView.ViewModel
     {
         public SeriesCollection ChartSeries { get; set; }
 
-        public SignalDialogViewModel(DataHandler Data, bool isScattered)
+        public SignalDialogViewModel(DataHandler DataOriginal,DataHandler ReconstructedData, bool isScattered)
         {
-            if (Data.HasData())
+            if (DataOriginal.HasData())
             {
                 var mapper = Mappers.Xy<PointXY>()
                     .X(value => value.X)
@@ -25,20 +25,20 @@ namespace SignalProcessingView.ViewModel
                 ChartValues<PointXY> values = new ChartValues<PointXY>();
                 
 
-                if (Data.Quants != null && Data.Quants.Count > 0)
+                if (ReconstructedData.Quants != null && ReconstructedData.Quants.Count > 0)
                 {
                     ChartValues<PointXY> quantsValues = new ChartValues<PointXY>();
 
-                    var pointsX = Data.PointsX;
-                    var pointsY = Data.PointsY;
+                    var pointsX = DataOriginal.PointsX;
+                    var pointsY = DataOriginal.PointsY;
 
                     for (int i = 0; i < pointsX.Count; i++)
                     {
                         values.Add(new PointXY(pointsX[i], pointsY[i]));
                     }
 
-                    var samplesX = Data.SamplesX;
-                    var quant = Data.Quants;
+                    var samplesX = ReconstructedData.SamplesX;
+                    var quant = ReconstructedData.Quants;
                     for (int i = 0; i < samplesX.Count; i++)
                     {
                         quantsValues.Add(new PointXY(samplesX[i], quant[i]));
@@ -68,22 +68,22 @@ namespace SignalProcessingView.ViewModel
                 {
                     List<double> pointsX;
                     List<double> pointsY;
-                    if (Data.FromSamples)
+                    if (DataOriginal.FromSamples)
                     {
-                        pointsX = Data.SamplesX;
-                        pointsY = Data.Samples;
+                        pointsX = DataOriginal.SamplesX;
+                        pointsY = DataOriginal.Samples;
                     }
                     else
                     {
-                        pointsX = Data.PointsX;
-                        pointsY = Data.PointsY;
+                        pointsX = DataOriginal.PointsX;
+                        pointsY = DataOriginal.PointsY;
                     }
 
                     for (int i = 0; i < pointsX.Count; i++)
                     {
                         values.Add(new PointXY(pointsX[i], pointsY[i]));
                     }
-                    if (isScattered || Data.FromSamples)
+                    if (isScattered || DataOriginal.FromSamples)
                     {
                         ChartSeries = new SeriesCollection(mapper)
                         {

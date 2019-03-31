@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="SignalProcessingView.View.SignalSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SignalProcessingView.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             >
+    <StackPanel >
+        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                      materialDesign:HintAssist.Hint="Rodzaj sygnału:"
+                                      ItemsSource="{Binding SignalTypes}" 
+                                      SelectedItem="{Binding SelectedSignalType}"/>
+        <StackPanel>
+            <TextBox materialDesign:HintAssist.Hint="Amplituda(A)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=A}"                                  
+                                         Padding="0 2"   
+                                         Text="{Binding A}"/>
+            <TextBox materialDesign:HintAssist.Hint="Czas początkowy(t1)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T1}" 
+                                         Padding="0 1"  
+                                         Text="{Binding T1}"/>
+            <TextBox materialDesign:HintAssist.Hint="Czas skoku(ts)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ts}" 
+                                         Padding="0 1"  
+                                         Text="{Binding Ts}"/>
+            <TextBox materialDesign:HintAssist.Hint="Czas trwania sugnału(d)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=D}"  
+                                         Padding="0 1"   
+                                         Text="{Binding D}"/>
+            <TextBox materialDesign:HintAssist.Hint="Okres podstawowy(T)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T}" 
+                                         Padding="0 1"   
+                                         Text="{Binding T}"/>
+            <TextBox materialDesign:HintAssist.Hint="Współczynnik wypełnienia(kw)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Kw}" 
+                                         Padding="0 1"   
+                                         Text="{Binding Kw}"/>
+            <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania(f)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=F}"  
+                                         Padding="0 1"   
+                                         Text="{Binding F}"/>
+            <TextBox materialDesign:HintAssist.Hint="Numer pierwszej próbki(n1)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=N1}" 
+                                         Padding="0 1"   
+                                         Text="{Binding N1}"/>
+            <TextBox materialDesign:HintAssist.Hint="Numer próbki - skok A(ns)"  
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ns}" 
+                                         Padding="0 1"   
+                                         Text="{Binding Ns}"/>
+            <TextBox materialDesign:HintAssist.Hint="Prawdopodobieństwo(P)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=P}"  
+                                         Padding="0 1"   
+                                         Text="{Binding P}"/>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

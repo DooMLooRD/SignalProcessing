@@ -8,6 +8,7 @@
         mc:Ignorable="d" 
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        xmlns:view="clr-namespace:SignalProcessingView.View"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
@@ -37,95 +38,42 @@
                             <ToggleButton Margin="8 0 16 0" Command="{Binding ToggleBaseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" />
                             <TextBlock VerticalAlignment="Center">Dark</TextBlock>
                         </StackPanel>
-                        <dragablz:TabablzControl Grid.Row="1" TabStripPlacement="Left" >
-                            <TabItem TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                        <dragablz:TabablzControl Grid.Row="1" TabStripPlacement="Left"  >
+                            <TabItem 
+                                TextElement.Foreground="{DynamicResource MaterialDesignBody}">
                                 <TabItem.Header>
                                     <TextBlock  Text ="Wybór sygnału" TextWrapping="Wrap"></TextBlock>
                                 </TabItem.Header>
                                 <StackPanel Margin="10 0 0 0">
-                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                      materialDesign:HintAssist.Hint="Rodzaj sygnału:"
-                                      ItemsSource="{Binding SignalTypes}" 
-                                      SelectedItem="{Binding SelectedSignalType}"/>
-                                    <StackPanel>
-                                        <TextBox materialDesign:HintAssist.Hint="Amplituda(A)"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=A}"                                  
-                                         Padding="0 2"   
-                                         Text="{Binding A}"/>
-                                        <TextBox materialDesign:HintAssist.Hint="Czas początkowy(t1)"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T1}" 
-                                         Padding="0 1"  
-                                         Text="{Binding T1}"/>
-                                        <TextBox materialDesign:HintAssist.Hint="Czas skoku(ts)"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ts}" 
-                                         Padding="0 1"  
-                                         Text="{Binding Ts}"/>
-                                        <TextBox materialDesign:HintAssist.Hint="Czas trwania sugnału(d)"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=D}"  
-                                         Padding="0 1"   
-                                         Text="{Binding D}"/>
-                                        <TextBox materialDesign:HintAssist.Hint="Okres podstawowy(T)"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T}" 
-                                         Padding="0 1"   
-                                         Text="{Binding T}"/>
-                                        <TextBox materialDesign:HintAssist.Hint="Współczynnik wypełnienia(kw)"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Kw}" 
-                                         Padding="0 1"   
-                                         Text="{Binding Kw}"/>
-                                        <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania(f)"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=F}"  
-                                         Padding="0 1"   
-                                         Text="{Binding F}"/>
-                                        <TextBox materialDesign:HintAssist.Hint="Numer pierwszej próbki(n1)"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=N1}" 
-                                         Padding="0 1"   
-                                         Text="{Binding N1}"/>
-                                        <TextBox materialDesign:HintAssist.Hint="Numer próbki - skok A(ns)"  
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ns}" 
-                                         Padding="0 1"   
-                                         Text="{Binding Ns}"/>
-                                        <TextBox materialDesign:HintAssist.Hint="Prawdopodobieństwo(P)"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=P}"  
-                                         Padding="0 1"   
-                                         Text="{Binding P}"/>
-                                    </StackPanel>
+                                    <view:SignalSelector DataContext="{Binding Path=Parent.DataContext,RelativeSource={RelativeSource Self}}"/>
                                     <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}"
-                                       Margin="1 10 0 2" 
-                                       Text="Próbkowanie" 
-                                       TextWrapping="Wrap"/>
+                                           Margin="1 10 0 2" 
+                                           Text="Próbkowanie" 
+                                           TextWrapping="Wrap"/>
 
-                                    <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania(f):"
-                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                     Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}" 
-                                     Margin="0 2 0 2"  
-                                     Text="{Binding Fp}"/>
+                                    <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania(zapis do pliku):"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}" 
+                                         Margin="0 2 0 2"  
+                                         Text="{Binding Fp}"/>
                                     <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                      materialDesign:HintAssist.Hint="Wybierz stronę:"
-                                      ItemsSource="{Binding Tabs}" 
-                                      SelectedItem="{Binding SelectedTab}"/>
+                                          materialDesign:HintAssist.Hint="Wybierz stronę:"
+                                          ItemsSource="{Binding Tabs}" 
+                                          SelectedItem="{Binding SelectedTab}"/>
                                     <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
-                                    Margin="0 4 0 2" 
-                                    Content="Rysuj wykres" 
-                                    Command="{Binding PlotCommand}"/>
+                                        Margin="0 4 0 2" 
+                                        Content="Rysuj wykres" 
+                                        Command="{Binding PlotCommand}"/>
                                     <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
-                                    Margin="0 4 0 2" 
-                                    Content="Załaduj wykres" 
-                                    Command="{Binding LoadCommand}"/>
+                                        Margin="0 4 0 2" 
+                                        Content="Załaduj wykres" 
+                                        Command="{Binding LoadCommand}"/>
                                     <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
-                                    Margin="0 4 0 2" 
-                                    Content="Zapisz wykres"    
-                                    Command="{Binding SaveCommand}"/>
+                                        Margin="0 4 0 2" 
+                                        Content="Zapisz wykres"    
+                                        Command="{Binding SaveCommand}"/>
                                 </StackPanel>
+                               
                             </TabItem>
                             <TabItem TextElement.Foreground="{DynamicResource MaterialDesignBody}">
                                 <TabItem.Header>
@@ -164,6 +112,17 @@
                                             TextWrapping="Wrap"/>
                                 </TabItem.Header>
                                 <StackPanel Margin="10 0 0 0">
+                                    <view:SignalSelector DataContext="{Binding Path=Parent.DataContext,RelativeSource={RelativeSource Self}}"/>
+                                    <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}"
+                                               Margin="1 10 0 2" 
+                                               Text="Próbkowanie i kwantyzacja" 
+                                               TextWrapping="Wrap"/>
+
+                                    <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania:"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding Fp}"/>
                                     <TextBox materialDesign:HintAssist.Hint="Ilość przedziałów kwantowania"
                                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                              Margin="0 2 0 2"  

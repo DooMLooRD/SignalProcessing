@@ -100,7 +100,7 @@ namespace SignalProcessingView.ViewModel
             SaveCommand = new RelayCommand(Save);
             LoadCommand = new RelayCommand(Load);
             ToggleBaseCommand = new RelayCommand<bool>(ApplyBase);
-            QuantCommand=new RelayCommand(Quant);
+            QuantCommand = new RelayCommand(Quant);
         }
         private static void ApplyBase(bool isDark)
         {
@@ -157,22 +157,20 @@ namespace SignalProcessingView.ViewModel
 
         public void Quant()
         {
-            if (SelectedQuantTab.TabContent.Data.HasData())
-            {
-                DataHandler data=new DataHandler();
-                data = SelectedQuantTab.TabContent.Data;
-                data.Quants = Quantization.Quantize(data.Samples, QuantCount);
-                SelectedQuantResultTab.TabContent.Data = data;
-                SelectedQuantResultTab.TabContent.DrawQuantCharts();
-            }
+            PlotTab(SelectedQuantTab);
+            var data = SelectedQuantTab.TabContent.ReconstructedData;
+            SelectedQuantTab.TabContent.IsQuant = true;
+            SelectedQuantTab.TabContent.ReconstructedData.Quants = Quantization.Quantize(data.Samples, QuantCount);
+            SelectedQuantTab.TabContent.DrawQuantCharts();
+
         }
         public void Compute()
         {
-            SelectedSignal1Tab.TabContent.Data.FromSamples = true;
-            SelectedSignal2Tab.TabContent.Data.FromSamples = true;
-            if (SelectedSignal1Tab.TabContent.Data.HasData() && SelectedSignal2Tab.TabContent.Data.HasData())
+            SelectedSignal1Tab.TabContent.OriginalData.FromSamples = true;
+            SelectedSignal2Tab.TabContent.OriginalData.FromSamples = true;
+            if (SelectedSignal1Tab.TabContent.OriginalData.HasData() && SelectedSignal2Tab.TabContent.OriginalData.HasData())
             {
-                if (!SelectedSignal2Tab.TabContent.Data.IsValid(SelectedSignal1Tab.TabContent.Data))
+                if (!SelectedSignal2Tab.TabContent.OriginalData.IsValid(SelectedSignal1Tab.TabContent.OriginalData))
                 {
                     MessageBox.Show("Given signals are not valid", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -183,25 +181,25 @@ namespace SignalProcessingView.ViewModel
                 switch (SelectedOperation.Substring(1, 2))
                 {
                     case "D1":
-                        pointsY = SignalOperations.AddSignals(SelectedSignal1Tab.TabContent.Data.Samples,
-                            SelectedSignal2Tab.TabContent.Data.Samples);
+                        pointsY = SignalOperations.AddSignals(SelectedSignal1Tab.TabContent.OriginalData.Samples,
+                            SelectedSignal2Tab.TabContent.OriginalData.Samples);
                         break;
                     case "D2":
-                        pointsY = SignalOperations.SubtractSignals(SelectedSignal1Tab.TabContent.Data.Samples,
-                            SelectedSignal2Tab.TabContent.Data.Samples);
+                        pointsY = SignalOperations.SubtractSignals(SelectedSignal1Tab.TabContent.OriginalData.Samples,
+                            SelectedSignal2Tab.TabContent.OriginalData.Samples);
                         break;
                     case "D3":
-                        pointsY = SignalOperations.MultiplySignals(SelectedSignal1Tab.TabContent.Data.Samples,
-                            SelectedSignal2Tab.TabContent.Data.Samples);
+                        pointsY = SignalOperations.MultiplySignals(SelectedSignal1Tab.TabContent.OriginalData.Samples,
+                            SelectedSignal2Tab.TabContent.OriginalData.Samples);
                         break;
                     case "D4":
-                        pointsY = SignalOperations.DivideSignals(SelectedSignal1Tab.TabContent.Data.Samples,
-                            SelectedSignal2Tab.TabContent.Data.Samples);
+                        pointsY = SignalOperations.DivideSignals(SelectedSignal1Tab.TabContent.OriginalData.Samples,
+                            SelectedSignal2Tab.TabContent.OriginalData.Samples);
                         break;
                 }
 
-                data.StartTime = SelectedSignal1Tab.TabContent.Data.StartTime;
-                data.Frequency = SelectedSignal1Tab.TabContent.Data.Frequency;
+                data.StartTime = SelectedSignal1Tab.TabContent.OriginalData.StartTime;
+                data.Frequency = SelectedSignal1Tab.TabContent.OriginalData.Frequency;
                 data.Samples = pointsY;
                 data.FromSamples = true;
                 SelectedResultTab.TabContent.IsScattered = true;
@@ -212,7 +210,7 @@ namespace SignalProcessingView.ViewModel
 
         }
 
-        public void Plot()
+        private void PlotTab(TabViewModel signalType)
         {
             SignalGenerator generator = new SignalGenerator()
             {
@@ -280,11 +278,14 @@ namespace SignalProcessingView.ViewModel
                         pointsX.Add(i / F);
                         pointsY.Add(func(i / F));
                     }
-                    SelectedTab.TabContent.Data.Frequency = F;
-                    SelectedTab.TabContent.Data.StartTime = N1;
-                    SelectedTab.TabContent.Data.Samples = pointsY;
-                    SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
-                    SelectedTab.TabContent.CalculateSignalInfo(N1, N1 + D, true);
+                    signalType.TabContent.OriginalData.Frequency = F;
+                    signalType.TabContent.OriginalData.StartTime = N1;
+                    signalType.TabContent.OriginalData.Samples = pointsY;
+                    signalType.TabContent.ReconstructedData.Frequency = F;
+                    signalType.TabContent.ReconstructedData.StartTime = N1;
+                    signalType.TabContent.ReconstructedData.Samples = pointsY;
+                    signalType.TabContent.LoadData(pointsX, pointsY, false);
+                    signalType.TabContent.CalculateSignalInfo(N1, N1 + D, true);
                 }
                 else if (func.Method.Name.Contains("GenerateImpulseNoise"))
                 {
@@ -294,12 +295,15 @@ namespace SignalProcessingView.ViewModel
                         pointsX.Add(i);
                         pointsY.Add(func(0));
                     }
-                   
-                    SelectedTab.TabContent.Data.Frequency = F;
-                    SelectedTab.TabContent.Data.StartTime = N1;
-                    SelectedTab.TabContent.Data.Samples = pointsY;
-                    SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
-                    SelectedTab.TabContent.CalculateSignalInfo(N1, N1 + D, true);
+
+                    signalType.TabContent.OriginalData.Frequency = F;
+                    signalType.TabContent.OriginalData.StartTime = N1;
+                    signalType.TabContent.OriginalData.Samples = pointsY;
+                    signalType.TabContent.ReconstructedData.Frequency = F;
+                    signalType.TabContent.ReconstructedData.StartTime = N1;
+                    signalType.TabContent.ReconstructedData.Samples = pointsY;
+                    signalType.TabContent.LoadData(pointsX, pointsY, false);
+                    signalType.TabContent.CalculateSignalInfo(N1, N1 + D, true);
                 }
                 else
                 {
@@ -312,17 +316,24 @@ namespace SignalProcessingView.ViewModel
                         pointsX.Add(i);
                         pointsY.Add(func(i));
                     }
-                    SelectedTab.TabContent.Data.Frequency = Fp;
-                    SelectedTab.TabContent.Data.StartTime = T1;
-                    SelectedTab.TabContent.Data.Samples = samples;
-                    SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
-                    SelectedTab.TabContent.CalculateSignalInfo(T1, T1 + D);
+                    signalType.TabContent.OriginalData.Frequency = Fp;
+                    signalType.TabContent.OriginalData.StartTime = T1;
+                    signalType.TabContent.OriginalData.Samples = samples;
+                    signalType.TabContent.ReconstructedData.Frequency = Fp;
+                    signalType.TabContent.ReconstructedData.StartTime = N1;
+                    signalType.TabContent.ReconstructedData.Samples = samples;
+                    signalType.TabContent.LoadData(pointsX, pointsY, false);
+                    signalType.TabContent.CalculateSignalInfo(T1, T1 + D);
                 }
 
-                SelectedTab.TabContent.IsScattered = isScattered;
-                SelectedTab.TabContent.DrawCharts();
+                signalType.TabContent.IsScattered = isScattered;
             }
+        }
+        public void Plot()
+        {
 
+            PlotTab(SelectedTab);
+            SelectedTab.TabContent.DrawCharts();
         }
     }
 }
