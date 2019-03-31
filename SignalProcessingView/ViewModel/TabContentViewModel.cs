@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,8 +14,10 @@ using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
+using MaterialDesignThemes.Wpf;
 using SignalProcessingCore;
 using SignalProcessingMethods;
+using SignalProcessingView.View;
 using SignalProcessingView.ViewModel.Base;
 
 namespace SignalProcessingView.ViewModel
@@ -36,6 +39,8 @@ namespace SignalProcessingView.ViewModel
 
         public ICommand Histogram { get; set; }
         public ICommand SaveCharts { get; set; }
+        public ICommand RunSignalDialogCommand { get; set; }
+        public ICommand RunHistogramDialogCommand { get; set; }
 
         public int SliderValue
         {
@@ -46,21 +51,49 @@ namespace SignalProcessingView.ViewModel
                 LoadHistogram(_sliderValue);
             }
         }
+        private async void ExecuteRunDialog()
+        {
+            var view = new SignalDialog
+            {
+                DataContext = new SignalDialogViewModel(Data, IsScattered)
+            };
 
+
+            await DialogHost.Show(view);
+        }
+        private async void ExecuteRunHistogramDialog()
+        {
+            var view = new HistogramDialog()
+            {
+                DataContext = new HistogramDialogViewModel(Data, SliderValue)
+            };
+
+            await DialogHost.Show(view);          
+        }
         public DataHandler Data { get; set; }
 
         public TabContentViewModel()
         {
+            RunSignalDialogCommand = new RelayCommand(ExecuteRunDialog);
+            RunHistogramDialogCommand = new RelayCommand(ExecuteRunHistogramDialog);
             Data = new DataHandler();
             Histogram = new RelayCommand<int>(LoadHistogram);
-            SaveCharts = new RelayCommand(SaveChartsToFile);
+            SaveCharts = new RelayCommand(SaveChartsAsync);
             SliderValue = 20;
         }
 
         #region Save Charts
 
+        public void SaveChartsAsync()
+        {
+            Thread t = new Thread((SaveChartsToFile));
+            t.SetApartmentState(ApartmentState.STA);
+
+            t.Start();
+        }
         public void SaveChartsToFile()
         {
+
             var chart = new LiveCharts.Wpf.CartesianChart()
             {
                 Background = new SolidColorBrush(Colors.White),
@@ -257,7 +290,7 @@ namespace SignalProcessingView.ViewModel
 
         }
 
-        public void CalculateSignalInfo(double t1=0, double t2=0, bool isDiscrete = false, bool fromSamples=false)
+        public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool isDiscrete = false, bool fromSamples = false)
         {
             List<double> points;
             if (fromSamples)
@@ -274,6 +307,7 @@ namespace SignalProcessingView.ViewModel
 
         public void LoadHistogram(int c)
         {
+            SliderValue = c;
             if (Data.HasData())
             {
                 var histogramResults = Data.GetDataForHistogram(c);

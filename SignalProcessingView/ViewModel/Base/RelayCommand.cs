@@ -27,7 +27,7 @@ namespace SignalProcessingView.ViewModel.Base
 
         public event EventHandler CanExecuteChanged;
     }
-    public class RelayCommand<T> : ICommand 
+    public class RelayCommand<T> : ICommand
     {
         private Action<T> mAction;
 
@@ -45,8 +45,13 @@ namespace SignalProcessingView.ViewModel.Base
 
         public virtual void Execute(object parameter)
         {
-            mAction((T)(object)int.Parse((string)parameter));
+            if (typeof(T) == Type.GetType("System.Int32"))
+                mAction((T)(object)int.Parse((string)parameter));
+            else
+                mAction((T)parameter);
+
+
         }
- 
+
     }
 }

@@ -6,100 +6,200 @@
         xmlns:local="clr-namespace:SignalProcessingView"
         xmlns:utils="clr-namespace:SignalProcessingView.View.Utils"
         mc:Ignorable="d" 
-        Title="MainWindow" Height="700" Width="1024">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="5*"/>
-        </Grid.ColumnDefinitions>
-        <Border Padding="10" Grid.Column="0">
-            <StackPanel>
-                <TextBlock Text="Rodzaj Sygnału:"/>
-                <ComboBox ItemsSource="{Binding SignalTypes}" SelectedItem="{Binding SelectedSignalType}"/>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=A}" Margin="1 2 0 2" Text="Amplituda(A):"/>
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T1}" Margin="1 2 0 2" Text="Czas początkowy(t1):"/>
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ts}" Margin="1 2 0 2" Text="Czas skoku(ts):"/>
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=D}" Margin="1 2 0 2" Text="Czas trwania sygnału(d):"/>
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T}" Margin="1 2 0 2" Text="Okres podstawowy(T):"/>
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Kw}" Margin="1 2 0 2" Text="Współczynnik wypełnienia(kw):" TextWrapping="Wrap"/>
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=F}" Margin="1 2 0 2" Text="Częstotliwość próbkowania(f):" TextWrapping="Wrap"/>
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=N1}" Margin="1 2 0 2" Text="Numer pierwszej próbki(n1):" TextWrapping="Wrap"/>
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ns}" Margin="1 2 0 2" Text="Numer próbki - skok A(ns):" TextWrapping="Wrap"/>
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=P}" Margin="1 2 0 2" Text="Prawdopodobieństwo(P):" TextWrapping="Wrap"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=A}" Margin="0 2 0 2"  Text="{Binding A}"/>
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T1}" Margin="0 0 0 2"  Text="{Binding T1}"/>
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ts}" Margin="0 0 0 2"  Text="{Binding Ts}"/>
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=D}" Margin="0 0 0 2"  Text="{Binding D}"/>
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T}" Margin="0 0 0 2"  Text="{Binding T}"/>
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Kw}" Margin="0 0 0 2"  Text="{Binding Kw}"/>
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=F}" Margin="0 0 0 2"  Text="{Binding F}"/>
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=N1}" Margin="0 0 0 2"  Text="{Binding N1}"/>
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ns}" Margin="0 0 0 2"  Text="{Binding Ns}"/>
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=P}" Margin="0 0 0 2"  Text="{Binding P}"/>
-                    </StackPanel>
-                </Grid>
-                <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}" Margin="1 10 0 2" Text="Próbkowanie" TextWrapping="Wrap"/>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}" Margin="1 2 0 2" Text="Częstotliwość próbkowania(f):"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
-                        <TextBox Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}" Margin="0 2 0 2"  Text="{Binding Fp}"/>
-                    </StackPanel>
-                </Grid>
-                <TextBlock Margin="0 15 0 2" Text="Wybierz stronę:"/>
-                <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}"/>
-                <Button Margin="0 4 0 2" Content="Rysuj wykres" Command="{Binding PlotCommand}"/>
-                <Button Margin="0 4 0 2" Content="Załaduj wykres" Command="{Binding LoadCommand}"/>
-                <Button Margin="0 4 0 2" Content="Zapisz wykres"    Command="{Binding SaveCommand}"/>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="MainWindow" Height="700" Width="1224">
+    <materialDesign:DialogHost CloseOnClickAway="True">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Border Padding="5" Grid.Column="0" >
+                <materialDesign:ColorZone             
+                Padding="6 16"
+                CornerRadius="2"
+                VerticalAlignment="Stretch"
+                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                Margin="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="8">
+                            <TextBlock VerticalAlignment="Center">Light</TextBlock>
+                            <ToggleButton Margin="8 0 16 0" Command="{Binding ToggleBaseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" />
+                            <TextBlock VerticalAlignment="Center">Dark</TextBlock>
+                        </StackPanel>
+                        <dragablz:TabablzControl Grid.Row="1" TabStripPlacement="Left" >
+                            <TabItem TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                                <TabItem.Header>
+                                    <TextBlock  Text ="Wybór sygnału" TextWrapping="Wrap"></TextBlock>
+                                </TabItem.Header>
+                                <StackPanel Margin="10 0 0 0">
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                      materialDesign:HintAssist.Hint="Rodzaj sygnału:"
+                                      ItemsSource="{Binding SignalTypes}" 
+                                      SelectedItem="{Binding SelectedSignalType}"/>
+                                    <StackPanel>
+                                        <TextBox materialDesign:HintAssist.Hint="Amplituda(A)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=A}"                                  
+                                         Padding="0 2"   
+                                         Text="{Binding A}"/>
+                                        <TextBox materialDesign:HintAssist.Hint="Czas początkowy(t1)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T1}" 
+                                         Padding="0 1"  
+                                         Text="{Binding T1}"/>
+                                        <TextBox materialDesign:HintAssist.Hint="Czas skoku(ts)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ts}" 
+                                         Padding="0 1"  
+                                         Text="{Binding Ts}"/>
+                                        <TextBox materialDesign:HintAssist.Hint="Czas trwania sugnału(d)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=D}"  
+                                         Padding="0 1"   
+                                         Text="{Binding D}"/>
+                                        <TextBox materialDesign:HintAssist.Hint="Okres podstawowy(T)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=T}" 
+                                         Padding="0 1"   
+                                         Text="{Binding T}"/>
+                                        <TextBox materialDesign:HintAssist.Hint="Współczynnik wypełnienia(kw)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Kw}" 
+                                         Padding="0 1"   
+                                         Text="{Binding Kw}"/>
+                                        <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania(f)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=F}"  
+                                         Padding="0 1"   
+                                         Text="{Binding F}"/>
+                                        <TextBox materialDesign:HintAssist.Hint="Numer pierwszej próbki(n1)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=N1}" 
+                                         Padding="0 1"   
+                                         Text="{Binding N1}"/>
+                                        <TextBox materialDesign:HintAssist.Hint="Numer próbki - skok A(ns)"  
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Ns}" 
+                                         Padding="0 1"   
+                                         Text="{Binding Ns}"/>
+                                        <TextBox materialDesign:HintAssist.Hint="Prawdopodobieństwo(P)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=P}"  
+                                         Padding="0 1"   
+                                         Text="{Binding P}"/>
+                                    </StackPanel>
+                                    <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}"
+                                       Margin="1 10 0 2" 
+                                       Text="Próbkowanie" 
+                                       TextWrapping="Wrap"/>
 
-                <TextBlock Margin="0 15 0 2" Text="Operacje na sygnałach:"/>
-                <TextBlock Margin="0 5 0 2" Text="Sygnał 1 (Wybór strony):"/>
-                <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedSignal1Tab}"/>
-                <TextBlock Margin="0 5 0 2" Text="Sygnał 2 (Wybór strony):"/>
-                <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedSignal2Tab}"/>
-                <TextBlock Margin="0 5 0 2" Text="Działanie:"/>
-                <ComboBox ItemsSource="{Binding Operations}" SelectedItem="{Binding SelectedOperation}"/>
-                <TextBlock Margin="0 5 0 2" Text="Wynik (Wybór strony):"/>
-                <ComboBox ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedResultTab}"/>
+                                    <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania(f):"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                     Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}" 
+                                     Margin="0 2 0 2"  
+                                     Text="{Binding Fp}"/>
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                      materialDesign:HintAssist.Hint="Wybierz stronę:"
+                                      ItemsSource="{Binding Tabs}" 
+                                      SelectedItem="{Binding SelectedTab}"/>
+                                    <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                    Margin="0 4 0 2" 
+                                    Content="Rysuj wykres" 
+                                    Command="{Binding PlotCommand}"/>
+                                    <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                    Margin="0 4 0 2" 
+                                    Content="Załaduj wykres" 
+                                    Command="{Binding LoadCommand}"/>
+                                    <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                    Margin="0 4 0 2" 
+                                    Content="Zapisz wykres"    
+                                    Command="{Binding SaveCommand}"/>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                                <TabItem.Header>
+                                    <TextBlock  Text ="Operacje na sygnałach" 
+                                        TextAlignment="Center" 
+                                        TextWrapping="Wrap"/>
+                                </TabItem.Header>
+                                <StackPanel Margin="10 0 0 0">
+                                    <TextBlock Margin="0 15 0 2" 
+                                       Text="Operacje na sygnałach:"/>
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                      materialDesign:HintAssist.Hint="Sygnał 1 (Wybór strony):"
+                                      ItemsSource="{Binding Tabs}" 
+                                      SelectedItem="{Binding SelectedSignal1Tab}"/>
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                      materialDesign:HintAssist.Hint="Sygnał 2 (Wybór strony):"
+                                      ItemsSource="{Binding Tabs}" 
+                                      SelectedItem="{Binding SelectedSignal2Tab}"/>
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                      materialDesign:HintAssist.Hint="Działanie:"
+                                      ItemsSource="{Binding Operations}" 
+                                      SelectedItem="{Binding SelectedOperation}"/>
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                      materialDesign:HintAssist.Hint="Wynik (Wybór strony):"
+                                      ItemsSource="{Binding Tabs}" 
+                                      SelectedItem="{Binding SelectedResultTab}"/>
+                                    <Button Margin="0 15 0 2" 
+                                    Content="Oblicz" 
+                                    Command="{Binding ComputeCommand}"/>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem  TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                                <TabItem.Header>
+                                    <TextBlock  Text ="Próbkowanie i kwantyzacja" 
+                                            TextAlignment="Center" 
+                                            TextWrapping="Wrap"/>
+                                </TabItem.Header>
+                            </TabItem>
+                        </dragablz:TabablzControl>
+                    </Grid>
 
-                <Button Margin="0 15 0 2" Content="Oblicz" Command="{Binding ComputeCommand}"/>
-            </StackPanel>
-        </Border>
 
-        <Border Padding="10" Grid.Column="1">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Button Grid.Row="0" Content="Dodaj stronę" Command="{Binding AddPageCommand}" HorizontalAlignment="Left"/>
+                </materialDesign:ColorZone>
+            </Border>
+            <Border Grid.Column="1" Padding="5">
+                <materialDesign:ColorZone              
+                Padding="16"
+                CornerRadius="2"
+                VerticalAlignment="Stretch"
+                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                Margin="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Row="0" Style="{StaticResource MaterialDesignRaisedLightButton}" Content="Dodaj stronę" Command="{Binding AddPageCommand}" HorizontalAlignment="Left"/>
+                        <dragablz:TabablzControl Grid.Row="1" ItemsSource="{Binding Tabs}">
+                            <TabControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Header}" />
+                                </DataTemplate>
+                            </TabControl.ItemTemplate>
+                            <TabControl.ContentTemplate>
+                                <DataTemplate>
+                                    <local:ChartsTab DataContext="{Binding TabContent}"/>
+                                </DataTemplate>
+                            </TabControl.ContentTemplate>
+                        </dragablz:TabablzControl>
+                    </Grid>
+                </materialDesign:ColorZone>
+            </Border>
 
-                <utils:TabControlNR Grid.Row="1" ItemsSource="{Binding Tabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                    <TabControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Header}" />
-                        </DataTemplate>
-                    </TabControl.ItemTemplate>
-                    <TabControl.ContentTemplate>
-                        <DataTemplate>
-                            <local:ChartsTab DataContext="{Binding TabContent}"/>
-                        </DataTemplate>
-                    </TabControl.ContentTemplate>
-                </utils:TabControlNR>
-            </Grid>
-        </Border>
-    </Grid>
+        </Grid>
+    </materialDesign:DialogHost>
+   
 </Window>
