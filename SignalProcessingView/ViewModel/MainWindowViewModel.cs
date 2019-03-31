@@ -12,6 +12,7 @@ using Microsoft.Win32;
 using SignalProcessingCore;
 using SignalProcessingMethods;
 using SignalProcessingView.ViewModel.Base;
+using SignalProcessingZad2;
 
 namespace SignalProcessingView.ViewModel
 {
@@ -30,6 +31,8 @@ namespace SignalProcessingView.ViewModel
         public TabViewModel SelectedSignal1Tab { get; set; }
         public TabViewModel SelectedSignal2Tab { get; set; }
         public TabViewModel SelectedResultTab { get; set; }
+        public TabViewModel SelectedQuantTab { get; set; }
+        public TabViewModel SelectedQuantResultTab { get; set; }
 
         #region Factors
         public double A { get; set; }
@@ -44,6 +47,7 @@ namespace SignalProcessingView.ViewModel
         public double Ns { get; set; }
         public double P { get; set; }
         public double Fp { get; set; }
+        public int QuantCount { get; set; }
         #endregion
 
         public ICommand AddPageCommand { get; set; }
@@ -52,6 +56,7 @@ namespace SignalProcessingView.ViewModel
         public ICommand SaveCommand { get; set; }
         public ICommand LoadCommand { get; set; }
         public ICommand ToggleBaseCommand { get; }
+        public ICommand QuantCommand { get; set; }
         #endregion
 
 
@@ -62,6 +67,8 @@ namespace SignalProcessingView.ViewModel
             SelectedSignal1Tab = Tabs[0];
             SelectedSignal2Tab = Tabs[0];
             SelectedResultTab = Tabs[0];
+            SelectedQuantTab = Tabs[0];
+            SelectedQuantResultTab = Tabs[0];
 
             SignalTypes = new List<string>()
             {
@@ -93,6 +100,7 @@ namespace SignalProcessingView.ViewModel
             SaveCommand = new RelayCommand(Save);
             LoadCommand = new RelayCommand(Load);
             ToggleBaseCommand = new RelayCommand<bool>(ApplyBase);
+            QuantCommand=new RelayCommand(Quant);
         }
         private static void ApplyBase(bool isDark)
         {
@@ -147,6 +155,17 @@ namespace SignalProcessingView.ViewModel
             return saveFileDialog.FileName;
         }
 
+        public void Quant()
+        {
+            if (SelectedQuantTab.TabContent.Data.HasData())
+            {
+                DataHandler data=new DataHandler();
+                data = SelectedQuantTab.TabContent.Data;
+                data.Quants = Quantization.Quantize(data.Samples, QuantCount);
+                SelectedQuantResultTab.TabContent.Data = data;
+                SelectedQuantResultTab.TabContent.DrawQuantCharts();
+            }
+        }
         public void Compute()
         {
             SelectedSignal1Tab.TabContent.Data.FromSamples = true;
@@ -261,9 +280,9 @@ namespace SignalProcessingView.ViewModel
                         pointsX.Add(i / F);
                         pointsY.Add(func(i / F));
                     }
-                    SelectedTab.TabContent.Data.Samples = pointsY;
                     SelectedTab.TabContent.Data.Frequency = F;
                     SelectedTab.TabContent.Data.StartTime = N1;
+                    SelectedTab.TabContent.Data.Samples = pointsY;
                     SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
                     SelectedTab.TabContent.CalculateSignalInfo(N1, N1 + D, true);
                 }
@@ -275,9 +294,10 @@ namespace SignalProcessingView.ViewModel
                         pointsX.Add(i);
                         pointsY.Add(func(0));
                     }
-                    SelectedTab.TabContent.Data.Samples = pointsY;
+                   
                     SelectedTab.TabContent.Data.Frequency = F;
                     SelectedTab.TabContent.Data.StartTime = N1;
+                    SelectedTab.TabContent.Data.Samples = pointsY;
                     SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
                     SelectedTab.TabContent.CalculateSignalInfo(N1, N1 + D, true);
                 }
@@ -292,10 +312,9 @@ namespace SignalProcessingView.ViewModel
                         pointsX.Add(i);
                         pointsY.Add(func(i));
                     }
-
-                    SelectedTab.TabContent.Data.Samples = samples;
                     SelectedTab.TabContent.Data.Frequency = Fp;
                     SelectedTab.TabContent.Data.StartTime = T1;
+                    SelectedTab.TabContent.Data.Samples = samples;
                     SelectedTab.TabContent.LoadData(pointsX, pointsY, false);
                     SelectedTab.TabContent.CalculateSignalInfo(T1, T1 + D);
                 }

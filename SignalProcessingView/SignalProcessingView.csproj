@@ -159,6 +159,10 @@
       <Project>{5900D5B8-E720-4A17-B957-799D73FBE22C}</Project>
       <Name>SignalProcessingZad1</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SignalProcessingZad2\SignalProcessingZad2.csproj">
+      <Project>{E563B3D7-3040-42AF-854F-4A854C2C4235}</Project>
+      <Name>SignalProcessingZad2</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="View\DynamicControlPanels\" />

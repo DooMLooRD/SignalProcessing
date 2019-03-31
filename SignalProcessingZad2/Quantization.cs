@@ -8,9 +8,11 @@ namespace SignalProcessingZad2
 {
     public class Quantization
     {
-        public List<double> Quantize(List<double> values, int levels)
+        public static List<double> Quantize(List<double> values, int levels)
         {
-            return values.Select(n => Math.Round(n * levels) / levels).ToList();
+            double max = values.Max();
+            double min = values.Min();
+            return values.Select(n => Math.Floor((n - min) / (max - min) * levels) / levels * (max - min) + min).ToList();
         }
     }
 }

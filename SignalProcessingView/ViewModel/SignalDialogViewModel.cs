@@ -23,39 +23,27 @@ namespace SignalProcessingView.ViewModel
                     .X(value => value.X)
                     .Y(value => value.Y);
                 ChartValues<PointXY> values = new ChartValues<PointXY>();
-                List<double> pointsX;
-                List<double> pointsY;
-                if (Data.FromSamples)
-                {
-                    pointsX = Data.SamplesX;
-                    pointsY = Data.Samples;
-                }
-                else
-                {
-                    pointsX = Data.PointsX;
-                    pointsY = Data.PointsY;
-                }
+                
 
-                for (int i = 0; i < pointsX.Count; i++)
+                if (Data.Quants != null && Data.Quants.Count > 0)
                 {
-                    values.Add(new PointXY(pointsX[i], pointsY[i]));
-                }
+                    ChartValues<PointXY> quantsValues = new ChartValues<PointXY>();
 
-                if (isScattered || Data.FromSamples)
-                {
-                    ChartSeries = new SeriesCollection(mapper)
+                    var pointsX = Data.PointsX;
+                    var pointsY = Data.PointsY;
+
+                    for (int i = 0; i < pointsX.Count; i++)
                     {
-                        new ScatterSeries()
-                        {
-                            PointGeometry = new EllipseGeometry(),
-                            StrokeThickness = 5,
-                            Values = values,
+                        values.Add(new PointXY(pointsX[i], pointsY[i]));
+                    }
 
-                        }
-                    };
-                }
-                else
-                {
+                    var samplesX = Data.SamplesX;
+                    var quant = Data.Quants;
+                    for (int i = 0; i < samplesX.Count; i++)
+                    {
+                        quantsValues.Add(new PointXY(samplesX[i], quant[i]));
+                    }
+
                     ChartSeries = new SeriesCollection(mapper)
                     {
                         new LineSeries()
@@ -65,10 +53,66 @@ namespace SignalProcessingView.ViewModel
                             Fill = Brushes.Transparent,
                             PointGeometry = null,
                             Values = values,
-
+                        },
+                        new LineSeries()
+                        {
+                            LineSmoothness = 0,
+                            StrokeThickness = 0.5,
+                            Fill = Brushes.Transparent,
+                            PointGeometry = null,
+                            Values = quantsValues,
                         }
                     };
                 }
+                else
+                {
+                    List<double> pointsX;
+                    List<double> pointsY;
+                    if (Data.FromSamples)
+                    {
+                        pointsX = Data.SamplesX;
+                        pointsY = Data.Samples;
+                    }
+                    else
+                    {
+                        pointsX = Data.PointsX;
+                        pointsY = Data.PointsY;
+                    }
+
+                    for (int i = 0; i < pointsX.Count; i++)
+                    {
+                        values.Add(new PointXY(pointsX[i], pointsY[i]));
+                    }
+                    if (isScattered || Data.FromSamples)
+                    {
+                        ChartSeries = new SeriesCollection(mapper)
+                        {
+                            new ScatterSeries()
+                            {
+                                PointGeometry = new EllipseGeometry(),
+                                StrokeThickness = 5,
+                                Values = values,
+
+                            }
+                        };
+                    }
+                    else
+                    {
+                        ChartSeries = new SeriesCollection(mapper)
+                        {
+                            new LineSeries()
+                            {
+                                LineSmoothness = 0,
+                                StrokeThickness = 0.5,
+                                Fill = Brushes.Transparent,
+                                PointGeometry = null,
+                                Values = values,
+
+                            }
+                        };
+                    }
+                }
+
             }
         }
     }

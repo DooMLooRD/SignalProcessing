@@ -26,6 +26,8 @@ namespace SignalProcessingMethods
             }
         }
 
+        public List<double> Quants { get; set; }
+
         public List<double> PointsX { get; set; }
         public List<double> PointsY { get; set; }
 

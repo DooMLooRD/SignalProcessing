@@ -163,6 +163,23 @@
                                             TextAlignment="Center" 
                                             TextWrapping="Wrap"/>
                                 </TabItem.Header>
+                                <StackPanel Margin="10 0 0 0">
+                                    <TextBox materialDesign:HintAssist.Hint="Ilość przedziałów kwantowania"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding QuantCount}"/>
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="Sygnał do kwantyzacji"
+                                              ItemsSource="{Binding Tabs}" 
+                                              SelectedItem="{Binding SelectedQuantTab}"/>
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="Wynik"
+                                              ItemsSource="{Binding Tabs}" 
+                                              SelectedItem="{Binding SelectedQuantResultTab}"/>
+                                    <Button Margin="0 15 0 2" 
+                                            Content="Kwantyzuj" 
+                                            Command="{Binding QuantCommand}"/>
+                                </StackPanel>
                             </TabItem>
                         </dragablz:TabablzControl>
                     </Grid>
