@@ -24,7 +24,29 @@ namespace SignalProcessingView.ViewModel
 {
     public class TabContentViewModel : BaseViewModel
     {
+        public bool IsQuant
+        {
+            get => _isQuant;
+            set
+            {
+                _isQuant = value;
+                if (value)
+                {
+                    QuantVisibility = Visibility.Visible;
+                    OriginalVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    QuantVisibility = Visibility.Collapsed;
+                    OriginalVisibility = Visibility.Visible;
+                }
+            }
+        }
+
+        public Visibility QuantVisibility { get; set; } = Visibility.Collapsed;
+        public Visibility OriginalVisibility { get; set; } = Visibility.Visible;
         private int _sliderValue;
+        private bool _isQuant;
         public SeriesCollection ChartSeries { get; set; }
         public bool IsScattered { get; set; }
         public SeriesCollection HistogramSeries { get; set; }
@@ -55,7 +77,7 @@ namespace SignalProcessingView.ViewModel
         {
             var view = new SignalDialog
             {
-                DataContext = new SignalDialogViewModel(Data, IsScattered)
+                DataContext = new SignalDialogViewModel(OriginalData, ReconstructedData, IsScattered)
             };
 
 
@@ -65,18 +87,20 @@ namespace SignalProcessingView.ViewModel
         {
             var view = new HistogramDialog()
             {
-                DataContext = new HistogramDialogViewModel(Data, SliderValue)
+                DataContext = new HistogramDialogViewModel(OriginalData, SliderValue)
             };
 
             await DialogHost.Show(view);
         }
-        public DataHandler Data { get; set; }
+        public DataHandler OriginalData { get; set; }
+        public DataHandler ReconstructedData { get; set; }
 
         public TabContentViewModel()
         {
             RunSignalDialogCommand = new RelayCommand(ExecuteRunDialog);
             RunHistogramDialogCommand = new RelayCommand(ExecuteRunHistogramDialog);
-            Data = new DataHandler();
+            OriginalData = new DataHandler();
+            ReconstructedData = new DataHandler();
             Histogram = new RelayCommand<int>(LoadHistogram);
             SaveCharts = new RelayCommand(SaveChartsAsync);
             SliderValue = 20;
@@ -119,22 +143,22 @@ namespace SignalProcessingView.ViewModel
             ChartValues<PointXY> values = new ChartValues<PointXY>();
             List<double> pointsX;
             List<double> pointsY;
-            if (Data.FromSamples)
+            if (OriginalData.FromSamples)
             {
-                pointsX = Data.SamplesX;
-                pointsY = Data.Samples;
+                pointsX = OriginalData.SamplesX;
+                pointsY = OriginalData.Samples;
             }
             else
             {
-                pointsX = Data.PointsX;
-                pointsY = Data.PointsY;
+                pointsX = OriginalData.PointsX;
+                pointsY = OriginalData.PointsY;
             }
             for (int i = 0; i < pointsX.Count; i++)
             {
                 values.Add(new PointXY(pointsX[i], pointsY[i]));
             }
 
-            if (IsScattered || Data.FromSamples)
+            if (IsScattered || OriginalData.FromSamples)
             {
                 chart.Series = new SeriesCollection(mapper)
                     {
@@ -162,7 +186,7 @@ namespace SignalProcessingView.ViewModel
             }
 
 
-            var histogramResults = Data.GetDataForHistogram(SliderValue);
+            var histogramResults = OriginalData.GetDataForHistogram(SliderValue);
 
             //HistogramStep = (int)Math.Ceiling(SliderValue / 20.0);
             histogram.Series = new SeriesCollection
@@ -195,8 +219,8 @@ namespace SignalProcessingView.ViewModel
             histogram.Update(true, true); //force chart redraw
             histViewbox.UpdateLayout();
 
-            SaveToPng(chart, "../../../Data/chart.png");
-            SaveToPng(histogram, "../../../Data/histogram.png");
+            SaveToPng(chart, "../../../OriginalData/chart.png");
+            SaveToPng(histogram, "../../../OriginalData/histogram.png");
             MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
             //png file was created at the root directory.
         }
@@ -220,7 +244,7 @@ namespace SignalProcessingView.ViewModel
 
         public void DrawCharts()
         {
-            if (Data.HasData())
+            if (OriginalData.HasData())
             {
                 var mapper = Mappers.Xy<PointXY>()
                     .X(value => value.X)
@@ -228,22 +252,22 @@ namespace SignalProcessingView.ViewModel
                 ChartValues<PointXY> values = new ChartValues<PointXY>();
                 List<double> pointsX;
                 List<double> pointsY;
-                if (Data.FromSamples)
+                if (OriginalData.FromSamples)
                 {
-                    pointsX = Data.SamplesX;
-                    pointsY = Data.Samples;
+                    pointsX = OriginalData.SamplesX;
+                    pointsY = OriginalData.Samples;
                 }
                 else
                 {
-                    pointsX = Data.PointsX;
-                    pointsY = Data.PointsY;
+                    pointsX = OriginalData.PointsX;
+                    pointsY = OriginalData.PointsY;
                 }
                 for (int i = 0; i < pointsX.Count; i++)
                 {
                     values.Add(new PointXY(pointsX[i], pointsY[i]));
                 }
 
-                if (IsScattered || Data.FromSamples)
+                if (IsScattered || OriginalData.FromSamples)
                 {
                     ChartSeries = new SeriesCollection(mapper)
                     {
@@ -273,7 +297,7 @@ namespace SignalProcessingView.ViewModel
                 }
 
 
-                var histogramResults = Data.GetDataForHistogram(SliderValue);
+                var histogramResults = OriginalData.GetDataForHistogram(SliderValue);
                 HistogramStep = 1;
                 HistogramSeries = new SeriesCollection
                 {
@@ -292,7 +316,7 @@ namespace SignalProcessingView.ViewModel
 
         public void DrawQuantCharts()
         {
-            if (Data.HasData() && Data.Quants != null && Data.Quants.Count > 0)
+            if (OriginalData.HasData() && ReconstructedData.Quants != null && ReconstructedData.Quants.Count > 0)
             {
                 var mapper = Mappers.Xy<PointXY>()
                     .X(value => value.X)
@@ -300,16 +324,16 @@ namespace SignalProcessingView.ViewModel
                 ChartValues<PointXY> values = new ChartValues<PointXY>();
                 ChartValues<PointXY> quantsValues = new ChartValues<PointXY>();
 
-                var pointsX = Data.PointsX;
-                var pointsY = Data.PointsY;
+                var pointsX = OriginalData.PointsX;
+                var pointsY = OriginalData.PointsY;
 
                 for (int i = 0; i < pointsX.Count; i++)
                 {
                     values.Add(new PointXY(pointsX[i], pointsY[i]));
                 }
 
-                var samplesX = Data.SamplesX;
-                var quant = Data.Quants;
+                var samplesX = ReconstructedData.SamplesX;
+                var quant = ReconstructedData.Quants;
                 for (int i = 0; i < samplesX.Count; i++)
                 {
                     quantsValues.Add(new PointXY(samplesX[i], quant[i]));
@@ -338,8 +362,7 @@ namespace SignalProcessingView.ViewModel
                     };
 
 
-
-                var histogramResults = Data.GetDataForHistogram(SliderValue);
+                var histogramResults = OriginalData.GetDataForHistogram(SliderValue);
                 HistogramStep = 1;
                 HistogramSeries = new SeriesCollection
                 {
@@ -358,9 +381,9 @@ namespace SignalProcessingView.ViewModel
         {
             List<double> points;
             if (fromSamples)
-                points = Data.Samples;
+                points = OriginalData.Samples;
             else
-                points = Data.PointsY;
+                points = OriginalData.PointsY;
 
             AvgSignal = SignalOperations.AvgSignal(points, t1, t2, isDiscrete);
             AbsAvgSignal = SignalOperations.AbsAvgSignal(points, t1, t2, isDiscrete);
@@ -372,9 +395,9 @@ namespace SignalProcessingView.ViewModel
         public void LoadHistogram(int c)
         {
             SliderValue = c;
-            if (Data.HasData())
+            if (OriginalData.HasData())
             {
-                var histogramResults = Data.GetDataForHistogram(c);
+                var histogramResults = OriginalData.GetDataForHistogram(c);
                 HistogramStep = (int)Math.Ceiling(c / 20.0);
                 HistogramSeries = new SeriesCollection
                 {
@@ -393,21 +416,21 @@ namespace SignalProcessingView.ViewModel
 
         public void LoadData(DataHandler data)
         {
-            Data = data;
+            OriginalData = data;
         }
 
         public void LoadData(List<double> x, List<double> y, bool fromSamples)
         {
             if (fromSamples)
             {
-                Data.FromSamples = true;
-                Data.Samples = y;
+                OriginalData.FromSamples = true;
+                OriginalData.Samples = y;
             }
             else
             {
-                Data.FromSamples = false;
-                Data.PointsX = x;
-                Data.PointsY = y;
+                OriginalData.FromSamples = false;
+                OriginalData.PointsX = x;
+                OriginalData.PointsY = y;
             }
 
 
@@ -415,12 +438,12 @@ namespace SignalProcessingView.ViewModel
 
         public void SaveDataToFile(string path)
         {
-            Data.SaveToFile(path);
+            OriginalData.SaveToFile(path);
         }
         public void LoadDataFromFile(string path)
         {
-            Data.FromSamples = true;
-            Data.LoadFromFile(path);
+            OriginalData.FromSamples = true;
+            OriginalData.LoadFromFile(path);
         }
     }
 }

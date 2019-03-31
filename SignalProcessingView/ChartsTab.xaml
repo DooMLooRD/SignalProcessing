@@ -46,9 +46,9 @@
                         Grid.Row="1" 
                         Command="{Binding RunSignalDialogCommand}"/>
                 </Grid>
-             
+
             </GroupBox>
-                   
+
             <GroupBox
                 Grid.Column="1"
                 Header="Histogram"
@@ -93,10 +93,10 @@
                         Grid.Row="1" 
                         Command="{Binding RunHistogramDialogCommand}"/>
                 </Grid>
-               
+
             </GroupBox>
-            
-           
+
+
         </Grid>
         <Border Grid.Row="1"
             Background="{DynamicResource MaterialDesignDivider}"
@@ -104,15 +104,49 @@
             VerticalAlignment="Stretch"
             SnapsToDevicePixels="True" />
         <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <Expander
-                    Grid.Column="0"
-                    
-                    HorizontalAlignment="Stretch"
-                    Header="Wartości sygnału">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Expander
+                Grid.Column="0"
+                Visibility="{Binding QuantVisibility}"
+                HorizontalAlignment="Stretch"
+                Header="Porównanie sygnałów">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBox materialDesign:HintAssist.Hint="Błąd średniokwadratowy:"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 Padding="2 2" 
+                                 Margin="0 0 4 0"
+                                 Text="{Binding MSE}"/>
+                        <TextBox materialDesign:HintAssist.Hint="Stosunek sygnał - szum:"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 Padding="2 2"   
+                                 Margin="0 0 4 0"
+                                 Text="{Binding SNR}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBox materialDesign:HintAssist.Hint="Szczytowy stosunek sygnał - szum:"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 Padding="2 2"   
+                                 Text="{Binding PSNR}"/>
+                        <TextBox materialDesign:HintAssist.Hint="Maksymalna różnica:"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 Padding="2 2"   
+                                 Text="{Binding MD}"/>
+                    </StackPanel>
+                </Grid>
+            </Expander>
+            <Expander
+                Grid.Column="0"
+                Visibility="{Binding OriginalVisibility}"
+                HorizontalAlignment="Stretch"
+                Header="Wartości sygnału">
                 <Grid >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -147,11 +181,11 @@
                              Text="{Binding RMSSignal}"/>
                     </StackPanel>
                 </Grid>
-                </Expander>
+            </Expander>
             <Button Grid.Column="1" Content="Save Charts" Command="{Binding SaveCharts}" Margin="10 0" />
 
-            </Grid>
-      
+        </Grid>
+
 
 
     </Grid>

@@ -12,7 +12,7 @@ namespace SignalProcessingZad2
         {
             double max = values.Max();
             double min = values.Min();
-            return values.Select(n => Math.Floor((n - min) / (max - min) * levels) / levels * (max - min) + min).ToList();
+            return values.Select(n => Math.Round((n - min) / (max - min) * levels) / levels * (max - min) + min).ToList();
         }
     }
 }

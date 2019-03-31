@@ -90,6 +90,9 @@
     <Compile Include="View\SignalDialog.xaml.cs">
       <DependentUpon>SignalDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\SignalSelector.xaml.cs">
+      <DependentUpon>SignalSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Utils\TabControlNR.cs" />
     <Page Include="ChartsTab.xaml">
       <SubType>Designer</SubType>
@@ -115,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SignalDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SignalSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
