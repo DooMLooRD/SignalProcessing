@@ -26,6 +26,12 @@ namespace SignalProcessingView.ViewModel
         public List<string> SignalTypes { get; set; }
         public string SelectedSignalType { get; set; }
 
+        public List<string> Reconstructions { get; set; }
+        public string SelectedReconstruction { get; set; }
+
+        public List<string> ReconstructFrom { get; set; }
+        public string SelectedReconstructFrom { get; set; }
+
         public ObservableCollection<TabViewModel> Tabs { get; set; }
         public TabViewModel SelectedTab { get; set; }
         public TabViewModel SelectedSignal1Tab { get; set; }
@@ -49,6 +55,11 @@ namespace SignalProcessingView.ViewModel
         public double Fp { get; set; }
         public int QuantCount { get; set; }
         #endregion
+
+        public bool DrawOriginal { get; set; } = true;
+        public bool DrawSamples { get; set; } = true;
+        public bool DrawQuants { get; set; } = true;
+        public bool DrawReconstructed { get; set; } = true;
 
         public ICommand AddPageCommand { get; set; }
         public ICommand PlotCommand { get; set; }
@@ -94,6 +105,21 @@ namespace SignalProcessingView.ViewModel
                 "(D4) Dzielenie",
             };
             SelectedOperation = Operations[0];
+
+            Reconstructions = new List<string>()
+            {
+                "(R1) Ekstrapolacja zerowego rzędu",
+                "(R3) Rekonstrukcja w oparciu o funkcję sinc",
+            };
+            SelectedReconstruction = Reconstructions[0];
+
+            ReconstructFrom = new List<string>()
+            {
+                "Próbki",
+                "Kwanty"
+            };
+            SelectedReconstructFrom = ReconstructFrom[0];
+
             AddPageCommand = new RelayCommand(AddPage);
             PlotCommand = new RelayCommand(Plot);
             ComputeCommand = new RelayCommand(Compute);
@@ -157,11 +183,28 @@ namespace SignalProcessingView.ViewModel
 
         public void Quant()
         {
-            PlotTab(SelectedQuantTab);
-            var data = SelectedQuantTab.TabContent.ReconstructedData;
-            SelectedQuantTab.TabContent.IsQuant = true;
-            SelectedQuantTab.TabContent.ReconstructedData.Quants = Quantization.Quantize(data.Samples, QuantCount);
-            SelectedQuantTab.TabContent.DrawQuantCharts();
+            PlotTab(SelectedQuantResultTab);
+            var data = SelectedQuantResultTab.TabContent.ReconstructedData;
+            SelectedQuantResultTab.TabContent.IsQuant = true;
+            SelectedQuantResultTab.TabContent.ReconstructedData.Quants = Quantization.Quantize(data.Samples, QuantCount);
+            List<double> forReconstruct;
+            if (SelectedReconstructFrom == "Próbki")
+                forReconstruct = data.Samples;
+            else
+                forReconstruct = data.Quants;
+            List<(double, double)> reconstructed;
+            if (SelectedReconstruction.Substring(1, 2) == "R1")
+                reconstructed = Reconstruction
+                    .ZeroOrderHold(data.SamplesX.Zip(forReconstruct, (d, d1) => (d, d1)).ToList(), data.Frequency)
+                    .ToList();
+            else
+                reconstructed = Reconstruction
+                    .SincReconstruction(data.SamplesX.Zip(forReconstruct, (d, d1) => (d, d1)).ToList(), data.Frequency)
+                    .ToList();
+
+            SelectedQuantResultTab.TabContent.ReconstructedData.PointsX = reconstructed.Select(c => c.Item1).ToList();
+            SelectedQuantResultTab.TabContent.ReconstructedData.PointsY = reconstructed.Select(c => c.Item2).ToList();
+            SelectedQuantResultTab.TabContent.DrawQuantCharts(DrawOriginal, DrawQuants, DrawSamples, DrawReconstructed);
 
         }
         public void Compute()
@@ -273,7 +316,7 @@ namespace SignalProcessingView.ViewModel
                 if (func.Method.Name.Contains("GenerateUnitPulse"))
                 {
                     isScattered = true;
-                    for (double i = N1 * F; i < (D + N1) * F; i++)
+                    for (double i = N1 * F; i <= (D + N1) * F; i++)
                     {
                         pointsX.Add(i / F);
                         pointsY.Add(func(i / F));
@@ -290,7 +333,7 @@ namespace SignalProcessingView.ViewModel
                 else if (func.Method.Name.Contains("GenerateImpulseNoise"))
                 {
                     isScattered = true;
-                    for (double i = N1; i < D + N1; i += 1 / F)
+                    for (double i = N1; i <= D + N1; i += 1 / F)
                     {
                         pointsX.Add(i);
                         pointsY.Add(func(0));
@@ -307,7 +350,7 @@ namespace SignalProcessingView.ViewModel
                 }
                 else
                 {
-                    for (double i = T1; i < T1 + D; i += 1 / Fp)
+                    for (double i = T1; i <= T1 + D; i += 1 / Fp)
                     {
                         samples.Add(func(i));
                     }

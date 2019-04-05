@@ -11,7 +11,7 @@
              d:DesignHeight="600" d:DesignWidth="1000">
     <Border Height="600" Width="1000" Padding="10">
         <Grid >
-            <wpf:CartesianChart Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding ChartSeries}" Grid.Column="0" LegendLocation="None">
+            <wpf:CartesianChart Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding ChartSeries}" Grid.Column="0" LegendLocation="Top">
                 <wpf:CartesianChart.AxisX>
                     <wpf:Axis DisableAnimations="True"/>
                 </wpf:CartesianChart.AxisX>

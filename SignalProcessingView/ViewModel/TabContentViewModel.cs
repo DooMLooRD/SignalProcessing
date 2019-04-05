@@ -58,6 +58,10 @@ namespace SignalProcessingView.ViewModel
         public double AvgSignalPower { get; set; }
         public double SignalVariance { get; set; }
         public double RMSSignal { get; set; }
+        public bool DrawOriginal { get; set; } = true;
+        public bool DrawSamples { get; set; } = true;
+        public bool DrawQuants { get; set; } = true;
+        public bool DrawReconstructed { get; set; } = true;
 
         public ICommand Histogram { get; set; }
         public ICommand SaveCharts { get; set; }
@@ -77,7 +81,7 @@ namespace SignalProcessingView.ViewModel
         {
             var view = new SignalDialog
             {
-                DataContext = new SignalDialogViewModel(OriginalData, ReconstructedData, IsScattered)
+                DataContext = new SignalDialogViewModel(OriginalData, ReconstructedData, IsScattered, DrawOriginal, DrawQuants, DrawSamples, DrawReconstructed)
             };
 
 
@@ -314,53 +318,96 @@ namespace SignalProcessingView.ViewModel
 
         }
 
-        public void DrawQuantCharts()
+        public void DrawQuantCharts(bool drawOriginal = true, bool drawQuants = false, bool drawSamples = false, bool drawReconstructed = false)
         {
+            DrawOriginal = drawOriginal;
+            DrawSamples = drawQuants;
+            DrawQuants = drawSamples;
+            DrawReconstructed = drawReconstructed;
             if (OriginalData.HasData() && ReconstructedData.Quants != null && ReconstructedData.Quants.Count > 0)
             {
                 var mapper = Mappers.Xy<PointXY>()
                     .X(value => value.X)
                     .Y(value => value.Y);
-                ChartValues<PointXY> values = new ChartValues<PointXY>();
-                ChartValues<PointXY> quantsValues = new ChartValues<PointXY>();
-
-                var pointsX = OriginalData.PointsX;
-                var pointsY = OriginalData.PointsY;
-
-                for (int i = 0; i < pointsX.Count; i++)
+                ChartSeries = new SeriesCollection(mapper);
+                if (drawOriginal)
                 {
-                    values.Add(new PointXY(pointsX[i], pointsY[i]));
-                }
-
-                var samplesX = ReconstructedData.SamplesX;
-                var quant = ReconstructedData.Quants;
-                for (int i = 0; i < samplesX.Count; i++)
-                {
-                    quantsValues.Add(new PointXY(samplesX[i], quant[i]));
-                }
-
-                ChartSeries = new SeriesCollection(mapper)
+                    ChartValues<PointXY> values = new ChartValues<PointXY>();
+                    var pointsX = OriginalData.PointsX;
+                    var pointsY = OriginalData.PointsY;
+                    for (int i = 0; i < pointsX.Count; i++)
                     {
-                        new LineSeries()
-                        {
-                            LineSmoothness = 0,
-                            StrokeThickness = 0.5,
-                            Fill = Brushes.Transparent,
-                            PointGeometry = null,
-                            Values = values,
+                        values.Add(new PointXY(pointsX[i], pointsY[i]));
+                    }
+                    ChartSeries.Add(new LineSeries()
+                    {
+                        LineSmoothness = 0,
+                        StrokeThickness = 0.5,
+                        Fill = Brushes.Transparent,
+                        PointGeometry = null,
+                        Values = values,
+                        Title = "Oryginalny",
+                    });
+                }
 
-                        },
-                        new LineSeries()
-                        {
-                            LineSmoothness = 0,
-                            StrokeThickness = 0.5,
-                            Fill = Brushes.Transparent,
-                            PointGeometry = null,
-                            Values = quantsValues,
-                        }
+                if (drawQuants)
+                {
+                    ChartValues<PointXY> quantsValues = new ChartValues<PointXY>();
+                    var quantsX = ReconstructedData.SamplesX;
+                    var quants = ReconstructedData.Quants;
+                    for (int i = 0; i < quantsX.Count; i++)
+                    {
+                        quantsValues.Add(new PointXY(quantsX[i], quants[i]));
 
-                    };
+                    }
+                    ChartSeries.Add(new LineSeries()
+                    {
+                        LineSmoothness = 0,
+                        StrokeThickness = 0.5,
+                        Fill = Brushes.Transparent,
+                        PointGeometry = null,
+                        Values = quantsValues,
+                        Title = "Kwantyzacja",
+                    });
+                }
 
+                if (drawSamples)
+                {
+                    ChartValues<PointXY> samplesValues = new ChartValues<PointXY>();
+                    var samplesX = OriginalData.SamplesX;
+                    var samples = OriginalData.Samples;
+                    for (int i = 0; i < samplesX.Count; i++)
+                    {
+                        samplesValues.Add(new PointXY(samplesX[i], samples[i]));
+                    }
+                    ChartSeries.Add(new ScatterSeries()
+                    {
+                        PointGeometry = new EllipseGeometry(),
+                        StrokeThickness = 5,
+                        Values = samplesValues,
+                        Title = "Próbkowanie",
+                    });
+                }
+
+                if (drawReconstructed)
+                {
+                    ChartValues<PointXY> reconstructedValues = new ChartValues<PointXY>();
+                    var reconstructedX = ReconstructedData.PointsX;
+                    var reconstructed = ReconstructedData.PointsY;
+                    for (int i = 0; i < reconstructedX.Count; i++)
+                    {
+                        reconstructedValues.Add(new PointXY(reconstructedX[i], reconstructed[i]));
+                    }
+                    ChartSeries.Add(new LineSeries()
+                    {
+                        LineSmoothness = 0,
+                        StrokeThickness = 0.5,
+                        Fill = Brushes.Transparent,
+                        PointGeometry = null,
+                        Values = reconstructedValues,
+                        Title = "Zrekonstruowany",
+                    });
+                }
 
                 var histogramResults = OriginalData.GetDataForHistogram(SliderValue);
                 HistogramStep = 1;

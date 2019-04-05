@@ -73,7 +73,7 @@
                                         Content="Zapisz wykres"    
                                         Command="{Binding SaveCommand}"/>
                                 </StackPanel>
-                               
+
                             </TabItem>
                             <TabItem TextElement.Foreground="{DynamicResource MaterialDesignBody}">
                                 <TabItem.Header>
@@ -128,15 +128,24 @@
                                              Margin="0 2 0 2"  
                                              Text="{Binding QuantCount}"/>
                                     <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                              materialDesign:HintAssist.Hint="Sygnał do kwantyzacji"
-                                              ItemsSource="{Binding Tabs}" 
-                                              SelectedItem="{Binding SelectedQuantTab}"/>
+                                              materialDesign:HintAssist.Hint="Rekonstruj z"
+                                              ItemsSource="{Binding ReconstructFrom}" 
+                                              SelectedItem="{Binding SelectedReconstructFrom}"/>
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="Sposób rekonstrukcji"
+                                              ItemsSource="{Binding Reconstructions}" 
+                                              SelectedItem="{Binding SelectedReconstruction}"/>
+                                    <CheckBox Margin="0 2 0 2" Content="Rysuj oryginał" IsChecked="{Binding DrawOriginal}"/>
+                                    <CheckBox Margin="0 2 0 2" Content="Rysuj próbki" IsChecked="{Binding DrawSamples}"/>
+                                    <CheckBox Margin="0 2 0 2" Content="Rysuj kwanty" IsChecked="{Binding DrawQuants}"/>
+                                    <CheckBox Margin="0 2 0 2" Content="Rysuj zrekonstruowany" IsChecked="{Binding DrawReconstructed}"/>
+
                                     <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                                               materialDesign:HintAssist.Hint="Wynik"
                                               ItemsSource="{Binding Tabs}" 
                                               SelectedItem="{Binding SelectedQuantResultTab}"/>
                                     <Button Margin="0 15 0 2" 
-                                            Content="Kwantyzuj" 
+                                            Content="Rysuj" 
                                             Command="{Binding QuantCommand}"/>
                                 </StackPanel>
                             </TabItem>
@@ -177,5 +186,5 @@
 
         </Grid>
     </materialDesign:DialogHost>
-   
+
 </Window>
