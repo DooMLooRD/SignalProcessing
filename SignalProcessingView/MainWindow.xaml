@@ -111,43 +111,52 @@
                                             TextAlignment="Center" 
                                             TextWrapping="Wrap"/>
                                 </TabItem.Header>
-                                <StackPanel Margin="10 0 0 0">
-                                    <view:SignalSelector DataContext="{Binding Path=Parent.DataContext,RelativeSource={RelativeSource Self}}"/>
-                                    <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}"
+                                <ScrollViewer
+                                    VerticalScrollBarVisibility="Auto"
+                                    Padding="0 0 4 0">
+                                    <StackPanel Margin="10 0 0 0">
+
+                                        <view:SignalSelector DataContext="{Binding Path=Parent.DataContext,RelativeSource={RelativeSource Self}}"/>
+                                        <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}"
                                                Margin="1 10 0 2" 
                                                Text="Próbkowanie i kwantyzacja" 
                                                TextWrapping="Wrap"/>
 
-                                    <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania:"
+                                        <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania:"
                                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                              Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}" 
                                              Margin="0 2 0 2"  
                                              Text="{Binding Fp}"/>
-                                    <TextBox materialDesign:HintAssist.Hint="Ilość przedziałów kwantowania"
+                                        <TextBox materialDesign:HintAssist.Hint="Ilość przedziałów kwantowania"
                                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                              Margin="0 2 0 2"  
                                              Text="{Binding QuantCount}"/>
-                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                        <TextBox materialDesign:HintAssist.Hint="N próbek"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding NSamples}"/>
+                                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                                               materialDesign:HintAssist.Hint="Rekonstruj z"
                                               ItemsSource="{Binding ReconstructFrom}" 
                                               SelectedItem="{Binding SelectedReconstructFrom}"/>
-                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                                               materialDesign:HintAssist.Hint="Sposób rekonstrukcji"
                                               ItemsSource="{Binding Reconstructions}" 
                                               SelectedItem="{Binding SelectedReconstruction}"/>
-                                    <CheckBox Margin="0 2 0 2" Content="Rysuj oryginał" IsChecked="{Binding DrawOriginal}"/>
-                                    <CheckBox Margin="0 2 0 2" Content="Rysuj próbki" IsChecked="{Binding DrawSamples}"/>
-                                    <CheckBox Margin="0 2 0 2" Content="Rysuj kwanty" IsChecked="{Binding DrawQuants}"/>
-                                    <CheckBox Margin="0 2 0 2" Content="Rysuj zrekonstruowany" IsChecked="{Binding DrawReconstructed}"/>
+                                        <CheckBox Margin="0 2 0 2" Content="Rysuj oryginał" IsChecked="{Binding DrawOriginal}"/>
+                                        <CheckBox Margin="0 2 0 2" Content="Rysuj próbki" IsChecked="{Binding DrawSamples}"/>
+                                        <CheckBox Margin="0 2 0 2" Content="Rysuj kwanty" IsChecked="{Binding DrawQuants}"/>
+                                        <CheckBox Margin="0 2 0 2" Content="Rysuj zrekonstruowany" IsChecked="{Binding DrawReconstructed}"/>
 
-                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                                               materialDesign:HintAssist.Hint="Wynik"
                                               ItemsSource="{Binding Tabs}" 
                                               SelectedItem="{Binding SelectedQuantResultTab}"/>
-                                    <Button Margin="0 15 0 2" 
+                                        <Button Margin="0 15 0 2" 
                                             Content="Rysuj" 
                                             Command="{Binding QuantCommand}"/>
-                                </StackPanel>
+                                    </StackPanel>
+                                </ScrollViewer>
                             </TabItem>
                         </dragablz:TabablzControl>
                     </Grid>

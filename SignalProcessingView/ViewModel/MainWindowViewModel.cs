@@ -54,6 +54,7 @@ namespace SignalProcessingView.ViewModel
         public double P { get; set; }
         public double Fp { get; set; }
         public int QuantCount { get; set; }
+        public int NSamples { get; set; }
         #endregion
 
         public bool DrawOriginal { get; set; } = true;
@@ -199,7 +200,7 @@ namespace SignalProcessingView.ViewModel
                     .ToList();
             else
                 reconstructed = Reconstruction
-                    .SincReconstruction(data.SamplesX.Zip(forReconstruct, (d, d1) => (d, d1)).ToList(), data.Frequency)
+                    .SincReconstruction(data.SamplesX.Zip(forReconstruct, (d, d1) => (d, d1)).ToList(), data.Frequency, NSamples)
                     .ToList();
 
             SelectedQuantResultTab.TabContent.ReconstructedData.PointsX = reconstructed.Select(c => c.Item1).ToList();

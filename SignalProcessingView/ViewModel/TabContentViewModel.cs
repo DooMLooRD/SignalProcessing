@@ -321,8 +321,8 @@ namespace SignalProcessingView.ViewModel
         public void DrawQuantCharts(bool drawOriginal = true, bool drawQuants = false, bool drawSamples = false, bool drawReconstructed = false)
         {
             DrawOriginal = drawOriginal;
-            DrawSamples = drawQuants;
-            DrawQuants = drawSamples;
+            DrawSamples = drawSamples;
+            DrawQuants = drawQuants;
             DrawReconstructed = drawReconstructed;
             if (OriginalData.HasData() && ReconstructedData.Quants != null && ReconstructedData.Quants.Count > 0)
             {
