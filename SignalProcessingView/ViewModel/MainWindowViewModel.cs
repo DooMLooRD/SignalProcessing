@@ -196,7 +196,7 @@ namespace SignalProcessingView.ViewModel
             List<(double, double)> reconstructed;
             if (SelectedReconstruction.Substring(1, 2) == "R1")
                 reconstructed = Reconstruction
-                    .ZeroOrderHold(data.SamplesX.Zip(forReconstruct, (d, d1) => (d, d1)).ToList(), data.Frequency)
+                    .ZeroOrderHold(data.SamplesX.Zip(forReconstruct, (d, d1) => (d, d1)).ToList(), data.Frequency, NSamples)
                     .ToList();
             else
                 reconstructed = Reconstruction
@@ -206,7 +206,7 @@ namespace SignalProcessingView.ViewModel
             SelectedQuantResultTab.TabContent.ReconstructedData.PointsX = reconstructed.Select(c => c.Item1).ToList();
             SelectedQuantResultTab.TabContent.ReconstructedData.PointsY = reconstructed.Select(c => c.Item2).ToList();
             SelectedQuantResultTab.TabContent.DrawQuantCharts(DrawOriginal, DrawQuants, DrawSamples, DrawReconstructed);
-
+            SelectedQuantResultTab.TabContent.CalculateSignalDifference();
         }
         public void Compute()
         {
@@ -351,15 +351,16 @@ namespace SignalProcessingView.ViewModel
                 }
                 else
                 {
-                    for (double i = T1; i <= T1 + D; i += 1 / Fp)
+                    for (double i = T1; i <= T1 + D+0.00000001; i += 1 / Fp)
                     {
                         samples.Add(func(i));
                     }
-                    for (double i = T1; i < T1 + D; i += D / 5000)
+                    for (double i = T1; i < T1 + D; i += D / 10000)
                     {
                         pointsX.Add(i);
                         pointsY.Add(func(i));
                     }
+
                     signalType.TabContent.OriginalData.Frequency = Fp;
                     signalType.TabContent.OriginalData.StartTime = T1;
                     signalType.TabContent.OriginalData.Samples = samples;

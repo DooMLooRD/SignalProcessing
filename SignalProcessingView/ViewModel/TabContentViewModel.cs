@@ -58,6 +58,11 @@ namespace SignalProcessingView.ViewModel
         public double AvgSignalPower { get; set; }
         public double SignalVariance { get; set; }
         public double RMSSignal { get; set; }
+        public double MSE { get; set; }
+        public double SNR { get; set; }
+        public double PSNR { get; set; }
+        public double MD { get; set; }
+        public double ENOB { get; set; }
         public bool DrawOriginal { get; set; } = true;
         public bool DrawSamples { get; set; } = true;
         public bool DrawQuants { get; set; } = true;
@@ -439,6 +444,18 @@ namespace SignalProcessingView.ViewModel
             RMSSignal = SignalOperations.RMSSignal(points, t1, t2, isDiscrete);
         }
 
+        public void CalculateSignalDifference()
+        {
+            Console.WriteLine(OriginalData.PointsX.Last());
+            Console.WriteLine(ReconstructedData.PointsX.Last());
+            MSE = SimilarityFunctions.CalculateMSE(OriginalData.PointsY, ReconstructedData.PointsY);
+            Console.WriteLine(OriginalData.PointsY.Last());
+            Console.WriteLine(ReconstructedData.PointsY.Last());
+            SNR = SimilarityFunctions.CalculateSNR(OriginalData.PointsY, ReconstructedData.PointsY);
+            PSNR = SimilarityFunctions.CalculatePNSR(OriginalData.PointsY, ReconstructedData.PointsY);
+            MD = SimilarityFunctions.CalculateMD(OriginalData.PointsY, ReconstructedData.PointsY);
+            ENOB = SimilarityFunctions.CalculateENOB(OriginalData.PointsY, ReconstructedData.PointsY);
+        }
         public void LoadHistogram(int c)
         {
             SliderValue = c;

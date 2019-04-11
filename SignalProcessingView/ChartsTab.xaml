@@ -129,6 +129,11 @@
                                  Padding="2 2"   
                                  Margin="0 0 4 0"
                                  Text="{Binding SNR}"/>
+                        <TextBox materialDesign:HintAssist.Hint="Efektywna liczba bitów:"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 Padding="2 2"   
+                                 Margin="0 0 4 0"
+                                 Text="{Binding ENOB}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <TextBox materialDesign:HintAssist.Hint="Szczytowy stosunek sygnał - szum:"

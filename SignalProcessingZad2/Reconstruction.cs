@@ -30,10 +30,10 @@ namespace SignalProcessingZad2
             List<(double, double)> reconstructed = new List<(double, double)>();
             double min = signal.Min(c => c.Item1);
             double max = signal.Max(c => c.Item1);
-            double interval = (max - min) / 5000;
+            double interval = (max - min) / 10000;
             double T = 1.0 / samplingFreq;
             //var list = signal.Select(k => k.Item1).ToList();
-            for (double i = min; i < max; i += interval)
+            for (double i = min; i <= max; i += interval)
             {
                 double sum = 0;
                 //(int, int) between = GetIntervalIndex(list, i);
@@ -54,11 +54,6 @@ namespace SignalProcessingZad2
             double min = signal.Min(c => c.Item1);
             double max = signal.Max(c => c.Item1);
             double interval = (max - min) / 10000;
-            List<double> sig = new List<double>();
-            for (int i = 0; i < 10000; i++)
-            {
-                sig.Add(Math.Round(min + i * interval, 5));
-            }
             double T = 1.0 / samplingFreq;
 
             do
@@ -67,23 +62,23 @@ namespace SignalProcessingZad2
             } while (signal.Count <= 2 * n);
             signal.InsertRange(0, signal.Skip(1).Take(n).Reverse().Select(c => (-c.Item1, c.Item2)).ToList());
             var list = signal.Select(k => k.Item1).ToList();
-            foreach (var t in sig)
+            for (double i = min; i <= max; i += interval)
             {
                 double sum = 0;
-                (int, int) between = GetIntervalIndex(list, t);
+                (int, int) between = GetIntervalIndex(list, i);
                 if (between.Item1 == between.Item2)
                     sum = signal[between.Item1].Item2;
                 else
                 {
                     for (int j = between.Item1 - n; j <= between.Item2 + n; j++)
                     {
-                        var test = t / T - (j - n);
+                        var test = i / T - (j - n);
                         var test1 = Sinc(test);
                         sum += signal[j].Item2 * test1;
                     }
                 }
 
-                reconstructed.Add((t, sum));
+                reconstructed.Add((i, sum));
             }
             return reconstructed;
         }
