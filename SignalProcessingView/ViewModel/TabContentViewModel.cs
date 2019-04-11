@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Defaults;
+using LiveCharts.Definitions.Series;
 using LiveCharts.Wpf;
 using MaterialDesignThemes.Wpf;
 using SignalProcessingCore;
@@ -47,6 +48,7 @@ namespace SignalProcessingView.ViewModel
         public Visibility OriginalVisibility { get; set; } = Visibility.Visible;
         private int _sliderValue;
         private bool _isQuant;
+        private List<ISeriesView> ExtraSeries { get; set; }
         public SeriesCollection ChartSeries { get; set; }
         public bool IsScattered { get; set; }
         public SeriesCollection HistogramSeries { get; set; }
@@ -112,6 +114,7 @@ namespace SignalProcessingView.ViewModel
             ReconstructedData = new DataHandler();
             Histogram = new RelayCommand<int>(LoadHistogram);
             SaveCharts = new RelayCommand(SaveChartsAsync);
+            ExtraSeries=new List<ISeriesView>();
             SliderValue = 20;
         }
 
@@ -411,7 +414,7 @@ namespace SignalProcessingView.ViewModel
                         PointGeometry = null,
                         Values = reconstructedValues,
                         Title = "Zrekonstruowany",
-                    });
+                    });                
                 }
 
                 var histogramResults = OriginalData.GetDataForHistogram(SliderValue);
@@ -478,6 +481,41 @@ namespace SignalProcessingView.ViewModel
 
         }
 
+        public void AddSignal(List<double> x, List<double> y, string name)
+        {
+            ChartValues<PointXY> values = new ChartValues<PointXY>();
+
+            for (int i = 0; i < x.Count; i++)
+            {
+                values.Add(new PointXY(x[i], y[i]));
+            }
+
+            ISeriesView series = new LineSeries()
+            {
+                LineSmoothness = 0,
+                StrokeThickness = 0.5,
+                Fill = Brushes.Transparent,
+                PointGeometry = null,
+                Values = values,
+                Title = name,
+            };
+            ExtraSeries.Add(series);
+            ChartSeries.Add(series);
+        }
+
+        public void ClearExtra()
+        {
+            if (ExtraSeries != null && ExtraSeries.Count > 0)
+            {
+                var series = new List<ISeriesView>(ExtraSeries);
+                foreach (ISeriesView seriesView in series)
+                {
+                    ChartSeries.Remove(seriesView);
+                    ExtraSeries.Remove(seriesView);
+                }
+            }
+            
+        }
         public void LoadData(DataHandler data)
         {
             OriginalData = data;

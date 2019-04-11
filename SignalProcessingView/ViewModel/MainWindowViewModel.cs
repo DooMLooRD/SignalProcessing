@@ -39,6 +39,7 @@ namespace SignalProcessingView.ViewModel
         public TabViewModel SelectedResultTab { get; set; }
         public TabViewModel SelectedQuantTab { get; set; }
         public TabViewModel SelectedQuantResultTab { get; set; }
+        public TabViewModel SelectedAddSignal { get; set; }
 
         #region Factors
         public double A { get; set; }
@@ -56,7 +57,7 @@ namespace SignalProcessingView.ViewModel
         public int QuantCount { get; set; }
         public int NSamples { get; set; }
         #endregion
-
+        public string ExtraSignalName { get; set; }
         public bool DrawOriginal { get; set; } = true;
         public bool DrawSamples { get; set; } = true;
         public bool DrawQuants { get; set; } = true;
@@ -69,6 +70,8 @@ namespace SignalProcessingView.ViewModel
         public ICommand LoadCommand { get; set; }
         public ICommand ToggleBaseCommand { get; }
         public ICommand QuantCommand { get; set; }
+        public ICommand AddSignalCommand { get; set; }
+        public ICommand RemoveExtraSignalCommand { get; set; }  
         #endregion
 
 
@@ -81,7 +84,8 @@ namespace SignalProcessingView.ViewModel
             SelectedResultTab = Tabs[0];
             SelectedQuantTab = Tabs[0];
             SelectedQuantResultTab = Tabs[0];
-
+            SelectedAddSignal = Tabs[0];
+            ExtraSignalName = "Name";
             SignalTypes = new List<string>()
             {
                 "(S01) Szum o rozkładzie jednostajnym",
@@ -128,6 +132,8 @@ namespace SignalProcessingView.ViewModel
             LoadCommand = new RelayCommand(Load);
             ToggleBaseCommand = new RelayCommand<bool>(ApplyBase);
             QuantCommand = new RelayCommand(Quant);
+            AddSignalCommand= new RelayCommand(AddSignal);
+            RemoveExtraSignalCommand=new RelayCommand(RemoveExtra);
         }
         private static void ApplyBase(bool isDark)
         {
@@ -138,6 +144,10 @@ namespace SignalProcessingView.ViewModel
             Tabs.Add(new TabViewModel("Tab" + Tabs.Count));
         }
 
+        public void RemoveExtra()
+        {
+            SelectedAddSignal.TabContent.ClearExtra();
+        }
         public void Save()
         {
             SelectedTab.TabContent.SaveDataToFile(LoadPath(false));
@@ -148,6 +158,12 @@ namespace SignalProcessingView.ViewModel
             SelectedTab.TabContent.LoadDataFromFile(LoadPath(true));
             SelectedTab.TabContent.DrawCharts();
             SelectedTab.TabContent.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
+        }
+
+        public void AddSignal()
+        {
+            var data=PlotExtraSignal();
+            SelectedAddSignal.TabContent.AddSignal(data.Item1,data.Item2, ExtraSignalName);
         }
         public string LoadPath(bool loadMode)
         {
@@ -373,6 +389,105 @@ namespace SignalProcessingView.ViewModel
 
                 signalType.TabContent.IsScattered = isScattered;
             }
+        }
+
+        public (List<double>,List<double>) PlotExtraSignal()
+        {
+            SignalGenerator generator = new SignalGenerator()
+            {
+                Amplitude = A,
+                FillFactor = Kw,
+                Period = T,
+                StartTime = T1,
+                JumpTime = Ts,
+                JumpN = Ns,
+                Probability = P
+            };
+            List<double> pointsX = new List<double>();
+            List<double> pointsY = new List<double>();
+            List<double> samples = new List<double>();
+
+            Func<double, double> func = null;
+            switch (SelectedSignalType.Substring(1, 3))
+            {
+                case "S01":
+                    func = generator.GenerateUniformDistributionNoise;
+                    break;
+                case "S02":
+                    func = generator.GenerateGaussianNoise;
+                    break;
+                case "S03":
+                    func = generator.GenerateSinusoidalSignal;
+                    break;
+                case "S04":
+                    func = generator.GenerateSinusoidal1PSignal;
+                    break;
+                case "S05":
+                    func = generator.GenerateSinusoidal2PSignal;
+                    break;
+                case "S06":
+                    func = generator.GenerateRectangularSignal;
+                    break;
+                case "S07":
+                    func = generator.GenerateRectangularSymmetricalSignal;
+                    break;
+                case "S08":
+                    func = generator.GenerateTriangularSignal;
+                    break;
+                case "S09":
+                    func = generator.GenerateUnitJump;
+                    break;
+                case "S10":
+                    func = generator.GenerateUnitPulse;
+                    break;
+                case "S11":
+                    func = generator.GenerateImpulseNoise;
+                    break;
+
+            }
+
+
+            if (func != null)
+            {
+                generator.Func = func;
+                bool isScattered = false;
+                if (func.Method.Name.Contains("GenerateUnitPulse"))
+                {
+                    isScattered = true;
+                    for (double i = N1 * F; i <= (D + N1) * F; i++)
+                    {
+                        pointsX.Add(i / F);
+                        pointsY.Add(func(i / F));
+                    }
+                }
+                else if (func.Method.Name.Contains("GenerateImpulseNoise"))
+                {
+                    isScattered = true;
+                    for (double i = N1; i <= D + N1; i += 1 / F)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(func(0));
+                    }
+
+                }
+                else
+                {
+                    for (double i = T1; i <= T1 + D + 0.00000001; i += 1 / Fp)
+                    {
+                        samples.Add(func(i));
+                    }
+                    for (double i = T1; i < T1 + D; i += D / 10000)
+                    {
+                        pointsX.Add(i);
+                        pointsY.Add(func(i));
+                    }
+
+
+                }
+                  
+            }
+
+            return (pointsX, pointsY);
         }
         public void Plot()
         {

@@ -72,6 +72,23 @@
                                         Margin="0 4 0 2" 
                                         Content="Zapisz wykres"    
                                         Command="{Binding SaveCommand}"/>
+
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="wybierz strone do dodania sygnału"
+                                              ItemsSource="{Binding Tabs}" 
+                                              SelectedItem="{Binding SelectedAddSignal}"/>
+                                    <TextBox materialDesign:HintAssist.Hint="Nazwa:"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding ExtraSignalName}"/>
+                                    <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                            Margin="0 4 0 2" 
+                                            Content="Dodaj sygnał"    
+                                            Command="{Binding AddSignalCommand}"/>
+                                    <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                            Margin="0 4 0 2" 
+                                            Content="Usuń dodane"    
+                                            Command="{Binding RemoveExtraSignalCommand}"/>
                                 </StackPanel>
 
                             </TabItem>
