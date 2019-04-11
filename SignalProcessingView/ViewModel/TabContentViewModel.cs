@@ -88,7 +88,7 @@ namespace SignalProcessingView.ViewModel
         {
             var view = new SignalDialog
             {
-                DataContext = new SignalDialogViewModel(OriginalData, ReconstructedData, IsScattered, DrawOriginal, DrawQuants, DrawSamples, DrawReconstructed)
+                DataContext = new SignalDialogViewModel(OriginalData, ReconstructedData, IsScattered, DrawOriginal, DrawQuants, DrawSamples, DrawReconstructed,ExtraSeries)
             };
 
 
@@ -116,6 +116,10 @@ namespace SignalProcessingView.ViewModel
             SaveCharts = new RelayCommand(SaveChartsAsync);
             ExtraSeries=new List<ISeriesView>();
             SliderValue = 20;
+            var mapper = Mappers.Xy<PointXY>()
+                .X(value => value.X)
+                .Y(value => value.Y);
+            ChartSeries = new SeriesCollection(mapper);
         }
 
         #region Save Charts

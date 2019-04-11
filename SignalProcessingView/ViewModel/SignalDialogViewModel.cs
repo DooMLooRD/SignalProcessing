@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using LiveCharts;
 using LiveCharts.Configurations;
+using LiveCharts.Definitions.Series;
 using LiveCharts.Wpf;
 using SignalProcessingMethods;
 
@@ -15,19 +16,24 @@ namespace SignalProcessingView.ViewModel
     {
         public SeriesCollection ChartSeries { get; set; }
 
-        public SignalDialogViewModel(DataHandler DataOriginal, DataHandler ReconstructedData, bool isScattered, bool drawOriginal, bool drawQuants, bool drawSamples, bool drawReconstructed)
+        public SignalDialogViewModel(DataHandler DataOriginal, DataHandler ReconstructedData, bool isScattered, bool drawOriginal, bool drawQuants, bool drawSamples, bool drawReconstructed, List<ISeriesView> extra)
         {
+            var mapper = Mappers.Xy<PointXY>()
+                .X(value => value.X)
+                .Y(value => value.Y);
+            ChartValues<PointXY> values = new ChartValues<PointXY>();
+            ChartSeries = new SeriesCollection(mapper);
+            foreach (ISeriesView seriesView in extra)
+            {
+                ChartSeries.Add(seriesView);
+            }
             if (DataOriginal.HasData())
             {
-                var mapper = Mappers.Xy<PointXY>()
-                    .X(value => value.X)
-                    .Y(value => value.Y);
-                ChartValues<PointXY> values = new ChartValues<PointXY>();
-
+                
 
                 if (ReconstructedData.Quants != null && ReconstructedData.Quants.Count > 0)
                 {
-                    ChartSeries = new SeriesCollection(mapper);
+                    
                     if (drawOriginal)
                     {
                         var pointsX = DataOriginal.PointsX;
