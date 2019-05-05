@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics;
-using SignalProcessingCore;
 
 namespace SignalProcessingMethods
 {
@@ -58,7 +57,7 @@ namespace SignalProcessingMethods
 
         }
 
-        public static double AvgSignal(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double AvgSignal(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)
             {
@@ -67,7 +66,7 @@ namespace SignalProcessingMethods
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples);
         }
 
-        public static double SignalVariance(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double SignalVariance(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)
             {
@@ -76,7 +75,7 @@ namespace SignalProcessingMethods
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, d => Math.Pow(d - AvgSignal(samples, t1, t2), 2));
 
         }
-        public static double AbsAvgSignal(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double AbsAvgSignal(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)
             {
@@ -85,7 +84,7 @@ namespace SignalProcessingMethods
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, Math.Abs);
         }
 
-        public static double AvgSignalPower(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double AvgSignalPower(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)
             {
@@ -94,7 +93,7 @@ namespace SignalProcessingMethods
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, d => d * d);
         }
 
-        public static double RMSSignal(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double RMSSignal(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)
             {

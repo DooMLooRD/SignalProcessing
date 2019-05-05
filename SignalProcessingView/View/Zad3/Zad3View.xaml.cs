@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SignalProcessingView.View
+namespace SignalProcessingView.View.Zad3
 {
     /// <summary>
-    /// Interaction logic for HistogramDialog.xaml
+    /// Interaction logic for Zad3View.xaml
     /// </summary>
-    public partial class HistogramDialog : UserControl
+    public partial class Zad3View : UserControl
     {
-        public HistogramDialog()
+        public Zad3View()
         {
             InitializeComponent();
         }

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SignalProcessingView.View
+namespace SignalProcessingView.View.Zad2
 {
     /// <summary>
-    /// Interaction logic for SignalDialog.xaml
+    /// Interaction logic for Zad2View.xaml
     /// </summary>
-    public partial class SignalDialog : UserControl
+    public partial class Zad2View : UserControl
     {
-        public SignalDialog()
+        public Zad2View()
         {
             InitializeComponent();
         }

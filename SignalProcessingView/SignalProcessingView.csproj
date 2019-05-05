@@ -58,6 +58,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -78,27 +80,34 @@
     </ApplicationDefinition>
     <Compile Include="ViewModel\Base\BaseViewModel.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
+    <Compile Include="ViewModel\ChartWindowViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PointXY.cs" />
-    <Compile Include="ViewModel\SignalDialogViewModel.cs" />
-    <Compile Include="ViewModel\TabContentViewModel.cs" />
-    <Compile Include="ViewModel\TabViewModel.cs" />
+    <Compile Include="ViewModel\SignalCreator.cs" />
+    <Compile Include="ViewModel\Zad1\Zad1ViewModel.cs" />
+    <Compile Include="ViewModel\Zad2\Zad2ViewModel.cs" />
+    <Compile Include="ViewModel\Zad3\Zad3ViewModel.cs" />
+    <Compile Include="View\ChartWindow.xaml.cs">
+      <DependentUpon>ChartWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Converters\VisibilityConverter.cs" />
-    <Compile Include="View\HistogramDialog.xaml.cs">
-      <DependentUpon>HistogramDialog.xaml</DependentUpon>
+    <Compile Include="View\SignalCreator.xaml.cs">
+      <DependentUpon>SignalCreator.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SignalDialog.xaml.cs">
-      <DependentUpon>SignalDialog.xaml</DependentUpon>
+    <Compile Include="View\Zad1\Zad1View.xaml.cs">
+      <DependentUpon>Zad1View.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SignalSelector.xaml.cs">
-      <DependentUpon>SignalSelector.xaml</DependentUpon>
+    <Compile Include="View\Zad2\Zad2View.xaml.cs">
+      <DependentUpon>Zad2View.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Utils\TabControlNR.cs" />
-    <Page Include="ChartsTab.xaml">
+    <Compile Include="View\Zad3\Zad3View.xaml.cs">
+      <DependentUpon>Zad3View.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\ChartWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -106,22 +115,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ChartsTab.xaml.cs">
-      <DependentUpon>ChartsTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\HistogramDialog.xaml">
+    <Page Include="View\SignalCreator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SignalDialog.xaml">
+    <Page Include="View\Zad1\Zad1View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SignalSelector.xaml">
+    <Page Include="View\Zad2\Zad2View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Zad3\Zad3View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,6 +172,10 @@
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SignalProcessingCore\SignalProcessingCore.csproj">
+      <Project>{91DD8D15-5A1C-4978-9EC3-37D2A29B8B85}</Project>
+      <Name>SignalProcessingCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SignalProcessingMethods\SignalProcessingZad1.csproj">
       <Project>{5900D5B8-E720-4A17-B957-799D73FBE22C}</Project>
       <Name>SignalProcessingZad1</Name>
@@ -170,13 +184,12 @@
       <Project>{E563B3D7-3040-42AF-854F-4A854C2C4235}</Project>
       <Name>SignalProcessingZad2</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SignalProcessingZad3\SignalProcessingZad3.csproj">
+      <Project>{5D3CF7AA-11C8-4EDC-B3F0-C3E9271185C4}</Project>
+      <Name>SignalProcessingZad3</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\DynamicControlPanels\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ViewModel\HistogramDialogViewModel.cs" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

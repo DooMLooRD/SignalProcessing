@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="SignalProcessingView.View.Zad3.Zad3View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SignalProcessingView.View.Zad3"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="10">
+            <GroupBox
+                    Header="Splot"
+                    Margin="5" >
+                <StackPanel>
+                    <ComboBox 
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                        materialDesign:HintAssist.Hint="Sygnał 1"
+                        ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                        SelectedItem="{Binding SelectedSignal1}"/>
+                    <ComboBox 
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                        materialDesign:HintAssist.Hint="Sygnał 2"
+                        ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                        SelectedItem="{Binding SelectedSignal2}"/>
+                    <Button 
+                        Margin="0 15 0 2" 
+                        Content="Utwórz splot" 
+                        Command="{Binding ConvoluteCommand}"/>
+                </StackPanel>
+
+            </GroupBox>
+            <GroupBox
+                    Header="Filtry"
+                    Margin="5" >
+                <StackPanel>
+                    <ComboBox 
+                Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                materialDesign:HintAssist.Hint="Rodzaj filtru"
+                ItemsSource="{Binding Filters}" 
+                SelectedItem="{Binding SelectedFilter}"/>
+
+                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="Rodzaj okna"
+                                              ItemsSource="{Binding Windows}" 
+                                              SelectedItem="{Binding SelectedWindow}"/>
+                    <TextBox materialDesign:HintAssist.Hint="M"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding M}"/>
+                    <TextBox materialDesign:HintAssist.Hint="M Okna"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding MWindow}"/>
+                    <TextBox materialDesign:HintAssist.Hint="K"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding K}"/>
+                    <TextBox materialDesign:HintAssist.Hint="Nazwa filtru"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding FilterName}"/>
+
+                    <Button Margin="0 15 0 2" 
+                                            Content="Utwórz filtr" 
+                                            Command="{Binding CreateFilterCommand}"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

@@ -12,16 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SignalProcessingView.ViewModel;
 
 namespace SignalProcessingView.View
 {
     /// <summary>
-    /// Interaction logic for SignalSelector.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class SignalSelector : UserControl
+    public partial class MainWindow : Window
     {
-        public SignalSelector()
+        public MainWindow()
         {
+            DataContext = new MainWindowViewModel();
             InitializeComponent();
         }
     }

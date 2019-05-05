@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SignalProcessingView
+namespace SignalProcessingView.View
 {
     /// <summary>
-    /// Interaction logic for ChartsTab.xaml
+    /// Interaction logic for SignalSelector.xaml
     /// </summary>
-    public partial class ChartsTab : UserControl
+    public partial class SignalCreator: UserControl
     {
-        public ChartsTab()
+        public SignalCreator()
         {
             InitializeComponent();
         }

@@ -12,18 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SignalProcessingView.ViewModel;
 
-namespace SignalProcessingView
+namespace SignalProcessingView.View.Zad1
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Zad1View.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Zad1View : UserControl
     {
-        public MainWindow()
+        public Zad1View()
         {
-            DataContext = new MainWindowViewModel();
             InitializeComponent();
         }
     }

@@ -1,0 +1,95 @@
+﻿<Window x:Class="SignalProcessingView.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        xmlns:view="clr-namespace:SignalProcessingView.View"
+        xmlns:zad1="clr-namespace:SignalProcessingView.View.Zad1"
+        xmlns:zad2="clr-namespace:SignalProcessingView.View.Zad2"
+        xmlns:zad3="clr-namespace:SignalProcessingView.View.Zad3"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="MainWindow" Height="800" Width="1200">
+
+    <Border Padding="5">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox
+                Grid.Column="0"
+                Header="Generator Sygnału"
+                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                materialDesign:ShadowAssist.ShadowEdges="Top"
+                Margin="5 10">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Margin="8">
+                        <TextBlock VerticalAlignment="Center">Light</TextBlock>
+                        <ToggleButton Margin="8 0 16 0" Command="{Binding ToggleBaseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" />
+                        <TextBlock VerticalAlignment="Center">Dark</TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1">
+                        <view:SignalCreator  Margin="5" DataContext="{Binding SignalCreator}"/>
+                        <Button Content="Wyświetl okno z wykresem" Margin="5" Command="{Binding AddChartWindow}"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+
+
+            <Grid Grid.Column="1">
+
+
+                <dragablz:TabablzControl TabStripPlacement="Left"  >
+
+                    <!-- Zad 1 Signal Drawing -->
+                    <TabItem 
+                                TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                        <TabItem.Header>
+                            <TextBlock  Text ="Operacje na sygnałach" TextWrapping="Wrap"></TextBlock>
+                        </TabItem.Header>
+                        <zad1:Zad1View DataContext="{Binding Zad1ViewModel}"/>
+                    </TabItem>
+                    <!-- -END- Zad 1 Signal Drawing -->
+
+                    <!-- Zad 2 Sampling and Quanatization -->
+                    <TabItem  TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                        <TabItem.Header>
+                            <TextBlock  Text ="Kwantyzacja i rekonstrukcja" 
+                                            TextAlignment="Center" 
+                                            TextWrapping="Wrap"/>
+                        </TabItem.Header>
+                        <zad2:Zad2View DataContext="{Binding Zad2ViewModel}"></zad2:Zad2View>
+                    </TabItem>
+                    <!-- -END- Zad 2 Sampling and Quanatization -->
+                    
+                    <!-- Zad 3 Convolution and filter -->
+                    <TabItem  TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                        <TabItem.Header>
+                            <TextBlock  Text ="Splot, korelacja i filtracja" 
+                                            TextAlignment="Center" 
+                                            TextWrapping="Wrap"/>
+                        </TabItem.Header>
+                        <zad3:Zad3View DataContext="{Binding Zad3ViewModel}"></zad3:Zad3View>
+                    </TabItem>
+                    <!-- -END- Zad 3 Convolution and filter -->
+
+                </dragablz:TabablzControl>
+            </Grid>
+        </Grid>
+
+
+    </Border>
+</Window>

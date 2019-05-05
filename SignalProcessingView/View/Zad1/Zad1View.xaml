@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="SignalProcessingView.View.Zad1.Zad1View"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="800"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="10" 
+            Grid.Column="0">
+            <GroupBox
+                Header="Operacje na sygnałach"
+                Margin="5">
+                <StackPanel>
+                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                      materialDesign:HintAssist.Hint="Sygnał 1:"
+                                      ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                                      SelectedItem="{Binding SelectedSignal1}"/>
+                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                      materialDesign:HintAssist.Hint="Sygnał 2:"
+                                      ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                                      SelectedItem="{Binding SelectedSignal2}"/>
+                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                      materialDesign:HintAssist.Hint="Działanie:"
+                                      ItemsSource="{Binding Operations}" 
+                                      SelectedItem="{Binding SelectedOperation}"/>
+                    <TextBox materialDesign:HintAssist.Hint="Nazwa sygnału wynikowego:"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding ResultSignalName}"/>
+                    <Button Margin="0 15 0 2" 
+                                    Content="Dodaj Sygnał" 
+                                    Command="{Binding ComputeSignalsCommand}"/>
+                </StackPanel>
+            </GroupBox>
+
+
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="10">
+            <GroupBox
+                Header="Wartości sygnału"
+                Margin="5">
+                <StackPanel>
+                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="wybierz sygnał do histogramu"
+                                              ItemsSource="{Binding SignalsOnChart}" 
+                                              SelectedItem="{Binding SelectedSignal}"/>
+                    <Button Margin="0 4 0 2" 
+                                        Content="Oblicz wartości sygnału"    
+                                        Command="{Binding ComputeCommand}"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox
+                Header="Wyniki"
+                Margin="5">
+                <StackPanel>
+                    <TextBox materialDesign:HintAssist.Hint="Wartość średnia sygnału:"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Padding="2 2" 
+                             Margin="0 0 4 0"
+                             Text="{Binding AvgSignal}"/>
+                    <TextBox materialDesign:HintAssist.Hint="Wartość średnia bezwzględna sygnału:"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Padding="2 2"   
+                             Margin="0 0 4 0"
+                             Text="{Binding AbsAvgSignal}"/>
+                    <TextBox materialDesign:HintAssist.Hint="Moc średnia sygnału:"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Padding="2 2"   
+                             Margin="0 0 4 0"
+                             Text="{Binding AvgSignalPower}"/>
+                    <TextBox materialDesign:HintAssist.Hint="Wariancja sygnału:"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Padding="2 2"   
+                             Text="{Binding SignalVariance}"/>
+                    <TextBox materialDesign:HintAssist.Hint="Wartość skuteczna:"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Padding="2 2"   
+                             Text="{Binding RMSSignal}"/>
+
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

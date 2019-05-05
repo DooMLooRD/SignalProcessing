@@ -1,12 +1,16 @@
-﻿<UserControl x:Class="SignalProcessingView.View.SignalSelector"
+﻿<UserControl x:Class="SignalProcessingView.View.SignalCreator"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SignalProcessingView.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="1000" d:DesignWidth="800"
              >
     <StackPanel >
         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
@@ -64,6 +68,58 @@
                                          Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=P}"  
                                          Padding="0 1"   
                                          Text="{Binding P}"/>
+            <TextBlock Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}"
+                                           Margin="1 10 0 2" 
+                                           Text="Próbkowanie" 
+                                           TextWrapping="Wrap"/>
+
+            <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania:"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                         Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}" 
+                                         Margin="0 2 0 2"  
+                                         Text="{Binding Fp}"/>
+
+            <TextBox materialDesign:HintAssist.Hint="Nazwa sygnału:"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding SignalName}"/>
+            <CheckBox Margin="0 4 0 2" 
+                      Content="Ciągły"
+                      IsChecked="{Binding IsContinuous}"
+                      Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}"/>
+            <CheckBox Margin="0 4 0 2" 
+                      Content="Próbkowany"
+                      IsChecked="{Binding IsSampled}"
+                      Visibility="{Binding SelectedSignalType, Converter={StaticResource VisibilityConverter},ConverterParameter=Probkowanie}"/>
+
+            <Button 
+                Margin="0 4 0 2" 
+                Content="Dodaj sygnał" 
+                Command="{Binding AddSignalCommand}"/>
+            <Button 
+                Margin="0 4 0 2" 
+                Content="Dodaj sygnał z pliku" 
+                Command="{Binding LoadSignalCommand}"/>
+
+            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="wybierz sygnał do zapisu"
+                                              ItemsSource="{Binding SampledSignals}" 
+                                              SelectedItem="{Binding SelectedSignalToSave}"/>
+
+            <Button 
+                Margin="0 4 0 2" 
+                Content="Zapisz sygnał"    
+                Command="{Binding SaveSignalCommand}"/>
+
+            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="wybierz sygnał do usunięcia"
+                                              ItemsSource="{Binding Signals}" 
+                                              SelectedItem="{Binding SelectedSignalToRemove}"/>
+
+            <Button
+                Margin="0 4 0 2" 
+                Content="Usuń sygnał"    
+                Command="{Binding RemoveSignalCommand}"/>
         </StackPanel>
 
     </StackPanel>

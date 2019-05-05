@@ -30,11 +30,6 @@ namespace SignalProcessingMethods
             return original.Take(reconstructed.Count).Zip(reconstructed, (d, d1) => Math.Abs(d - d1)).Max(); 
         }
 
-        public static double CalculateSNRAC(int levels)
-        {
-            return 6.02 * (Math.Log(levels, 2)) + 1.76;
-        }
-
         public static double CalculateENOB(List<double> original, List<double> reconstructed)
         {
             return (CalculateSNR(original, reconstructed) - 1.76) / 6.02;

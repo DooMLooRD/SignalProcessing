@@ -30,7 +30,7 @@ namespace SignalProcessingZad2
             List<(double, double)> reconstructed = new List<(double, double)>();
             double min = signal.Min(c => c.Item1);
             double max = signal.Max(c => c.Item1);
-            double interval = (max - min) / 10000;
+            double interval = (max - min) / 5000;
             double T = 1.0 / samplingFreq;
             //var list = signal.Select(k => k.Item1).ToList();
             for (double i = min; i <= max; i += interval)
@@ -53,26 +53,25 @@ namespace SignalProcessingZad2
             List<(double, double)> reconstructed = new List<(double, double)>();
             double min = signal.Min(c => c.Item1);
             double max = signal.Max(c => c.Item1);
-            double interval = (max - min) / 10000;
+            double interval = (max - min) / 2001;
             double T = 1.0 / samplingFreq;
-
-            do
-            {
-                signal = ExtendSignal(signal);
-            } while (signal.Count <= 2 * n);
-            signal.InsertRange(0, signal.Skip(1).Take(n).Reverse().Select(c => (-c.Item1, c.Item2)).ToList());
-            var list = signal.Select(k => k.Item1).ToList();
             for (double i = min; i <= max; i += interval)
             {
                 double sum = 0;
-                (int, int) between = GetIntervalIndex(list, i);
+                (int, int) between = GetIntervalIndex(signal.Select(c=>c.Item1).ToList(), i);
                 if (between.Item1 == between.Item2)
                     sum = signal[between.Item1].Item2;
                 else
                 {
-                    for (int j = between.Item1 - n; j <= between.Item2 + n; j++)
+                    int start = between.Item1 - n;
+                    int end = between.Item2 + n;
+                    if (start < 0)
+                        start = 0;
+                    if (end > signal.Count-1)
+                        end = signal.Count - 1;
+                    for (int j = start; j <= end; j++)
                     {
-                        var test = i / T - (j - n);
+                        var test = i / T - j;
                         var test1 = Sinc(test);
                         sum += signal[j].Item2 * test1;
                     }
@@ -86,8 +85,7 @@ namespace SignalProcessingZad2
         public static List<(double, double)> ExtendSignal(List<(double, double)> signal)
         {
             double val = signal.Last().Item1;
-            double val1 = signal[1].Item1 - signal[0].Item1;
-            var temp = signal.Select(c => (c.Item1 + val + val1, c.Item2)).ToList();
+            var temp = signal.Skip(1).Select(c => (c.Item1 + val, c.Item2)).ToList();
             signal.AddRange(temp);
             return signal;
         }
