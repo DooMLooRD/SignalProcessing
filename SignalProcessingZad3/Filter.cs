@@ -8,9 +8,9 @@ namespace SignalProcessingZad3
 {
     public class Filter
     {
-        public static List<double> CreateFilterSignal(int M, int K,int MWindow, Func<int, int, List<double>> filterFunction, Func<List<double>, int, List<double>> windowFunction)
+        public static List<double> CreateFilterSignal(int M, int K, Func<int, int, List<double>> filterFunction, Func<List<double>, int, List<double>> windowFunction)
         {
-            return windowFunction(filterFunction(M, K), MWindow);
+            return windowFunction(filterFunction(M, K), M);
         }
         public static List<double> LowPassFilter(int M, int K)
         {

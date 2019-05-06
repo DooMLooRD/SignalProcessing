@@ -16,17 +16,19 @@ namespace SignalProcessingView.ViewModel.Zad3
 
         public ISignal SelectedSignal1 { get; set; }
         public ISignal SelectedSignal2 { get; set; }
+        public ISignal SelectedSignalCorrelate1 { get; set; }
+        public ISignal SelectedSignalCorrelate2 { get; set; }
 
         public List<string> Filters { get; set; }
         public string SelectedFilter { get; set; }
         public List<string> Windows { get; set; }
         public string SelectedWindow { get; set; }
         public int M { get; set; }
-        public int MWindow { get; set; }
         public int K { get; set; }
         public string FilterName { get; set; }
 
         public ICommand ConvoluteCommand { get; set; }
+        public ICommand CorrelateCommand { get; set; }
         public ICommand CreateFilterCommand { get; set; }
 
 
@@ -50,6 +52,7 @@ namespace SignalProcessingView.ViewModel.Zad3
             };
             SelectedWindow = Windows[0];
             ConvoluteCommand = new RelayCommand(Convolute);
+            CorrelateCommand = new RelayCommand(Correlate);
             CreateFilterCommand = new RelayCommand(CreateFilter);
 
 
@@ -60,7 +63,18 @@ namespace SignalProcessingView.ViewModel.Zad3
             {
                 SampledSignal signal = new SampledSignal();
                 signal.PointsY = Convolution.ComputeSignal(SelectedSignal1.PointsY, SelectedSignal2.PointsY);
-                signal.Name = $"{SelectedSignal1.Name}*{SelectedSignal2.Name}";
+                signal.Name = $"({SelectedSignal1.Name})*({SelectedSignal2.Name})";
+                SignalCreator.AddSignal(signal);
+            }
+
+        }
+        public void Correlate()
+        {
+            if (SelectedSignalCorrelate1 != null && SelectedSignalCorrelate1.HasData() && SelectedSignalCorrelate2 != null && SelectedSignalCorrelate2.HasData())
+            {
+                SampledSignal signal = new SampledSignal();
+                signal.PointsY = Correlation.ComputeSignal(SelectedSignalCorrelate1.PointsY, SelectedSignalCorrelate2.PointsY);
+                signal.Name = $"({SelectedSignalCorrelate1.Name})C({SelectedSignalCorrelate2.Name})";
                 SignalCreator.AddSignal(signal);
             }
 
@@ -98,7 +112,7 @@ namespace SignalProcessingView.ViewModel.Zad3
                     break;
             }
             SampledSignal signal = new SampledSignal();
-            signal.PointsY = Filter.CreateFilterSignal(M, K, MWindow, filterFunction, windowFunction);
+            signal.PointsY = Filter.CreateFilterSignal(M, K, filterFunction, windowFunction);
             signal.Name = FilterName + " - F";
             SignalCreator.AddSignal(signal);
 

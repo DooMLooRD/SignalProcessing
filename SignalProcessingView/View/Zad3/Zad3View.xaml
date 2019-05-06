@@ -59,10 +59,6 @@
                                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                              Margin="0 2 0 2"  
                                              Text="{Binding M}"/>
-                    <TextBox materialDesign:HintAssist.Hint="M Okna"
-                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                             Margin="0 2 0 2"  
-                                             Text="{Binding MWindow}"/>
                     <TextBox materialDesign:HintAssist.Hint="K"
                                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                              Margin="0 2 0 2"  
@@ -78,6 +74,28 @@
                 </StackPanel>
             </GroupBox>
         </StackPanel>
+        <StackPanel  Margin="10" Grid.Column="1">
+            <GroupBox
+                    Header="Koeralcja"
+                    Margin="5" >
+                <StackPanel>
+                    <ComboBox 
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                        materialDesign:HintAssist.Hint="Sygnał 1"
+                        ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                        SelectedItem="{Binding SelectedSignalCorrelate1}"/>
+                    <ComboBox 
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                        materialDesign:HintAssist.Hint="Sygnał 2"
+                        ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                        SelectedItem="{Binding SelectedSignalCorrelate2}"/>
+                    <Button 
+                        Margin="0 15 0 2" 
+                        Content="Utwórz korelacje" 
+                        Command="{Binding CorrelateCommand}"/>
+                </StackPanel>
 
+            </GroupBox>
+        </StackPanel>
     </Grid>
 </UserControl>
