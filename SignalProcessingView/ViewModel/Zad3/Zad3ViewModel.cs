@@ -24,7 +24,7 @@ namespace SignalProcessingView.ViewModel.Zad3
         public List<string> Windows { get; set; }
         public string SelectedWindow { get; set; }
         public int M { get; set; }
-        public int K { get; set; }
+        public double K { get; set; }
         public string FilterName { get; set; }
 
         public ICommand ConvoluteCommand { get; set; }
@@ -81,7 +81,7 @@ namespace SignalProcessingView.ViewModel.Zad3
         }
         public void CreateFilter()
         {
-            Func<int, int, List<double>> filterFunction = null;
+            Func<int, double, List<double>> filterFunction = null;
             Func<List<double>, int, List<double>> windowFunction = null;
 
             switch (SelectedFilter.Substring(1, 2))

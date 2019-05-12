@@ -8,11 +8,11 @@ namespace SignalProcessingZad3
 {
     public class Filter
     {
-        public static List<double> CreateFilterSignal(int M, int K, Func<int, int, List<double>> filterFunction, Func<List<double>, int, List<double>> windowFunction)
+        public static List<double> CreateFilterSignal(int M, double K, Func<int, double, List<double>> filterFunction, Func<List<double>, int, List<double>> windowFunction)
         {
             return windowFunction(filterFunction(M, K), M);
         }
-        public static List<double> LowPassFilter(int M, int K)
+        public static List<double> LowPassFilter(int M, double K)
         {
             List<double> factors = new List<double>();
             int center = (M - 1) / 2;
@@ -33,7 +33,7 @@ namespace SignalProcessingZad3
             return factors;
         }
 
-        public static List<double> MidPassFilter(int M, int K)
+        public static List<double> MidPassFilter(int M, double K)
         {
             List<double> lowPassFactors = LowPassFilter(M, K);
             List<double> factors = new List<double>();
@@ -45,7 +45,7 @@ namespace SignalProcessingZad3
             return factors;
         }
 
-        public static List<double> HighPassFilter(int M, int K)
+        public static List<double> HighPassFilter(int M, double K)
         {
             List<double> lowPassFactors = LowPassFilter(M, K);
             List<double> factors = new List<double>();

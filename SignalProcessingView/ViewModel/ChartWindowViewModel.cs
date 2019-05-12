@@ -98,16 +98,16 @@ namespace SignalProcessingView.ViewModel
                 List<double> pointsY = SelectedSignalToDraw.PointsY;
                 if(pointsX!=null)
                 {
-                    for (int i = 0; i < pointsX.Count; i++)
+                    for (int i = 0; i < pointsY.Count; i++)
                     {
-                        values.Add(new ObservablePoint(pointsX[i], pointsY[i]));
+                        values.Add(new ObservablePoint((double)i / pointsY.Count, pointsY[i]));
                     }
                 }
                 else
                 {
                     for (int i = 0; i < pointsY.Count; i++)
                     {
-                        values.Add(new ObservablePoint(i, pointsY[i]));
+                        values.Add(new ObservablePoint((double)i / pointsY.Count, pointsY[i]));
                     }
                 }
                 SignalsOnChart.Add(SelectedSignalToDraw);

@@ -52,8 +52,8 @@
                 Margin="5">
                 <StackPanel>
                     <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                              materialDesign:HintAssist.Hint="wybierz sygnał do histogramu"
-                                              ItemsSource="{Binding SignalsOnChart}" 
+                                              materialDesign:HintAssist.Hint="wybierz sygnał do obliczenia wartości"
+                                              ItemsSource="{Binding SignalCreator.Signals}" 
                                               SelectedItem="{Binding SelectedSignal}"/>
                     <Button Margin="0 4 0 2" 
                                         Content="Oblicz wartości sygnału"    
