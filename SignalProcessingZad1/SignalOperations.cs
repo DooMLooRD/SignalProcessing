@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics;
 
-namespace SignalProcessingMethods
+namespace SignalProcessingZad1
 {
     public class SignalOperations
     {

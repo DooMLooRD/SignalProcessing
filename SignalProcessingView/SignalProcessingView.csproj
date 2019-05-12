@@ -176,7 +176,7 @@
       <Project>{91DD8D15-5A1C-4978-9EC3-37D2A29B8B85}</Project>
       <Name>SignalProcessingCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SignalProcessingMethods\SignalProcessingZad1.csproj">
+    <ProjectReference Include="..\SignalProcessingZad1\SignalProcessingZad1.csproj">
       <Project>{5900D5B8-E720-4A17-B957-799D73FBE22C}</Project>
       <Name>SignalProcessingZad1</Name>
     </ProjectReference>

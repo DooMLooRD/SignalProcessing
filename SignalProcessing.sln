@@ -5,15 +5,13 @@ VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingView", "SignalProcessingView\SignalProcessingView.csproj", "{4C80B37E-A171-4C92-A7AC-0AD064970754}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingZad1", "SignalProcessingMethods\SignalProcessingZad1.csproj", "{5900D5B8-E720-4A17-B957-799D73FBE22C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingZad1", "SignalProcessingZad1\SignalProcessingZad1.csproj", "{5900D5B8-E720-4A17-B957-799D73FBE22C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingZad2", "SignalProcessingZad2\SignalProcessingZad2.csproj", "{E563B3D7-3040-42AF-854F-4A854C2C4235}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingZad3", "SignalProcessingZad3\SignalProcessingZad3.csproj", "{5D3CF7AA-11C8-4EDC-B3F0-C3E9271185C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingCore", "SignalProcessingCore\SignalProcessingCore.csproj", "{91DD8D15-5A1C-4978-9EC3-37D2A29B8B85}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{79457033-7C78-4A14-8A33-AAB83C5EBEC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{91DD8D15-5A1C-4978-9EC3-37D2A29B8B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91DD8D15-5A1C-4978-9EC3-37D2A29B8B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91DD8D15-5A1C-4978-9EC3-37D2A29B8B85}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79457033-7C78-4A14-8A33-AAB83C5EBEC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79457033-7C78-4A14-8A33-AAB83C5EBEC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79457033-7C78-4A14-8A33-AAB83C5EBEC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79457033-7C78-4A14-8A33-AAB83C5EBEC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

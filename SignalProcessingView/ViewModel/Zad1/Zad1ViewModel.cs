@@ -1,6 +1,6 @@
 ﻿using SignalProcessingCore.Signal;
-using SignalProcessingMethods;
 using SignalProcessingView.ViewModel.Base;
+using SignalProcessingZad1;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;

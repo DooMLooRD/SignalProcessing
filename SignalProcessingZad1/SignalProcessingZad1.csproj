@@ -7,8 +7,8 @@
     <ProjectGuid>{5900D5B8-E720-4A17-B957-799D73FBE22C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SignalProcessingMethods</RootNamespace>
-    <AssemblyName>SignalProcessingMethods</AssemblyName>
+    <RootNamespace>SignalProcessingZad1</RootNamespace>
+    <AssemblyName>SignalProcessingZad1</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
