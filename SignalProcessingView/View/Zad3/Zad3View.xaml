@@ -73,6 +73,27 @@
                                             Command="{Binding CreateFilterCommand}"/>
                 </StackPanel>
             </GroupBox>
+            <GroupBox
+                    Header="Filtracja"
+                    Margin="5" >
+                <StackPanel>
+                    <ComboBox 
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                        materialDesign:HintAssist.Hint="Sygnał"
+                        ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                        SelectedItem="{Binding SelectedSignalFilter1}"/>
+                    <ComboBox 
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                        materialDesign:HintAssist.Hint="Filtr"
+                        ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                        SelectedItem="{Binding SelectedSignalFilter2}"/>
+                    <Button 
+                        Margin="0 15 0 2" 
+                        Content="Filtruj" 
+                        Command="{Binding FilterCommand}"/>
+                </StackPanel>
+
+            </GroupBox>
         </StackPanel>
         <StackPanel  Margin="10" Grid.Column="1">
             <GroupBox
@@ -93,6 +114,30 @@
                         Margin="0 15 0 2" 
                         Content="Utwórz korelacje" 
                         Command="{Binding CorrelateCommand}"/>
+                </StackPanel>
+
+            </GroupBox>
+            <GroupBox
+                    Header="Kalkulator wartości K"
+                    Margin="5" >
+                <StackPanel>
+                    <ComboBox 
+                Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                materialDesign:HintAssist.Hint="Rodzaj filtru"
+                ItemsSource="{Binding Filters}" 
+                SelectedItem="{Binding SelectedFilterForK}"/>
+                    <TextBox materialDesign:HintAssist.Hint="Częstotliwość próbkowania (Fp)"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding Fp}"/>
+                    <TextBox materialDesign:HintAssist.Hint="Częstotliwość odcięcia (F0)"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding F0}"/>
+                    <Button 
+                        Margin="0 15 0 2" 
+                        Content="Oblicz K" 
+                        Command="{Binding CalculateKCommand}"/>
                 </StackPanel>
 
             </GroupBox>

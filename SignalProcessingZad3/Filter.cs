@@ -17,7 +17,7 @@ namespace SignalProcessingZad3
             List<double> factors = new List<double>();
             int center = (M - 1) / 2;
 
-            for (int i = 0; i < M; i++)
+            for (int i = 1; i <= M; i++)
             {
                 double factor;
                 if (i == center)
