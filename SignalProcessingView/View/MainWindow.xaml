@@ -86,6 +86,16 @@
                     </TabItem>
                     <!-- -END- Zad 3 Convolution and filter -->
 
+                    <!-- Zad 3 Experiment -->
+                    <TabItem  TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                        <TabItem.Header>
+                            <TextBlock  Text ="Pomiar odległości" 
+                                            TextAlignment="Center" 
+                                            TextWrapping="Wrap"/>
+                        </TabItem.Header>
+                        <zad3:Zad3ExperimentView DataContext="{Binding Zad3ExperimentViewModel}"></zad3:Zad3ExperimentView>
+                    </TabItem>
+                    <!-- -END- Zad 3 Experiment -->
                 </dragablz:TabablzControl>
             </Grid>
         </Grid>

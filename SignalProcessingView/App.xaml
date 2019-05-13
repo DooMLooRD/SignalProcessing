@@ -9,6 +9,7 @@
 
         <ResourceDictionary>
             <Converters:VisibilityConverter x:Key="VisibilityConverter"/>
+            <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
            
             <Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MaterialDesignAlternateTabablzControlStyle}" />
             <ResourceDictionary.MergedDictionaries>

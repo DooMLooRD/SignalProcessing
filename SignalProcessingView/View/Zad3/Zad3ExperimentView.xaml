@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="SignalProcessingView.View.Zad3.Zad3ExperimentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SignalProcessingView.View.Zad3"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="10">
+                <GroupBox
+                    Header="Śledzony obiekt oraz ośrodek rozchodzenia"
+                    Margin="5" >
+                    <StackPanel>
+                        <TextBox materialDesign:HintAssist.Hint="Odległość obiektu (m)"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 Margin="0 2 0 2"  
+                                 Text="{Binding S}"/>
+                        <TextBox materialDesign:HintAssist.Hint="Prędkość śledzonego obiektu (m/s)"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 Margin="0 2 0 2"  
+                                 Text="{Binding ObjectV}"/>
+                        <TextBox materialDesign:HintAssist.Hint="Prędkość rozchodzenia się sygnału (m/s)"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 Margin="0 2 0 2"  
+                                 Text="{Binding V}"/>
+                        <TextBox materialDesign:HintAssist.Hint="Obliczona odległość (m)"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 Margin="5"  
+                                 IsReadOnly="True"
+                                 Text="{Binding CalculatedS}"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+            <StackPanel  Margin="10" Grid.Column="1">
+                <GroupBox
+                    Header="Czujnik"
+                    Margin="5" >
+                    <StackPanel>
+                        <ComboBox 
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                        materialDesign:HintAssist.Hint="Sygnał sondujący"
+                        ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                        SelectedItem="{Binding SelectedSignal}"/>
+                        <TextBox materialDesign:HintAssist.Hint="Okres raportowania (s)"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding T}"/>
+                    </StackPanel>
+
+                </GroupBox>
+
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="1">
+            <Button 
+                        Margin=" 10 5" 
+                        Content="Start" 
+                Visibility="{Binding IsStarted, Converter={StaticResource BoolToVisibilityConverter},ConverterParameter=Start}"
+                        Command="{Binding StartCommand}"/>
+            <Button 
+                        Margin=" 10 5" 
+                        Content="Stop" 
+                Visibility="{Binding IsStarted, Converter={StaticResource BoolToVisibilityConverter},ConverterParameter=Stop}"
+                        Command="{Binding StopCommand}"/>
+            <lvc:CartesianChart
+                Margin="5" 
+                IsManipulationEnabled="False"
+                DataTooltip="{x:Null}"
+                Hoverable="False" 
+                MinHeight="150"
+                MaxHeight="150"
+                DisableAnimations="True"
+                Series="{Binding ChartSeriesOriginal}" 
+                LegendLocation="None">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis DisableAnimations="True"/>
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis DisableAnimations="True"/>
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+            <lvc:CartesianChart
+                Margin="5" 
+                IsManipulationEnabled="False"
+                DataTooltip="{x:Null}"
+                Hoverable="False" 
+                MinHeight="150"
+                MaxHeight="150"
+                DisableAnimations="True"
+                Series="{Binding ChartSeriesReceived}" 
+                LegendLocation="None">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis />
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis />
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+            <lvc:CartesianChart
+                Margin="5" 
+                IsManipulationEnabled="False"
+                DataTooltip="{x:Null}"
+                Hoverable="False" 
+                MinHeight="150"
+                MaxHeight="150"
+                DisableAnimations="True"
+                Series="{Binding ChartSeriesCorrelate}" 
+                LegendLocation="None">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis DisableAnimations="True"/>
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis DisableAnimations="True"/>
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+         
+        </StackPanel>
+    </Grid>
+</UserControl>

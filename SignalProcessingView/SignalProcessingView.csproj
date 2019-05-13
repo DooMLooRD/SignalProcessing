@@ -86,10 +86,12 @@
     <Compile Include="ViewModel\SignalCreator.cs" />
     <Compile Include="ViewModel\Zad1\Zad1ViewModel.cs" />
     <Compile Include="ViewModel\Zad2\Zad2ViewModel.cs" />
+    <Compile Include="ViewModel\Zad3\Zad3ExperimentViewModel.cs" />
     <Compile Include="ViewModel\Zad3\Zad3ViewModel.cs" />
     <Compile Include="View\ChartWindow.xaml.cs">
       <DependentUpon>ChartWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="View\Converters\VisibilityConverter.cs" />
     <Compile Include="View\SignalCreator.xaml.cs">
       <DependentUpon>SignalCreator.xaml</DependentUpon>
@@ -99,6 +101,9 @@
     </Compile>
     <Compile Include="View\Zad2\Zad2View.xaml.cs">
       <DependentUpon>Zad2View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Zad3\Zad3ExperimentView.xaml.cs">
+      <DependentUpon>Zad3ExperimentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Zad3\Zad3View.xaml.cs">
       <DependentUpon>Zad3View.xaml</DependentUpon>
@@ -128,6 +133,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Zad2\Zad2View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Zad3\Zad3ExperimentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
