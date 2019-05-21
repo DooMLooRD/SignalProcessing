@@ -17,9 +17,13 @@ namespace SignalProcessingCore
         public double JumpN { get; set; }
         public double FillFactor { get; set; }
         public double Probability { get; set; }
-        public Func<double,double> Func { get; set; }
-
-        public double GenerateUniformDistributionNoise(double time=0)
+        public Func<double, double> Func { get; set; }
+        public double GenerateSignalForTransform(double time)
+        {
+            return (5 * Math.Sin(2 * Math.PI / 2 * time)) + Math.Sin(2 * Math.PI / 0.25 * time);
+            //return (2 * Math.Sin(2 * Math.PI / 2 * time)) + Math.Sin(2 * Math.PI / 1 * time) + 5*Math.Sin(2 * Math.PI / 0.5 * time);
+        }
+        public double GenerateUniformDistributionNoise(double time = 0)
         {
             return random.NextDouble() * 2 * Amplitude - Amplitude;
         }
@@ -42,7 +46,7 @@ namespace SignalProcessingCore
 
         public double GenerateRectangularSignal(double time)
         {
-            int k = (int)((time / Period)-(StartTime/Period));
+            int k = (int)((time / Period) - (StartTime / Period));
             if (time >= (k * Period + StartTime) && time < (FillFactor * Period + k * Period + StartTime))
                 return Amplitude;
             //else if(time >= FillFactor * Period - k * Period + StartTime && time < Period + k * Period + StartTime)
@@ -77,7 +81,7 @@ namespace SignalProcessingCore
             return 0;
         }
 
-        public double GenerateGaussianNoise(double time=0)
+        public double GenerateGaussianNoise(double time = 0)
         {
             //double mean = 2 * Amplitude;
             double stdDev = Amplitude / 3;
@@ -99,7 +103,7 @@ namespace SignalProcessingCore
             return 0;
         }
 
-        public double GenerateImpulseNoise(double time=0)
+        public double GenerateImpulseNoise(double time = 0)
         {
             double temp = random.NextDouble();
             if (Probability > temp)

@@ -18,8 +18,12 @@ namespace SignalProcessingView.View.Converters
             string arg = ((string)value).Substring(1, 3);
             switch (arg)
             {
+                case "S00":
+                    if (param == "D" || param == "Probkowanie")
+                        return Visibility.Visible;
+                    break;
                 case "S01":
-                    if (param == "A" || param == "T1" || param == "D" || param=="Probkowanie")
+                    if (param == "A" || param == "T1" || param == "D" || param == "Probkowanie")
                         return Visibility.Visible;
                     break;
                 case "S02":
@@ -55,7 +59,7 @@ namespace SignalProcessingView.View.Converters
                         return Visibility.Visible;
                     break;
                 case "S10":
-                    if (param == "A" || param == "Ns" || param == "D" || param == "N1"  || param == "F")
+                    if (param == "A" || param == "Ns" || param == "D" || param == "N1" || param == "F")
                         return Visibility.Visible;
                     break;
                 case "S11":

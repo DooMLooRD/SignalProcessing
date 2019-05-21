@@ -10,6 +10,7 @@
         xmlns:zad1="clr-namespace:SignalProcessingView.View.Zad1"
         xmlns:zad2="clr-namespace:SignalProcessingView.View.Zad2"
         xmlns:zad3="clr-namespace:SignalProcessingView.View.Zad3"
+        xmlns:zad4="clr-namespace:SignalProcessingView.View.Zad4"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
@@ -96,6 +97,17 @@
                         <zad3:Zad3ExperimentView DataContext="{Binding Zad3ExperimentViewModel}"></zad3:Zad3ExperimentView>
                     </TabItem>
                     <!-- -END- Zad 3 Experiment -->
+                    
+                    <!-- Zad 4 Transformation -->
+                    <TabItem  TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                        <TabItem.Header>
+                            <TextBlock  Text ="Transformacja" 
+                                            TextAlignment="Center" 
+                                            TextWrapping="Wrap"/>
+                        </TabItem.Header>
+                        <zad4:Zad4View DataContext="{Binding Zad4ViewModel}"></zad4:Zad4View>
+                    </TabItem>
+                    <!-- -END- Zad 4 Transformation -->
                 </dragablz:TabablzControl>
             </Grid>
         </Grid>

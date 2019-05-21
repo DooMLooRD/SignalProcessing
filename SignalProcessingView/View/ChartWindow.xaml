@@ -61,10 +61,12 @@
                             </lvc:CartesianChart.AxisY>
                         </lvc:CartesianChart>
                     </materialDesign:Card>
-                    
+
 
                 </Grid>
             </TabItem>
+
+            <!-- Histogram -->
             <TabItem 
                                 TextElement.Foreground="{DynamicResource MaterialDesignBody}">
                 <TabItem.Header>
@@ -121,6 +123,159 @@
                     </materialDesign:Card>
                 </Grid>
             </TabItem>
+            <!-- Transformacja W1-->
+            <TabItem 
+                                TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                <TabItem.Header>
+                    <TextBlock  Text ="Transformacja W1" TextWrapping="Wrap"></TextBlock>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Padding="10">
+                        <StackPanel>
+                            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="wybierz sygnał do dodania"
+                                              ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                                              SelectedItem="{Binding SelectedSignalW1ToDraw}"/>
+                            <CheckBox Content="Połącz linią" IsChecked="{Binding DrawW1Line}"/>
+                            <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                        Margin="0 4 0 2" 
+                                        Content="Dodaj sygnał"    
+                                        Command="{Binding DrawW1Command}"/>
+                            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="wybierz sygnał do usunięcia"
+                                              ItemsSource="{Binding SignalsW1OnChart}" 
+                                              SelectedItem="{Binding SelectedSignalW1ToRemove}"/>
+                            <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                        Margin="0 4 0 2" 
+                                        Content="Usuń sygnał"    
+                                        Command="{Binding RemoveW1Command}"/>
+                        </StackPanel>
+                    </Border>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:Card
+                        materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                            VerticalAlignment="Stretch"
+                        Padding="5" Margin="10" Grid.Row="0" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock FontSize="15" FontWeight="Bold" Text="Real" HorizontalAlignment="Center"/>
+                                <lvc:CartesianChart Grid.Row="1" Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding RealSeries}"   LegendLocation="Top">
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis DisableAnimations="True"/>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis DisableAnimations="True"/>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                            </Grid>
+
+                        </materialDesign:Card>
+                        <materialDesign:Card
+                        materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                            VerticalAlignment="Stretch"
+                        Padding="5" Margin="10" Grid.Row="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock FontSize="15" FontWeight="Bold" Text="Imaginary" HorizontalAlignment="Center"/>
+                                <lvc:CartesianChart Grid.Row="1" Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding ImaginarySeries}"  LegendLocation="Top">
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis DisableAnimations="True"/>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis DisableAnimations="True"/>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+
+
+                </Grid>
+            </TabItem>
+            <!-- Transformacja W2-->
+            <TabItem 
+                                TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                <TabItem.Header>
+                    <TextBlock  Text ="Transformacja W2" TextWrapping="Wrap"></TextBlock>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Padding="10">
+                        <StackPanel>
+                            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="wybierz sygnał do dodania"
+                                              ItemsSource="{Binding SignalCreator.SampledSignals}" 
+                                              SelectedItem="{Binding SelectedSignalW2ToDraw}"/>
+                            <CheckBox Content="Połącz linią" IsChecked="{Binding DrawW2Line}"/>
+                            <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                        Margin="0 4 0 2" 
+                                        Content="Dodaj sygnał"    
+                                        Command="{Binding DrawW2Command}"/>
+                            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                              materialDesign:HintAssist.Hint="wybierz sygnał do usunięcia"
+                                              ItemsSource="{Binding SignalsW2OnChart}" 
+                                              SelectedItem="{Binding SelectedSignalW2ToRemove}"/>
+                            <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                        Margin="0 4 0 2" 
+                                        Content="Usuń sygnał"    
+                                        Command="{Binding RemoveW2Command}"/>
+                        </StackPanel>
+                    </Border>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:Card
+                        materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                            VerticalAlignment="Stretch"
+                        Padding="5" Margin="10" Grid.Row="0" >
+                            <lvc:CartesianChart Grid.Column="1" Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding MagnitudeSeries}"  LegendLocation="Top">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis DisableAnimations="True"/>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis DisableAnimations="True"/>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </materialDesign:Card>
+                        <materialDesign:Card
+                        materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                            VerticalAlignment="Stretch"
+                        Padding="5" Margin="10" Grid.Row="1">
+                            <lvc:CartesianChart Grid.Column="1" Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding PhaseSeries}"  LegendLocation="Top">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis DisableAnimations="True"/>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis DisableAnimations="True"/>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </materialDesign:Card>
+                    </Grid>
+
+
+
+                </Grid>
+            </TabItem>
+
         </dragablz:TabablzControl>
     </Grid>
 

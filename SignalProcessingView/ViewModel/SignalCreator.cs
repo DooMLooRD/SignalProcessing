@@ -54,6 +54,7 @@ namespace SignalProcessingView.ViewModel
         {
             SignalTypes = new List<string>()
             {
+                "(S00) (S3) 5sin(2pi/2*t)+sin(2pi/0.25*t)",
                 "(S01) Szum o rozkładzie jednostajnym",
                 "(S02) Szum Gaussowski",
                 "(S03) Sygnał sinusoidalny",
@@ -155,6 +156,9 @@ namespace SignalProcessingView.ViewModel
             Func<double, double> func = null;
             switch (SelectedSignalType.Substring(1, 3))
             {
+                case "S00":
+                    func = generator.GenerateSignalForTransform;
+                    break;
                 case "S01":
                     func = generator.GenerateUniformDistributionNoise;
                     break;
@@ -245,7 +249,7 @@ namespace SignalProcessingView.ViewModel
                     }
                     if (IsSampled)
                     {
-                        for (double i = T1; i <= T1 + D + 0.00000001; i += 1 / Fp)
+                        for (double i = T1; i < T1 + D; i += 1 / Fp)
                         {
                             samples.Add(func(i));
                         }

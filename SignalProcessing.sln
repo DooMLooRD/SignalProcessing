@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingZad3", "Sig
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingCore", "SignalProcessingCore\SignalProcessingCore.csproj", "{91DD8D15-5A1C-4978-9EC3-37D2A29B8B85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalProcessingZad4", "SignalProcessingZad4\SignalProcessingZad4.csproj", "{18721C52-7472-45EC-91F5-E81A197BA2B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{7FCA4CEA-56F4-487A-A435-576760FEDE62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{91DD8D15-5A1C-4978-9EC3-37D2A29B8B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91DD8D15-5A1C-4978-9EC3-37D2A29B8B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91DD8D15-5A1C-4978-9EC3-37D2A29B8B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18721C52-7472-45EC-91F5-E81A197BA2B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18721C52-7472-45EC-91F5-E81A197BA2B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18721C52-7472-45EC-91F5-E81A197BA2B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18721C52-7472-45EC-91F5-E81A197BA2B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FCA4CEA-56F4-487A-A435-576760FEDE62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FCA4CEA-56F4-487A-A435-576760FEDE62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FCA4CEA-56F4-487A-A435-576760FEDE62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FCA4CEA-56F4-487A-A435-576760FEDE62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

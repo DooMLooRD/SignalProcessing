@@ -2,6 +2,7 @@
 using SignalProcessingView.ViewModel.Base;
 using SignalProcessingZad1;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -18,6 +19,8 @@ namespace SignalProcessingView.ViewModel.Zad1
 
         public List<string> Operations { get; set; }
         public string SelectedOperation { get; set; }
+
+        public bool IsComplex { get; set; }
 
         public double AvgSignal { get; set; }
         public double AbsAvgSignal { get; set; }
@@ -49,43 +52,76 @@ namespace SignalProcessingView.ViewModel.Zad1
         }
         public void ComputeSignals()
         {
-            if (SelectedSignal1 != null && SelectedSignal2 != null && SelectedSignal1.HasData() && SelectedSignal2.HasData())
+            if (SelectedSignal1 != null && SelectedSignal2 != null)
             {
-                if (!SelectedSignal2.IsValid(SelectedSignal2))
+                if(IsComplex)
                 {
-                    MessageBox.Show("Given signals are not valid", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-                SampledSignal signal = new SampledSignal();
-                List<double> pointsY = new List<double>();
+                    SampledSignal signal = new SampledSignal();
+                    List<Complex> points = new List<Complex>();
 
-                switch (SelectedOperation.Substring(1, 2))
-                {
-                    case "D1":
-                        pointsY = SignalOperations.AddSignals(SelectedSignal1.PointsY,
-                            SelectedSignal2.PointsY);
-                        break;
-                    case "D2":
-                        pointsY = SignalOperations.SubtractSignals(SelectedSignal1.PointsY,
-                            SelectedSignal2.PointsY);
-                        break;
-                    case "D3":
-                        pointsY = SignalOperations.MultiplySignals(SelectedSignal1.PointsY,
-                            SelectedSignal2.PointsY);
-                        break;
-                    case "D4":
-                        pointsY = SignalOperations.DivideSignals(SelectedSignal1.PointsY,
-                            SelectedSignal2.PointsY);
-                        break;
+                    switch (SelectedOperation.Substring(1, 2))
+                    {
+                        case "D1":
+                            points = SignalOperations.AddComplexSignals(SelectedSignal1.ComplexPoints,
+                                SelectedSignal2.ComplexPoints);
+                            break;
+                        case "D2":
+                            points= SignalOperations.SubtractComplexSignals(SelectedSignal1.ComplexPoints,
+                                SelectedSignal2.ComplexPoints);
+                            break;
+                        case "D3":
+                            points = SignalOperations.MultiplyComplexSignals(SelectedSignal1.ComplexPoints,
+                                SelectedSignal2.ComplexPoints);
+                            break;
+                        case "D4":
+                            points = SignalOperations.DivideComplexSignals(SelectedSignal1.ComplexPoints,
+                                SelectedSignal2.ComplexPoints);
+                            break;
+                    }
+                    signal.ComplexPoints = points;
+                    signal.Name = ResultSignalName + " - S [Complex]";
+                    SignalCreator.Signals.Add(signal);
+                    SignalCreator.SampledSignals.Add(signal);
                 }
-                signal.PointsY = pointsY;
-                signal.StartTime = SelectedSignal1.StartTime;
-                signal.Frequency = SelectedSignal1.Frequency;
-                signal.CalculateSamplesX();
-                signal.Name = ResultSignalName + " - S";
-                SignalCreator.Signals.Add(signal);
-                SignalCreator.SampledSignals.Add(signal);
+                else
+                {
+                    if (!SelectedSignal2.IsValid(SelectedSignal2))
+                    {
+                        MessageBox.Show("Given signals are not valid", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    SampledSignal signal = new SampledSignal();
+                    List<double> pointsY = new List<double>();
+
+                    switch (SelectedOperation.Substring(1, 2))
+                    {
+                        case "D1":
+                            pointsY = SignalOperations.AddSignals(SelectedSignal1.PointsY,
+                                SelectedSignal2.PointsY);
+                            break;
+                        case "D2":
+                            pointsY = SignalOperations.SubtractSignals(SelectedSignal1.PointsY,
+                                SelectedSignal2.PointsY);
+                            break;
+                        case "D3":
+                            pointsY = SignalOperations.MultiplySignals(SelectedSignal1.PointsY,
+                                SelectedSignal2.PointsY);
+                            break;
+                        case "D4":
+                            pointsY = SignalOperations.DivideSignals(SelectedSignal1.PointsY,
+                                SelectedSignal2.PointsY);
+                            break;
+                    }
+                    signal.PointsY = pointsY;
+                    signal.StartTime = SelectedSignal1.StartTime;
+                    signal.Frequency = SelectedSignal1.Frequency;
+                    signal.CalculateSamplesX();
+                    signal.Name = ResultSignalName + " - S";
+                    SignalCreator.Signals.Add(signal);
+                    SignalCreator.SampledSignals.Add(signal);
+                }
             }
+               
 
         }
         public void ComputeSignalInfo()

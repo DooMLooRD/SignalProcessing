@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics;
@@ -12,6 +13,17 @@ namespace SignalProcessingZad1
         public static List<double> AddSignals(List<double> signal1, List<double> signal2)
         {
             List<double> result = new List<double>();
+            for (int i = 0; i < signal1.Count; i++)
+            {
+                result.Add(signal1[i] + signal2[i]);
+            }
+
+            return result;
+
+        }
+        public static List<Complex> AddComplexSignals(List<Complex> signal1, List<Complex> signal2)
+        {
+            List<Complex> result = new List<Complex>();
             for (int i = 0; i < signal1.Count; i++)
             {
                 result.Add(signal1[i] + signal2[i]);
@@ -32,7 +44,17 @@ namespace SignalProcessingZad1
             return result;
 
         }
+        public static List<Complex> SubtractComplexSignals(List<Complex> signal1, List<Complex> signal2)
+        {
+            List<Complex> result = new List<Complex>();
+            for (int i = 0; i < signal1.Count; i++)
+            {
+                result.Add(signal1[i] - signal2[i]);
+            }
 
+            return result;
+
+        }
         public static List<double> MultiplySignals(List<double> signal1, List<double> signal2)
         {
             List<double> result = new List<double>();
@@ -44,7 +66,18 @@ namespace SignalProcessingZad1
             return result;
 
         }
+        public static List<Complex> MultiplyComplexSignals(List<Complex> signal1, List<Complex> signal2)
+        {
+            List<Complex> result = new List<Complex>();
+            for (int i = 0; i < signal1.Count; i++)
+            {
+                result.Add(signal1[i] * signal2[i]);
+            }
 
+            return result;
+
+        }
+        
         public static List<double> DivideSignals(List<double> signal1, List<double> signal2)
         {
             List<double> result = new List<double>();
@@ -56,7 +89,17 @@ namespace SignalProcessingZad1
             return result;
 
         }
+        public static List<Complex> DivideComplexSignals(List<Complex> signal1, List<Complex> signal2)
+        {
+            List<Complex> result = new List<Complex>();
+            for (int i = 0; i < signal1.Count; i++)
+            {
+                result.Add(signal1[i] / signal2[i]);
+            }
 
+            return result;
+
+        }
         public static double AvgSignal(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)

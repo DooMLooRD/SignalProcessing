@@ -16,6 +16,7 @@ using SignalProcessingView.ViewModel.Base;
 using SignalProcessingView.ViewModel.Zad1;
 using SignalProcessingView.ViewModel.Zad2;
 using SignalProcessingView.ViewModel.Zad3;
+using SignalProcessingView.ViewModel.Zad4;
 using SignalProcessingZad2;
 
 namespace SignalProcessingView.ViewModel
@@ -27,6 +28,7 @@ namespace SignalProcessingView.ViewModel
         public Zad1ViewModel Zad1ViewModel { get; set; }
         public Zad2ViewModel Zad2ViewModel { get; set; }
         public Zad3ViewModel Zad3ViewModel { get; set; }
+        public Zad4ViewModel Zad4ViewModel { get; set; }
         public Zad3ExperimentViewModel Zad3ExperimentViewModel { get; set; }
         public ICommand AddChartWindow { get; set; }
         public ICommand ToggleBaseCommand { get; set; }
@@ -37,6 +39,7 @@ namespace SignalProcessingView.ViewModel
             Zad1ViewModel = new Zad1ViewModel(SignalCreator);
             Zad2ViewModel = new Zad2ViewModel(SignalCreator);
             Zad3ViewModel = new Zad3ViewModel(SignalCreator);
+            Zad4ViewModel = new Zad4ViewModel(SignalCreator);
             Zad3ExperimentViewModel = new Zad3ExperimentViewModel(SignalCreator);
             AddChartWindow = new RelayCommand(AddWindow);
             ToggleBaseCommand = new RelayCommand<bool>(ApplyBase);

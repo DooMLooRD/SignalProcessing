@@ -17,7 +17,7 @@ namespace SignalProcessingZad3
             List<double> factors = new List<double>();
             int center = (M - 1) / 2;
 
-            for (int i = 1; i <= M; i++)
+            for (int i = 0; i < M; i++)
             {
                 double factor;
                 if (i == center)
@@ -38,7 +38,7 @@ namespace SignalProcessingZad3
             List<double> lowPassFactors = LowPassFilter(M, K);
             List<double> factors = new List<double>();
 
-            for (int i = 0; i < lowPassFactors.Count; i++)
+            for (int i = 1; i <= lowPassFactors.Count; i++)
             {
                 factors.Add(lowPassFactors[i] * 2 * Math.Sin(Math.PI * i / 2.0));
             }
@@ -50,7 +50,7 @@ namespace SignalProcessingZad3
             List<double> lowPassFactors = LowPassFilter(M, K);
             List<double> factors = new List<double>();
 
-            for (int i = 0; i < lowPassFactors.Count; i++)
+            for (int i = 1; i <= lowPassFactors.Count; i++)
             {
                 factors.Add(lowPassFactors[i] * Math.Pow(-1.0, i));
             }

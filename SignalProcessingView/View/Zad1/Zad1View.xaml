@@ -34,6 +34,7 @@
                                       materialDesign:HintAssist.Hint="Działanie:"
                                       ItemsSource="{Binding Operations}" 
                                       SelectedItem="{Binding SelectedOperation}"/>
+                    <CheckBox Content="Obliczenia na liczbach zespolonych" IsChecked="{Binding IsComplex}"/>
                     <TextBox materialDesign:HintAssist.Hint="Nazwa sygnału wynikowego:"
                                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                              Margin="0 2 0 2"  

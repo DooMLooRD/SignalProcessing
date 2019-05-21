@@ -53,12 +53,17 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.7.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="PropertyChanged, Version=2.6.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.2.6.0\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -88,6 +93,7 @@
     <Compile Include="ViewModel\Zad2\Zad2ViewModel.cs" />
     <Compile Include="ViewModel\Zad3\Zad3ExperimentViewModel.cs" />
     <Compile Include="ViewModel\Zad3\Zad3ViewModel.cs" />
+    <Compile Include="ViewModel\Zad4\Zad4ViewModel.cs" />
     <Compile Include="View\ChartWindow.xaml.cs">
       <DependentUpon>ChartWindow.xaml</DependentUpon>
     </Compile>
@@ -107,6 +113,9 @@
     </Compile>
     <Compile Include="View\Zad3\Zad3View.xaml.cs">
       <DependentUpon>Zad3View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Zad4\Zad4View.xaml.cs">
+      <DependentUpon>Zad4View.xaml</DependentUpon>
     </Compile>
     <Page Include="View\ChartWindow.xaml">
       <SubType>Designer</SubType>
@@ -141,6 +150,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Zad3\Zad3View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Zad4\Zad4View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,6 +209,10 @@
     <ProjectReference Include="..\SignalProcessingZad3\SignalProcessingZad3.csproj">
       <Project>{5D3CF7AA-11C8-4EDC-B3F0-C3E9271185C4}</Project>
       <Name>SignalProcessingZad3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SignalProcessingZad4\SignalProcessingZad4.csproj">
+      <Project>{18721C52-7472-45EC-91F5-E81A197BA2B7}</Project>
+      <Name>SignalProcessingZad4</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

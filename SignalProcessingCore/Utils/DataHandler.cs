@@ -15,7 +15,7 @@ namespace SignalProcessingCore.Utils
             using (BinaryReader reader = new BinaryReader(File.OpenRead(filePath)))
             {
                 SampledSignal signal = new SampledSignal();
-                signal.PointsY= new List<double>();
+                signal.PointsY = new List<double>();
                 signal.StartTime = reader.ReadDouble();
                 signal.Frequency = reader.ReadDouble();
                 signal.Type = reader.ReadByte();
@@ -26,6 +26,7 @@ namespace SignalProcessingCore.Utils
 
                     signal.PointsY.Add(reader.ReadDouble());
                 }
+
                 signal.CalculateSamplesX();
                 return signal;
             }
@@ -43,6 +44,7 @@ namespace SignalProcessingCore.Utils
                 {
                     writer.Write(sample);
                 }
+
             }
             string newPath = Path.ChangeExtension(filePath, ".txt");
 
@@ -52,10 +54,12 @@ namespace SignalProcessingCore.Utils
                 writer.WriteLine("Frequency: " + signal.Frequency);
                 writer.WriteLine("Type: " + signal.Type);
                 writer.WriteLine("Number of samples: " + signal.PointsY.Count);
+                writer.WriteLine("Rational:");
                 for (int i = 0; i < signal.PointsY.Count; i++)
                 {
                     writer.WriteLine(i + 1 + ". " + signal.PointsY[i]);
                 }
+
             }
         }
     }
