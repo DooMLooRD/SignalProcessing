@@ -20,72 +20,57 @@
 
         <StackPanel Margin="10">
             <GroupBox
-                    Header="Transformacja Fouriera"
+                    Header="Transformacja"
                     Margin="5" >
                 <StackPanel>
                     <ComboBox 
                         Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                         materialDesign:HintAssist.Hint="Sygnał do transformacji"
                         ItemsSource="{Binding SignalCreator.SampledSignals}" 
-                        SelectedItem="{Binding SelectedFourierSignal}"/>
+                        SelectedItem="{Binding SelectedSignal}"/>
                     <ComboBox 
                         Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                         materialDesign:HintAssist.Hint="Wybór transformaty"
-                        ItemsSource="{Binding FourierTransforms}" 
-                        SelectedItem="{Binding SelectedFourierTransform}"/>
+                        ItemsSource="{Binding Transforms}" 
+                        SelectedItem="{Binding SelectedTransform}"/>
                     <Button 
                         Margin="0 15 0 2" 
                         Content="Transformuj" 
-                        Command="{Binding FourierTransformCommand}"/>
+                        Command="{Binding TransformCommand}"/>
+                    <TextBox materialDesign:HintAssist.Hint="Czas"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding Time}"/>
                 </StackPanel>
 
             </GroupBox>
             <GroupBox
-                    Header="Odwrotna Transformacja Fouriera"
+                    Header="Odwrotna Transformacja"
                     Margin="5" >
                 <StackPanel>
                     <ComboBox 
                         Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                         materialDesign:HintAssist.Hint="Sygnał do odwrotnej transformacji"
                         ItemsSource="{Binding SignalCreator.SampledSignals}" 
-                        SelectedItem="{Binding SelectedReverseFourierSignal}"/>
+                        SelectedItem="{Binding SelectedReverseSignal}"/>
                     <ComboBox 
                         Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                         materialDesign:HintAssist.Hint="Wybór transformaty"
-                        ItemsSource="{Binding FourierTransforms}" 
-                        SelectedItem="{Binding SelectedReverseFourierTransform}"/>
+                        ItemsSource="{Binding Transforms}" 
+                        SelectedItem="{Binding SelectedReverseTransform}"/>
                     <Button 
                         Margin="0 15 0 2" 
                         Content="Transformuj" 
-                        Command="{Binding ReverseFourierTransformCommand}"/>
+                        Command="{Binding ReverseTransformCommand}"/>
+                    <TextBox materialDesign:HintAssist.Hint="Czas"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                             Margin="0 2 0 2"  
+                                             Text="{Binding TimeReverse}"/>
                 </StackPanel>
 
             </GroupBox>
 
         </StackPanel>
-        <StackPanel  Margin="10" Grid.Column="1">
-            <GroupBox
-                    Header="Tranformacja falkowa"
-                    Margin="5" >
-                <StackPanel>
-                    <!--<ComboBox 
-                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                        materialDesign:HintAssist.Hint="Sygnał 1"
-                        ItemsSource="{Binding SignalCreator.SampledSignals}" 
-                        SelectedItem="{Binding SelectedSignalCorrelate1}"/>
-                    <ComboBox 
-                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                        materialDesign:HintAssist.Hint="Sygnał 2"
-                        ItemsSource="{Binding SignalCreator.SampledSignals}" 
-                        SelectedItem="{Binding SelectedSignalCorrelate2}"/>
-                    <Button 
-                        Margin="0 15 0 2" 
-                        Content="Utwórz korelacje" 
-                        Command="{Binding CorrelateCommand}"/>-->
-                </StackPanel>
-
-            </GroupBox>
-           
-        </StackPanel>
+      
     </Grid>
 </UserControl>
