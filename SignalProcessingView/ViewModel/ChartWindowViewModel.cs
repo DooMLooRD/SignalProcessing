@@ -126,7 +126,7 @@ namespace SignalProcessingView.ViewModel
                 for (int i = 0; i < points.Count; i++)
                 {
                     valuesMagnitude.Add(points[i].Magnitude);
-                    valuesPhase.Add(points[i].Phase * (180.0 / Math.PI));
+                    valuesPhase.Add(points[i].Phase);
                 }
 
                 SignalsW2OnChart.Add(SelectedSignalW2ToDraw);
