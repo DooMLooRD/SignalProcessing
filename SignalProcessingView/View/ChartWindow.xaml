@@ -247,27 +247,41 @@
                         materialDesign:ShadowAssist.ShadowDepth="Depth2"
                             VerticalAlignment="Stretch"
                         Padding="5" Margin="10" Grid.Row="0" >
-                            <lvc:CartesianChart Grid.Column="1" Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding MagnitudeSeries}"  LegendLocation="Top">
-                                <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis DisableAnimations="True"/>
-                                </lvc:CartesianChart.AxisX>
-                                <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis DisableAnimations="True"/>
-                                </lvc:CartesianChart.AxisY>
-                            </lvc:CartesianChart>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock FontSize="15" FontWeight="Bold" Text="Magnitude" HorizontalAlignment="Center"/>
+                                <lvc:CartesianChart Grid.Row="1" Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding MagnitudeSeries}"  LegendLocation="Top">
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis DisableAnimations="True"/>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis DisableAnimations="True"/>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                            </Grid>
                         </materialDesign:Card>
                         <materialDesign:Card
                         materialDesign:ShadowAssist.ShadowDepth="Depth2"
                             VerticalAlignment="Stretch"
                         Padding="5" Margin="10" Grid.Row="1">
-                            <lvc:CartesianChart Grid.Column="1" Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding PhaseSeries}"  LegendLocation="Top">
-                                <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis DisableAnimations="True"/>
-                                </lvc:CartesianChart.AxisX>
-                                <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis DisableAnimations="True"/>
-                                </lvc:CartesianChart.AxisY>
-                            </lvc:CartesianChart>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock FontSize="15" FontWeight="Bold" Text="Phase" HorizontalAlignment="Center"/>
+                                <lvc:CartesianChart Grid.Row="1" Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding PhaseSeries}"  LegendLocation="Top">
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis DisableAnimations="True"/>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis DisableAnimations="True"/>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                            </Grid>
                         </materialDesign:Card>
                     </Grid>
 

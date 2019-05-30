@@ -16,13 +16,13 @@ namespace SignalProcessingZad4.Fourier
             List<Complex> transformed = new List<Complex>();
             int N = points.Count;
             transformed = SwitchSamples(points.Select(s => new Complex(s, 0)).ToList());
-            return transformed.Select(c => c).ToList();
+            return transformed.Select(c => c / N).ToList();
         }
         public List<double> ReverseTransform(List<Complex> points)
         {
             List<double> transformed = new List<double>();
             int N = points.Count;
-            transformed = SwitchSamples(points, true).Select(c => c.Real / N).ToList();
+            transformed = SwitchSamples(points, true).Select(c => c.Real).ToList();
             return transformed;
         }
         public List<Complex> SwitchSamples(List<Complex> points, bool reverse = false)

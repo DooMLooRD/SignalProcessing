@@ -58,7 +58,7 @@ namespace SignalProcessingZad4.Wavelet_Transform
                     xgHalf.Add(xg[i]);
                 }
             }
-            for (int i = 0; i < xhHalf.Count; i++)
+            for (int i = 0; i < xgHalf.Count; i++)
             {
                 transformed.Add(new Complex(xhHalf[i], xgHalf[i]));
             }

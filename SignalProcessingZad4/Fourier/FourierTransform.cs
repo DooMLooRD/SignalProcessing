@@ -21,7 +21,7 @@ namespace SignalProcessingZad4.Fourier
                 {
                     transformedValue += points[j] * Complex.Exp(new Complex(0, -2 * Math.PI * i * j / N));
                 }
-                transformed.Add(transformedValue);
+                transformed.Add(transformedValue / N);
             }
             return transformed;
         }
@@ -37,7 +37,7 @@ namespace SignalProcessingZad4.Fourier
                 {
                     transformedValue += (points[j] * Complex.Exp(new Complex(0, 2 * Math.PI * i * j / N))).Real;
                 }
-                transformed.Add(transformedValue / N);
+                transformed.Add(transformedValue);
             }
             return transformed;
         }
